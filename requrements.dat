@@ -1,0 +1,34 @@
+#Założenia projektu
+
+- istnieją 4 typy uzytkowników
+    * Admini
+    * Akceptorzy
+    * Pracownicy
+    * Klienci/Kontraktorzy
+
+Flow:
+
+1. Pracownik stwarza zapotrzebowania na usługę. Wprowadza dane firmy, opis i cenę;
+2. Pracownik ustawia akceptorów.
+3. Pracownik zatwierdza zapotrzebowanie i przekazuje je do akceptorów.
+4. Akceptor dostaje powiadomienie i je zatwierdza lub odrzuca (mozliwość dodania komentarza)
+5. Po zaakceptowaniu pracownik dostaje informacje o akceptacji.
+6. Pracownik zleca usługe firmie/kontaktorowi.
+7. Kontraktor wykonuje uslugę
+8. Kontraktor dodaje fakturę/dokument i zatwierdza.
+9. Pracownik dostaje powiadomienie i przekazuje do akceptora.
+10. Akceptor dostaje powiadomienie o wykonaniu usługi.
+
+Notes:
+
+Userzy z rolami
+wiele akceptorów
+przypisania przez konsolę
+
+
+
+Komponenty:
+
+Workflow z mozliwościa dadawania requestów i zatwierdzania
+Konsola administracyjna
+Aplikacja mobilna do zatwierdzania (przeglądanie historii)

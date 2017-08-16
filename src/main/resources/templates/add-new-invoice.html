@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/base-template :: head"/>
+<body>
+
+<nav th:replace="fragments/base-template :: navbar-section"/>
+
+<div class="container" style="margin-top: 100px">
+
+    <form name="form" method="post" action="/add-new-invoice">
+        <div class="input-group">
+            <input type="text" name="name" class="form-control" placeholder="Faktura"/>
+            <button type="submit" class="btn btn-default">Utworz</button>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

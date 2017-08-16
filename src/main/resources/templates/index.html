@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/base-template :: head"/>
+<body>
+<nav th:replace="fragments/base-template :: navbar-section"/>
+
+<div class="container" style="margin-top: 100px">
+
+    <div th:if="${result != null and result}" class="alert alert-success" role="alert">
+        <span th:text="#{invoice.created}">Faktura utworzona</span>
+    </div>
+
+    <div th:if="${result != null and !result}" class="alert alert-danger" role="alert">
+        <span>Błąd podczas tworzenia faktury</span>
+    </div>
+
+
+    <div th:with="expr_result = ${invoices.empty}">
+        <div th:if="${expr_result}">
+            <div class="alert alert-info" role="alert">
+                <span th:text="#{no.invoice.created}"></span>
+            </div>
+        </div>
+        <div th:unless="${expr_result}">
+            <!--<div class="list-group">
+                <a th:each="invoice : ${invoices}" href="#" class="list-group-item">
+                    <span th:text="${invoice.name}">Invoice name</span>
+                    <span th:text="${#dates.format(invoice.creationTime, 'dd-MMM-yyyy')}">Invoice creation date</span>
+                </a>
+            </div>-->
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Status</th>
+                        <th>Data utworzenia</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <a href="#" th:each="invoice : ${invoices}">
+                        <tr>
+                            <td th:text="${invoice.name}">Invoice name</td>
+                            <td>
+                                <span th:text="${invoice.status}" class="label label-warning">Invoice status</span>
+                            </td>
+                            <td th:text="${#dates.format(invoice.creationTime, 'dd-MM-yyyy')}">Invoice creation date</td>
+                            <td>
+                                <a th:href="@{invoice/{id}(id=${invoice.identifier})}">
+                                <button type="button" class="btn btn-primary btn-xs">
+                                    <span class="glyphicon glyphicon-info-sign"></span>
+                                    <span>Edit</span>
+                                </button>
+                                </a>
+
+                                <a th:href="@{invoice/{id}(id=${invoice.identifier})}">
+                                    <button type="button" class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                        <span>Remove</span>
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    </a>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+</div>
+</body>
+</html>
