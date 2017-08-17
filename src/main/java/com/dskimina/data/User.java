@@ -1,9 +1,8 @@
 package com.dskimina.data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.dskimina.enums.Role;
+
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -17,6 +16,9 @@ public class User {
 
     private String email;
     private String passwordHash;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 
     public Long getId() {
@@ -57,5 +59,13 @@ public class User {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

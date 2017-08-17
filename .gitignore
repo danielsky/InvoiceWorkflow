@@ -2,6 +2,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 .mvn
 
+mail-credentials.properties
+
 ### STS ###
 .apt_generated
 .classpath

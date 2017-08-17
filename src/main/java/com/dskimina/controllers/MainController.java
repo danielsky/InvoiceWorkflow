@@ -1,8 +1,9 @@
-package com.dskimina;
+package com.dskimina.controllers;
 
-import com.dskimina.data.Invoice;
+import com.dskimina.enums.WorkflowStep;
 import com.dskimina.model.InvoiceDTO;
 import com.dskimina.services.InvoiceService;
+import com.dskimina.services.MailService;
 import com.dskimina.validators.InvoiceValidator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,13 +22,16 @@ import java.security.Principal;
 @Controller
 public class MainController {
 
-    private final Log log = LogFactory.getLog(MainController.class);
+    private static final Log LOG = LogFactory.getLog(MainController.class);
 
     @Autowired
     private InvoiceValidator invoiceValidator;
 
     @Autowired
     private InvoiceService invoiceService;
+
+    @Autowired
+    private MailService mailService;
 
     @InitBinder("form")
     public void initBinder(WebDataBinder binder) {
@@ -47,23 +51,20 @@ public class MainController {
         return "add-new-invoice";
     }
 
-    /*@RequestMapping(method = RequestMethod.POST, value = "/add-new-invoice")
-    public RedirectView addNewInvoiceProcess(@RequestParam("invoice") String invoiceName, RedirectAttributes attributes){
-        log.info("Post processing");
-        invoiceService.saveInvoice(invoiceName);
-        attributes.addFlashAttribute("result", true);
-        return new RedirectView("/index");
-    }*/
-
     @RequestMapping(method = RequestMethod.POST, value = "/add-new-invoice")
-    public RedirectView addNewInvoiceProcess(@Valid @ModelAttribute("form") InvoiceDTO invoiceDTO, BindingResult bindingResult, RedirectAttributes attributes){
-        log.info("Post processing");
+    public RedirectView addNewInvoiceProcess(@Valid @ModelAttribute("form") InvoiceDTO invoiceDTO, BindingResult bindingResult, Principal principal, RedirectAttributes attributes){
+        LOG.info("Post processing");
 
         if (bindingResult.hasErrors()) {
             attributes.addFlashAttribute("result", false);
             return new RedirectView("/index");
         }else {
-            invoiceService.saveInvoice(invoiceDTO.getName());
+            WorkflowStep workflowStep = invoiceDTO.isSendNow() ? WorkflowStep.WAITING_FOR_FIRST_APPROVE : WorkflowStep.CREATED;
+            invoiceService.createInvoice(invoiceDTO.getName(), principal.getName(), workflowStep);
+            if(invoiceDTO.isSendNow()){
+                String content = mailService.prepareMessage("test user");
+                mailService.sendEmail("dskimina@gmail.com", content, "New Invoice created");
+            }
             attributes.addFlashAttribute("result", true);
             return new RedirectView("/index");
         }
@@ -80,6 +81,12 @@ public class MainController {
     public String showInvoice(@PathVariable("id") String identifier, ModelMap model){
         model.addAttribute("invoice", invoiceService.getInvoice(identifier));
         return "invoice-details";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/contractors")
+    public String showContractors(ModelMap model){
+        model.addAttribute("isContractorsPage", true);
+        return "contractors";
     }
 
 

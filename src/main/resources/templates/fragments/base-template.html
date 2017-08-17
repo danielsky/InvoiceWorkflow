@@ -40,6 +40,12 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
+                <li th:classappend="${isContractorsPage} ? active : ''">
+                    <a href="/contractors">
+                        <span class="glyphicon glyphicon-user"></span>
+                        Kontrahenci
+                    </a>
+                </li>
                 <li th:classappend="${isListPage} ? active : ''">
                     <a href="/index">
                         <span class="glyphicon glyphicon-th-list"></span>

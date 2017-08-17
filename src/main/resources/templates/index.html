@@ -39,30 +39,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <a href="#" th:each="invoice : ${invoices}">
-                        <tr>
-                            <td th:text="${invoice.name}">Invoice name</td>
-                            <td>
-                                <span th:text="${invoice.status}" class="label label-warning">Invoice status</span>
-                            </td>
-                            <td th:text="${#dates.format(invoice.creationTime, 'dd-MM-yyyy')}">Invoice creation date</td>
-                            <td>
-                                <a th:href="@{invoice/{id}(id=${invoice.identifier})}">
-                                <button type="button" class="btn btn-primary btn-xs">
-                                    <span class="glyphicon glyphicon-info-sign"></span>
-                                    <span>Edit</span>
-                                </button>
-                                </a>
+                    <tr th:each="invoice : ${invoices}">
+                        <td th:text="${invoice.name}">Invoice name</td>
+                        <td>
 
-                                <a th:href="@{invoice/{id}(id=${invoice.identifier})}">
-                                    <button type="button" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                        <span>Remove</span>
-                                    </button>
-                                </a>
-                            </td>
-                        </tr>
-                    </a>
+
+                            <th:block th:switch="${invoice.workflowStep.name()}">
+                                <span th:case="'CREATED'" th:text="#{${invoice.workflowStep.translationKey}}" class="label label-primary"></span>
+                                <span th:case="'WAITING_FOR_FIRST_APPROVE'" th:text="#{${invoice.workflowStep.translationKey}}" class="label label-warning"></span>
+                            </th:block>
+
+                        </td>
+                        <td th:text="${#dates.format(invoice.creationTime, 'dd-MM-yyyy')}">Invoice creation date</td>
+                        <td>
+                            <a th:href="@{invoice/{id}(id=${invoice.identifier})}">
+                            <button type="button" class="btn btn-primary btn-xs">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                                <span>Edit</span>
+                            </button>
+                            </a>
+
+                            <a th:href="@{invoice/{id}(id=${invoice.identifier})}">
+                                <button type="button" class="btn btn-danger btn-xs">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    <span>Remove</span>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -33,4 +33,6 @@ Workflow z mozliwościa dadawania requestów i zatwierdzania
 Konsola administracyjna
 Aplikacja mobilna do zatwierdzania (przeglądanie historii)
 
-#Test
+TODO:
+1. Użytkownicy z rolami (zdefiniowac role)
+2. Spring boot integracja z email

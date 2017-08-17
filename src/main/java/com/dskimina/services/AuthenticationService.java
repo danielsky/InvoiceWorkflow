@@ -1,7 +1,7 @@
 package com.dskimina.services;
 
 import com.dskimina.data.User;
-import domain.CustomUserDetails;
+import com.dskimina.CustomUserDetails;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

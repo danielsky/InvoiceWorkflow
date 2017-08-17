@@ -1,0 +1,8 @@
+
+-Created
+-Waiting for approval   ---->   Rejected 1st
+-Approved 1st
+-Processing
+-Processed              <----> Work not accepted
+-Work accepted          <----> Work not approved
+-Approved 2st

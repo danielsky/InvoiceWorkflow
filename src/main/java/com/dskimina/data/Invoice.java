@@ -1,9 +1,8 @@
 package com.dskimina.data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.dskimina.enums.WorkflowStep;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -12,10 +11,18 @@ public class Invoice {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+
     private String identifier;
+
     private String name;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private WorkflowStep workflowStep;
+
     private Date creationTime;
+
+    @ManyToOne
+    private User creator;
 
     public Long getId() {
         return id;
@@ -49,11 +56,19 @@ public class Invoice {
         this.creationTime = creationTime;
     }
 
-    public String getStatus() {
-        return status;
+    public WorkflowStep getWorkflowStep() {
+        return workflowStep;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setWorkflowStep(WorkflowStep workflowStep) {
+        this.workflowStep = workflowStep;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 }

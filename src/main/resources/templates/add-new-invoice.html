@@ -7,11 +7,44 @@
 
 <div class="container" style="margin-top: 100px">
 
-    <form name="form" method="post" action="/add-new-invoice">
-        <div class="input-group">
-            <input type="text" name="name" class="form-control" placeholder="Faktura"/>
-            <button type="submit" class="btn btn-default">Utworz</button>
-        </div>
+
+    <form class="form-horizontal" name="form" method="post" action="/add-new-invoice">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>New request</legend>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Request name</label>
+                <div class="col-md-4">
+                    <input id="textinput" name="name" type="text" placeholder="name" class="form-control input-md"/>
+                    <span class="help-block">Name of the request</span>
+                </div>
+            </div>
+
+            <!-- Multiple Checkboxes -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="sendNow-0">Send Now</label>
+                <div class="col-md-4">
+                    <div class="checkbox">
+                        <label for="sendNow-0">
+                            <input type="checkbox" name="sendNow" id="sendNow-0" value="1"/>
+                            Send Now
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="submit"></label>
+                <div class="col-md-4">
+                    <button type="submit" id="submit" name="submit" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        </fieldset>
     </form>
 
 </div>
