@@ -1,8 +1,8 @@
 package com.dskimina.services;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -46,8 +46,8 @@ public class MailService extends Authenticator{
         return "Hello "+name;
     }
 
+    @Async
     public void sendEmail(String email, String content, String topic){
-
         Session session = Session.getDefaultInstance(smtpProperties, this);
 
         try {
@@ -60,9 +60,7 @@ public class MailService extends Authenticator{
             message.setContent(content, "text/html; charset=UTF-8");
 
             Transport.send(message);
-
             LOG.info("Send email to: "+email+" complete");
-
         } catch (MessagingException e) {
             LOG.warn("Cannot send email", e);
         }
