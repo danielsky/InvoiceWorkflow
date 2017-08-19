@@ -5,11 +5,13 @@ import com.dskimina.enums.WorkflowStep;
 import com.dskimina.services.InvoiceService;
 import com.dskimina.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 @Component
+@Profile("dev")
 public class MockInitializer {
 
     @Autowired
