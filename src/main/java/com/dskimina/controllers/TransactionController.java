@@ -27,17 +27,11 @@ public class TransactionController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/transactionEx")
     public RedirectView getTransViewEx(RedirectAttributes ra){
-        try {
-            logic.testTransactionEx();
-        }catch(IllegalStateException ex){
-            ra.addFlashAttribute("error", true);
-        }
         return new RedirectView("/transaction");
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/transaction")
     public RedirectView getTransViewNormal(){
-        logic.testTransaction();
         return new RedirectView("/transaction");
     }
 }

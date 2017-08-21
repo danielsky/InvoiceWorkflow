@@ -4,7 +4,6 @@ import com.dskimina.data.Invoice;
 import com.dskimina.data.User;
 import com.dskimina.enums.WorkflowStep;
 import com.dskimina.repositories.InvoiceRepository;
-import com.dskimina.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +18,6 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
     public List<Invoice> getAllInvoices(){
         List<Invoice> invoiceList = new ArrayList<>();
         for(Invoice invoice : invoiceRepository.findAll()){
@@ -34,12 +30,7 @@ public class InvoiceService {
         return invoiceRepository.getByIdentifier(identifier);
     }
 
-    public void createInvoice(String name, String userEmail, WorkflowStep workflowStep){
-
-        User creator = userRepository.getByEmail(userEmail);
-        if(creator == null){
-            throw new IllegalStateException("Cannot find currently logged user in database: "+userEmail);
-        }
+    public void createInvoice(String name, User creator, WorkflowStep workflowStep){
 
         Invoice invoice = new Invoice();
         invoice.setName(name);

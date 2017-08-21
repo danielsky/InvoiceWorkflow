@@ -1,8 +1,8 @@
 package com.dskimina.controllers;
 
 import com.dskimina.enums.WorkflowStep;
+import com.dskimina.logic.BusinessLogic;
 import com.dskimina.model.InvoiceDTO;
-import com.dskimina.services.InvoiceService;
 import com.dskimina.services.MailService;
 import com.dskimina.validators.InvoiceValidator;
 import org.apache.commons.logging.Log;
@@ -28,7 +28,7 @@ public class MainController {
     private InvoiceValidator invoiceValidator;
 
     @Autowired
-    private InvoiceService invoiceService;
+    private BusinessLogic businessLogic;
 
     @Autowired
     private MailService mailService;
@@ -41,7 +41,7 @@ public class MainController {
     @RequestMapping(method = RequestMethod.GET, value = {"/", "/index"})
     public String showInvoiceList(ModelMap model){
         model.addAttribute("isListPage", true);
-        model.addAttribute("invoices", invoiceService.getAllInvoices());
+        model.addAttribute("invoices", businessLogic.getAllInvoices());
         return "index";
     }
 
@@ -60,7 +60,7 @@ public class MainController {
             return new RedirectView("/index");
         }else {
             WorkflowStep workflowStep = invoiceDTO.isSendNow() ? WorkflowStep.WAITING_FOR_FIRST_APPROVE : WorkflowStep.CREATED;
-            invoiceService.createInvoice(invoiceDTO.getName(), principal.getName(), workflowStep);
+            businessLogic.createInvoice(invoiceDTO.getName(), principal.getName(), workflowStep);
             if(invoiceDTO.isSendNow()){
                 String content = mailService.prepareMessage("test user");
                 mailService.sendEmail("dskimina@gmail.com", content, "New Invoice created");
@@ -79,7 +79,7 @@ public class MainController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/invoice/{id}")
     public String showInvoice(@PathVariable("id") String identifier, ModelMap model){
-        model.addAttribute("invoice", invoiceService.getInvoice(identifier));
+        model.addAttribute("invoice", businessLogic.getInvoice(identifier));
         return "invoice-details";
     }
 
