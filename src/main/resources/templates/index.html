@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="fragments/base-template :: head"/>
+<head th:replace="fragments/base-template :: headSection (customJS='list.js')"/>
 <body>
 <nav th:replace="fragments/base-template :: navbar-section"/>
 
 <div class="container" style="margin-top: 100px">
 
-    <div th:if="${result != null and result}" class="alert alert-success" role="alert">
-        <span th:text="#{invoice.created}">Faktura utworzona</span>
-    </div>
 
-    <div th:if="${result != null and !result}" class="alert alert-danger" role="alert">
-        <span>Błąd podczas tworzenia faktury</span>
-    </div>
+
+    <th:block th:if="${result != null}" th:switch="${result.name()}">
+        <div th:case="'INVOICE_CREATED'" class="alert alert-success" role="alert">
+            <span th:text="#{invoice.created}">Faktura utworzona</span>
+        </div>
+
+        <div th:case="'INVOICE_CREATION_ERROR'" class="alert alert-danger" role="alert">
+            <span>Błąd podczas tworzenia faktury</span>
+        </div>
+
+        <div th:case="'INVOICE_DELETED'" class="alert alert-warning" role="alert">
+            <span>Zapotrzebowanie usunięte</span>
+        </div>
+    </th:block>
 
 
     <div th:with="expr_result = ${invoices.empty}">
@@ -59,12 +67,11 @@
                             </button>
                             </a>
 
-                            <a th:href="@{invoice/{id}(id=${invoice.identifier})}">
-                                <button type="button" class="btn btn-danger btn-xs">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    <span>Remove</span>
-                                </button>
-                            </a>
+
+                            <button type="button" class="btn btn-danger btn-xs remove-invoice" th:attr="data-id=${invoice.identifier}" data-toggle="modal" data-target="#myModal">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                <span>Remove</span>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -72,7 +79,30 @@
         </div>
     </div>
 
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Potwierdź</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Czy na pewno chcesz skasować zapotrzebowanie?</p>
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteInvoiceForm" method="post">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+                        <button type="submit" class="btn btn-success">OK</button>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
 </div>

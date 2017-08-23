@@ -30,6 +30,11 @@ public class InvoiceService {
         return invoiceRepository.getByIdentifier(identifier);
     }
 
+    public void deleteInvoice(String identifier){
+        Invoice invoice = invoiceRepository.getByIdentifier(identifier);
+        invoiceRepository.delete(invoice);
+    }
+
     public void createInvoice(String name, User creator, WorkflowStep workflowStep){
 
         Invoice invoice = new Invoice();

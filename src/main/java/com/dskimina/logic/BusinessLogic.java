@@ -42,4 +42,8 @@ public class BusinessLogic {
     public Invoice getInvoice(String identifier){
         return invoiceService.getInvoice(identifier);
     }
+
+    public void removeInvoice(String identifier) {
+        invoiceService.deleteInvoice(identifier);
+    }
 }

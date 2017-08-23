@@ -1,5 +1,6 @@
 package com.dskimina.controllers;
 
+import com.dskimina.enums.Result;
 import com.dskimina.enums.WorkflowStep;
 import com.dskimina.logic.BusinessLogic;
 import com.dskimina.model.InvoiceDTO;
@@ -56,7 +57,7 @@ public class MainController {
         LOG.info("Post processing");
 
         if (bindingResult.hasErrors()) {
-            attributes.addFlashAttribute("result", false);
+            attributes.addFlashAttribute("result", Result.INVOICE_CREATION_ERROR);
             return new RedirectView("/index");
         }else {
             WorkflowStep workflowStep = invoiceDTO.isSendNow() ? WorkflowStep.WAITING_FOR_FIRST_APPROVE : WorkflowStep.CREATED;
@@ -65,7 +66,7 @@ public class MainController {
                 String content = mailService.prepareMessage("test user");
                 mailService.sendEmail("dskimina@gmail.com", content, "New Invoice created");
             }
-            attributes.addFlashAttribute("result", true);
+            attributes.addFlashAttribute("result", Result.INVOICE_CREATED);
             return new RedirectView("/index");
         }
     }
@@ -81,6 +82,13 @@ public class MainController {
     public String showInvoice(@PathVariable("id") String identifier, ModelMap model){
         model.addAttribute("invoice", businessLogic.getInvoice(identifier));
         return "invoice-details";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/invoice/{id}/delete")
+    public RedirectView deleteInvoice(@PathVariable("id") String identifier, RedirectAttributes attr){
+        businessLogic.removeInvoice(identifier);
+        attr.addFlashAttribute("result", Result.INVOICE_DELETED);
+        return new RedirectView("/index");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/contractors")
