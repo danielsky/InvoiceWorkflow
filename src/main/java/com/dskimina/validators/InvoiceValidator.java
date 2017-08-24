@@ -1,6 +1,6 @@
 package com.dskimina.validators;
 
-import com.dskimina.model.InvoiceDTO;
+import com.dskimina.forms.InvoiceForm;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -10,11 +10,11 @@ public class InvoiceValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return aClass.equals(InvoiceDTO.class);
+        return aClass.equals(InvoiceForm.class);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        InvoiceDTO invoice = (InvoiceDTO) o;
+        InvoiceForm invoice = (InvoiceForm) o;
     }
 }

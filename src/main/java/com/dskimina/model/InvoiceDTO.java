@@ -1,13 +1,20 @@
 package com.dskimina.model;
 
+import com.dskimina.enums.WorkflowStep;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.util.Date;
 
 public class InvoiceDTO {
 
     @NotEmpty
     private String name;
 
-    private boolean sendNow = Boolean.FALSE;
+    private String identifier;
+
+    private WorkflowStep workflowStep;
+
+    private Date creationTime;
 
     public String getName() {
         return name;
@@ -17,11 +24,29 @@ public class InvoiceDTO {
         this.name = name;
     }
 
-    public boolean isSendNow() {
-        return sendNow;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setSendNow(boolean sendNow) {
-        this.sendNow = sendNow;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
+
+    public WorkflowStep getWorkflowStep() {
+        return workflowStep;
+    }
+
+    public void setWorkflowStep(WorkflowStep workflowStep) {
+        this.workflowStep = workflowStep;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
+    }
+
+
 }

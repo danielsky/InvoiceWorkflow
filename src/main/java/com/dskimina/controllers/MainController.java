@@ -1,10 +1,8 @@
 package com.dskimina.controllers;
 
 import com.dskimina.enums.Result;
-import com.dskimina.enums.WorkflowStep;
+import com.dskimina.forms.InvoiceForm;
 import com.dskimina.logic.BusinessLogic;
-import com.dskimina.model.InvoiceDTO;
-import com.dskimina.services.MailService;
 import com.dskimina.validators.InvoiceValidator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,9 +29,6 @@ public class MainController {
     @Autowired
     private BusinessLogic businessLogic;
 
-    @Autowired
-    private MailService mailService;
-
     @InitBinder("form")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(invoiceValidator);
@@ -53,19 +48,13 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/add-new-invoice")
-    public RedirectView addNewInvoiceProcess(@Valid @ModelAttribute("form") InvoiceDTO invoiceDTO, BindingResult bindingResult, Principal principal, RedirectAttributes attributes){
+    public RedirectView addNewInvoiceProcess(@Valid @ModelAttribute("form") InvoiceForm invoiceForm, BindingResult bindingResult, Principal principal, RedirectAttributes attributes){
         LOG.info("Post processing");
-
         if (bindingResult.hasErrors()) {
             attributes.addFlashAttribute("result", Result.INVOICE_CREATION_ERROR);
             return new RedirectView("/index");
         }else {
-            WorkflowStep workflowStep = invoiceDTO.isSendNow() ? WorkflowStep.WAITING_FOR_FIRST_APPROVE : WorkflowStep.CREATED;
-            businessLogic.createInvoice(invoiceDTO.getName(), principal.getName(), workflowStep);
-            if(invoiceDTO.isSendNow()){
-                String content = mailService.prepareMessage("test user");
-                mailService.sendEmail("dskimina@gmail.com", content, "New Invoice created");
-            }
+            businessLogic.createInvoice(invoiceForm, principal.getName());
             attributes.addFlashAttribute("result", Result.INVOICE_CREATED);
             return new RedirectView("/index");
         }

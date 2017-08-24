@@ -5,6 +5,8 @@
     * Akceptorzy
     * Pracownicy
     * Klienci/Kontraktorzy
+    * Księgowi
+    * Akceptorzy Księgowi
 
 Flow:
 
@@ -19,12 +21,6 @@ Flow:
 9. Pracownik dostaje powiadomienie i przekazuje do akceptora.
 10. Akceptor dostaje powiadomienie o wykonaniu usługi.
 
-Notes:
-
-Userzy z rolami
-wiele akceptorów
-przypisania przez konsolę
-
 
 
 Komponenty:
@@ -34,5 +30,8 @@ Konsola administracyjna
 Aplikacja mobilna do zatwierdzania (przeglądanie historii)
 
 TODO:
-1. Użytkownicy z rolami (zdefiniowac role)
-2. Spring boot integracja z email
+1. Przesunąć wszystkie stringi do resourców
+2. Wprowadzić możliwość dodawania kontrahenta (widok listy kontrahentów z przyciskiem dodawania)
+3. Wprowadzić bardziej rozbudowany formularz zapotrzebowania(nazwa, cena, waluta, opis, kontrahent)
+    3.1 Bootstrap select z ajax
+4. Wprowadzić możliwość edycji zapotrzebowania (tylko w statusie created)
