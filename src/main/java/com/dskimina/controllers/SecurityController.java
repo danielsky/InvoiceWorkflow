@@ -18,11 +18,11 @@ public class SecurityController {
     @RequestMapping(method = RequestMethod.GET, value = "/logout")
     public RedirectView logout(HttpSession session){
         session.invalidate();
-        return new RedirectView("/login?logout");
+        return new RedirectView("/login?logout", true);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/authorize")
     public RedirectView authorizeProcess(){
-        return new RedirectView("/index");
+        return new RedirectView("/index",true);
     }
 }

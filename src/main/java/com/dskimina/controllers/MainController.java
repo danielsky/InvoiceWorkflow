@@ -52,12 +52,11 @@ public class MainController {
         LOG.info("Post processing");
         if (bindingResult.hasErrors()) {
             attributes.addFlashAttribute("result", Result.INVOICE_CREATION_ERROR);
-            return new RedirectView("/index");
         }else {
             businessLogic.createInvoice(invoiceForm, principal.getName());
             attributes.addFlashAttribute("result", Result.INVOICE_CREATED);
-            return new RedirectView("/index");
         }
+        return new RedirectView("/index", true);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = {"/my-profile"})
@@ -77,7 +76,7 @@ public class MainController {
     public RedirectView deleteInvoice(@PathVariable("id") String identifier, RedirectAttributes attr){
         businessLogic.removeInvoice(identifier);
         attr.addFlashAttribute("result", Result.INVOICE_DELETED);
-        return new RedirectView("/index");
+        return new RedirectView("/index", true);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/contractors")
@@ -85,6 +84,4 @@ public class MainController {
         model.addAttribute("isContractorsPage", true);
         return "contractors";
     }
-
-
 }
