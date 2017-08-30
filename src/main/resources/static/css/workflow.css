@@ -2,3 +2,9 @@
     width: 30px;
     margin-right: 4px;
 }
+
+.empty-list-box{
+    padding: 50px;
+    text-align: center;
+    font-weight: bold;
+}

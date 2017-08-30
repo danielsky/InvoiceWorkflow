@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base-template :: headSection (customJS=null)"/>
+<head th:replace="fragments/base-template :: headSection (customJS='my-profile.js')"/>
 <body>
 
 <nav th:replace="fragments/base-template :: navbar-section"/>
@@ -27,8 +27,6 @@
             </select>
         </div>
     </div>
-
-    <script src="/js/custom/my-profile.js"></script>
 </div>
 </body>
 </html>

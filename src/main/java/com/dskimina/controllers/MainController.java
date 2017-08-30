@@ -41,14 +41,13 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/add-new-invoice")
-    public String addNewInvoice(ModelMap modelMap){
-        modelMap.addAttribute("isAddRequest", true);
-        return "add-new-invoice";
+    @RequestMapping(method = RequestMethod.GET, value = "/request/create")
+    public String addNewRequest(){
+        return "add-new-request";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/add-new-invoice")
-    public RedirectView addNewInvoiceProcess(@Valid @ModelAttribute("form") InvoiceForm invoiceForm, BindingResult bindingResult, Principal principal, RedirectAttributes attributes){
+    @RequestMapping(method = RequestMethod.POST, value = "/request/create")
+    public RedirectView addNewRequestProcess(@Valid @ModelAttribute("form") InvoiceForm invoiceForm, BindingResult bindingResult, Principal principal, RedirectAttributes attributes){
         LOG.info("Post processing");
         if (bindingResult.hasErrors()) {
             attributes.addFlashAttribute("result", Result.INVOICE_CREATION_ERROR);
@@ -57,13 +56,6 @@ public class MainController {
             attributes.addFlashAttribute("result", Result.INVOICE_CREATED);
         }
         return new RedirectView("/index", true);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = {"/my-profile"})
-    public String showUserProfile(ModelMap model, Principal principal){
-        model.addAttribute("isMyProfile", true);
-        model.addAttribute("user", principal.getName());
-        return "my-profile";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/invoice/{id}")
@@ -77,11 +69,5 @@ public class MainController {
         businessLogic.removeInvoice(identifier);
         attr.addFlashAttribute("result", Result.INVOICE_DELETED);
         return new RedirectView("/index", true);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/contractors")
-    public String showContractors(ModelMap model){
-        model.addAttribute("isContractorsPage", true);
-        return "contractors";
     }
 }
