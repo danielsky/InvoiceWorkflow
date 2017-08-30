@@ -54,6 +54,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(localeChangeInterceptor());
     }
 
+
     @Bean
     @Profile("dev")
     public JavaMailSender getMailSession() throws IOException{

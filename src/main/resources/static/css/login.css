@@ -1,0 +1,8 @@
+body{
+    background: url("../images/b20.png");
+}
+
+.login-page-box{
+    width: 350px;
+    margin: 100px auto;
+}

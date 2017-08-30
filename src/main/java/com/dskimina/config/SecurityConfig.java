@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     csrfTokenRepository(csrfTokenRepository())
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/css/*", "/js/*", "/fonts/*")
+                    .antMatchers("/css/*", "/js/*", "/fonts/*", "/images/*")
                     .permitAll()
                     .anyRequest()
                     .authenticated()
