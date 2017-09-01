@@ -29,6 +29,11 @@ public class MainController {
     @Autowired
     private BusinessLogic businessLogic;
 
+    @ModelAttribute
+    public void addSelectorAttribute(ModelMap model){
+        model.addAttribute("isListPage", true);
+    }
+
     @InitBinder("form")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(invoiceValidator);
@@ -36,7 +41,6 @@ public class MainController {
 
     @RequestMapping(method = RequestMethod.GET, value = {"/", "/index"})
     public String showInvoiceList(ModelMap model){
-        model.addAttribute("isListPage", true);
         model.addAttribute("invoices", businessLogic.getAllInvoices());
         return "index";
     }

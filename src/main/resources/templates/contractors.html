@@ -1,14 +1,99 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base-template :: headSection (customJS=null)"/>
+<head th:replace="fragments/base-template :: headSection (customJS='contractors.js')"/>
 <body>
 
 <nav th:replace="fragments/base-template :: navbar-section"/>
 
 <div class="container" style="margin-top: 100px">
 
-    <div class="well">
-        <span>Contractors page</span>
+    <th:block th:if="${result != null}" th:switch="${result.name()}">
+        <div th:case="'CONTRACTOR_CREATED'" class="alert alert-success" role="alert">
+            <span th:text="#{contractorsList.contractorCreated}"></span>
+        </div>
+    </th:block>
+
+    <div th:if="${contractors.empty}">
+
+        <div class="well well-lg empty-list-box">
+            <span th:text="#{contractorsList.emptyListMessage}"></span>
+            <br/><br/>
+            <a th:href="@{/contractor/create}">
+                <button type="button" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    <span th:text="#{contractorsList.addButton}"></span>
+                </button>
+            </a>
+        </div>
+    </div>
+    <div th:unless="${contractors.empty}">
+
+        <div class="well well-lg">
+            <a th:href="@{/contractors/create}">
+                <button type="button" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    <span th:text="#{contractorsList.addButton}"></span>
+                </button>
+            </a>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{contractorsList.tableHeader.name}"></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="contractor : ${contractors}">
+                <td th:text="${contractor.name}"></td>
+                <td>
+                    <a th:href="@{contractor/{id}(id=${contractor.identifier})}">
+                        <button type="button" class="btn btn-primary btn-xs">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                            <span th:text="#{contractorsList.tableRow.buttonEdit}"></span>
+                        </button>
+                    </a>
+
+
+                    <button type="button" class="btn btn-danger btn-xs remove-contractor" th:attr="data-id=${contractor.identifier}" data-toggle="modal" data-target="#myModal">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        <span th:text="#{contractorsList.tableRow.buttonRemove}"></span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" th:text="#{contractorsList.modalWidow.windowTitle}"></h4>
+                </div>
+                <div class="modal-body">
+                    <p th:text="#{contractorsList.modalWidow.windowMessage}"></p>
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteContractorForm" method="post">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            <span th:text="#{contractorsList.modalWidow.windowButton.cancel}"></span>
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <span th:text="#{contractorsList.modalWidow.windowButton.ok}"></span>
+                        </button>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 </body>

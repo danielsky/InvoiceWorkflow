@@ -1,11 +1,14 @@
 package com.dskimina.logic;
 
+import com.dskimina.data.Contractor;
 import com.dskimina.data.Invoice;
 import com.dskimina.data.User;
 import com.dskimina.enums.Role;
 import com.dskimina.enums.WorkflowStep;
 import com.dskimina.forms.InvoiceForm;
+import com.dskimina.model.ContractorDTO;
 import com.dskimina.model.InvoiceDTO;
+import com.dskimina.services.ContractorService;
 import com.dskimina.services.InvoiceService;
 import com.dskimina.services.MailService;
 import com.dskimina.services.UserService;
@@ -29,6 +32,9 @@ public class BusinessLogic {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private ContractorService contractorService;
 
 
     public void createUser(String name, String surname, String email, String password, Role role){
@@ -54,6 +60,22 @@ public class BusinessLogic {
             dtoList.add(DataTransformer.convert(invoice));
         }
         return dtoList;
+    }
+
+    public List<ContractorDTO> getAllContractors(){
+        List<ContractorDTO> dtoList = new ArrayList<>();
+        for(Contractor contractor : contractorService.getAllContractors()){
+            dtoList.add(DataTransformer.convert(contractor));
+        }
+        return dtoList;
+    }
+
+    public void createContractor(ContractorDTO contractorDTO, String creatorEmail){
+        User creator = userService.getByEmail(creatorEmail);
+        if(creator == null){
+            throw new IllegalStateException("Cannot find currently logged user in database: "+creatorEmail);
+        }
+        contractorService.createContractor(contractorDTO, creator);
     }
 
     public Invoice getInvoice(String identifier){
