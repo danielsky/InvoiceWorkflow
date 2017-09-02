@@ -2,7 +2,7 @@ package com.dskimina;
 
 import com.dskimina.enums.Role;
 import com.dskimina.forms.ContractorForm;
-import com.dskimina.forms.InvoiceForm;
+import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.logic.BusinessLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -22,16 +22,22 @@ public class MockInitializer {
         businessLogic.createUser("Daniel", "Skimina", "daniel@skimina.pl", "1234", Role.EMPLOYEE);
         businessLogic.createUser("Dominic", "Smith", "dominic@smith.pl", "1234", Role.APPROVER);
 
-        InvoiceForm form1 = new InvoiceForm();
+        ServiceRequestForm form1 = new ServiceRequestForm();
         form1.setName("test1");
-        form1.setSendNow(false);
+        form1.setContractor("Microsoft");
+        form1.setPrice(125);
+        form1.setCurrency("PLN");
+        form1.setLocation("E00-543");
 
-        InvoiceForm form2 = new InvoiceForm();
+        ServiceRequestForm form2 = new ServiceRequestForm();
         form2.setName("test2");
-        form2.setSendNow(false);
+        form2.setContractor("Google");
+        form2.setPrice(250);
+        form2.setCurrency("EUR");
+        form2.setLocation("E00-544");
 
-        businessLogic.createInvoice(form1, "daniel@skimina.pl");
-        businessLogic.createInvoice(form2, "daniel@skimina.pl");
+        businessLogic.createServiceRequest(form1, "daniel@skimina.pl");
+        businessLogic.createServiceRequest(form2, "daniel@skimina.pl");
 
         ContractorForm contractor1 = new ContractorForm();
         contractor1.setName("Comarch");

@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Date;
 
-public class InvoiceDTO {
+public class ServiceRequestDTO {
 
     @NotEmpty
     private String name;

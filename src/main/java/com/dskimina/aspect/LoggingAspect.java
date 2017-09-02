@@ -22,7 +22,7 @@ public class LoggingAspect {
 
     //based on https://www.mkyong.com/spring3/spring-aop-aspectj-annotation-example/
 
-    @Around("execution(* com.dskimina.logic.BusinessLogic.createInvoice(..))")
+    @Around("execution(* com.dskimina.logic.BusinessLogic.createServiceRequest(..))")
     public void logAroundInvoiceCreation(ProceedingJoinPoint joinPoint) throws Throwable {
 
         long t1 = System.currentTimeMillis();

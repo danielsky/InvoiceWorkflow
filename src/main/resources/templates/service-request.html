@@ -13,7 +13,7 @@
         </div>
         <div class="panel-body">
 
-            <div th:with="expr_result = ${invoice == null}">
+            <div th:with="expr_result = ${serviceRequest == null}">
                 <div th:if="${expr_result}">
                     <div class="alert alert-danger" role="alert">
                         <span>Brak takiej faktury</span>
@@ -22,17 +22,17 @@
                 <div th:unless="${expr_result}">
                     <div>
                         <label for="invoiceIdentifier">Identyfikator</label><br/>
-                        <span id="invoiceIdentifier" th:text="${invoice.identifier}"></span>
+                        <span id="invoiceIdentifier" th:text="${serviceRequest.identifier}"></span>
                     </div>
 
                     <div>
                         <label for="invoiceName">Nazwa</label><br/>
-                        <span id="invoiceName" th:text="${invoice.name}"></span>
+                        <span id="invoiceName" th:text="${serviceRequest.name}"></span>
                     </div>
 
                     <div>
                         <label for="invoiceCreationDate">Data utworzenia</label><br/>
-                        <span id="invoiceCreationDate" th:text="${#dates.format(invoice.creationTime, 'dd-MM-yyyy')}"></span>
+                        <span id="invoiceCreationDate" th:text="${#dates.format(serviceRequest.creationTime, 'dd-MM-yyyy')}"></span>
                     </div>
 
                     <a th:href="@{/index}">

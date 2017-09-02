@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Invoice {
+public class ServiceRequest {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

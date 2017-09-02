@@ -1,18 +1,18 @@
 package com.dskimina.transformer;
 
 import com.dskimina.data.Contractor;
-import com.dskimina.data.Invoice;
+import com.dskimina.data.ServiceRequest;
 import com.dskimina.model.ContractorDTO;
-import com.dskimina.model.InvoiceDTO;
+import com.dskimina.model.ServiceRequestDTO;
 
 public class DataTransformer {
 
-    public static InvoiceDTO convert(Invoice invoice){
-        InvoiceDTO dto = new InvoiceDTO();
-        dto.setName(invoice.getName());
-        dto.setCreationTime(invoice.getCreationTime());
-        dto.setIdentifier(invoice.getIdentifier());
-        dto.setWorkflowStep(invoice.getWorkflowStep());
+    public static ServiceRequestDTO convert(ServiceRequest serviceRequest){
+        ServiceRequestDTO dto = new ServiceRequestDTO();
+        dto.setName(serviceRequest.getName());
+        dto.setCreationTime(serviceRequest.getCreationTime());
+        dto.setIdentifier(serviceRequest.getIdentifier());
+        dto.setWorkflowStep(serviceRequest.getWorkflowStep());
         return dto;
     }
 

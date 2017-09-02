@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base-template :: headSection (customJS='list.js')"/>
+<head th:replace="fragments/base-template :: headSection (customJS='service-request.js')"/>
 <body>
 <nav th:replace="fragments/base-template :: navbar-section"/>
 
 <div class="container" style="margin-top: 100px">
 
     <th:block th:if="${result != null}" th:switch="${result.name()}">
-        <div th:case="'INVOICE_CREATED'" class="alert alert-success" role="alert">
+        <div th:case="'SERVICE_REQUEST_CREATED'" class="alert alert-success" role="alert">
             <span th:text="#{requestsList.requestCreated}"></span>
         </div>
 
-        <div th:case="'INVOICE_CREATION_ERROR'" class="alert alert-danger" role="alert">
+        <div th:case="'SERVICE_REQUEST_CREATION_ERROR'" class="alert alert-danger" role="alert">
             <span th:text="#{requestsList.requestCreationError}"></span>
         </div>
 
-        <div th:case="'INVOICE_DELETED'" class="alert alert-warning" role="alert">
+        <div th:case="'SERVICE_REQUEST_DELETED'" class="alert alert-warning" role="alert">
             <span th:text="#{requestsList.requestDeleted}"></span>
         </div>
     </th:block>
 
-    <div th:if="${invoices.empty}">
+    <div th:if="${serviceRequests.empty}">
 
         <div class="well well-lg empty-list-box">
             <span th:text="#{requestsList.emptyListMessage}"></span>
@@ -35,7 +35,7 @@
 
 
     </div>
-    <div th:unless="${invoices.empty}">
+    <div th:unless="${serviceRequests.empty}">
 
         <div class="well well-lg">
             <a th:href="@{/request/create}">
@@ -56,20 +56,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="invoice : ${invoices}">
-                    <td th:text="${invoice.name}"></td>
+                <tr th:each="serviceRequest : ${serviceRequests}">
+                    <td th:text="${serviceRequest.name}"></td>
                     <td>
 
 
-                        <th:block th:switch="${invoice.workflowStep.name()}">
-                            <span th:case="'CREATED'" th:text="#{${invoice.workflowStep.translationKey}}" class="label label-primary"></span>
-                            <span th:case="'WAITING_FOR_FIRST_APPROVE'" th:text="#{${invoice.workflowStep.translationKey}}" class="label label-warning"></span>
+                        <th:block th:switch="${serviceRequest.workflowStep.name()}">
+                            <span th:case="'CREATED'" th:text="#{${serviceRequest.workflowStep.translationKey}}" class="label label-primary"></span>
+                            <span th:case="'WAITING_FOR_FIRST_APPROVE'" th:text="#{${serviceRequest.workflowStep.translationKey}}" class="label label-warning"></span>
                         </th:block>
 
                     </td>
-                    <td th:text="${#dates.format(invoice.creationTime, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${#dates.format(serviceRequest.creationTime, 'dd-MM-yyyy')}"></td>
                     <td>
-                        <a th:href="@{invoice/{id}(id=${invoice.identifier})}">
+                        <a th:href="@{request/{id}(id=${serviceRequest.identifier})}">
                         <button type="button" class="btn btn-primary btn-xs">
                             <span class="glyphicon glyphicon-info-sign"></span>
                             <span th:text="#{requestsList.tableRow.buttonEdit}"></span>
@@ -77,7 +77,7 @@
                         </a>
 
 
-                        <button type="button" class="btn btn-danger btn-xs remove-invoice" th:attr="data-id=${invoice.identifier}" data-toggle="modal" data-target="#myModal">
+                        <button type="button" class="btn btn-danger btn-xs remove-service-request" th:attr="data-id=${serviceRequest.identifier}" data-toggle="modal" data-target="#myModal">
                             <span class="glyphicon glyphicon-trash"></span>
                             <span th:text="#{requestsList.tableRow.buttonRemove}"></span>
                         </button>

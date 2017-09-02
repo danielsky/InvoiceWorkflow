@@ -1,25 +1,24 @@
 package com.dskimina.logic;
 
 import com.dskimina.data.Contractor;
-import com.dskimina.data.Invoice;
+import com.dskimina.data.ServiceRequest;
 import com.dskimina.data.User;
 import com.dskimina.enums.Role;
 import com.dskimina.enums.WorkflowStep;
 import com.dskimina.forms.ContractorForm;
-import com.dskimina.forms.InvoiceForm;
+import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.model.ContractorDTO;
-import com.dskimina.model.InvoiceDTO;
+import com.dskimina.model.ServiceRequestDTO;
 import com.dskimina.services.ContractorService;
-import com.dskimina.services.InvoiceService;
 import com.dskimina.services.MailService;
+import com.dskimina.services.ServiceRequestService;
 import com.dskimina.services.UserService;
 import com.dskimina.transformer.DataTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -29,7 +28,7 @@ public class BusinessLogic {
     private UserService userService;
 
     @Autowired
-    private InvoiceService invoiceService;
+    private ServiceRequestService serviceRequestService;
 
     @Autowired
     private MailService mailService;
@@ -42,23 +41,22 @@ public class BusinessLogic {
         userService.createUser(name, surname, email, password, role);
     }
 
-    public void createInvoice(InvoiceForm invoiceForm, String creatorEmail){
+    public void createServiceRequest(ServiceRequestForm serviceRequestForm, String creatorEmail){
         User creator = userService.getByEmail(creatorEmail);
         if(creator == null){
             throw new IllegalStateException("Cannot find currently logged user in database: "+creatorEmail);
         }
-        WorkflowStep workflowStep = invoiceForm.isSendNow() ? WorkflowStep.WAITING_FOR_FIRST_APPROVE : WorkflowStep.CREATED;
-        invoiceService.createInvoice(invoiceForm.getName(), creator, workflowStep);
-        if(invoiceForm.isSendNow()){
-            String content = mailService.prepareMessage("test user");
-            mailService.sendEmail("dskimina@gmail.com", content, "New Invoice created");
-        }
+        serviceRequestService.createInvoice(serviceRequestForm.getName(), creator, WorkflowStep.WAITING_FOR_FIRST_APPROVE);
+
+        String content = mailService.prepareMessage("test user");
+        mailService.sendEmail("daniels@asdf.pl", content, "New ServiceRequest created");
+
     }
 
-    public List<InvoiceDTO> getAllInvoices(){
-        List<InvoiceDTO> dtoList = new ArrayList<>();
-        for(Invoice invoice : invoiceService.getAllInvoices()){
-            dtoList.add(DataTransformer.convert(invoice));
+    public List<ServiceRequestDTO> getAllInvoices(){
+        List<ServiceRequestDTO> dtoList = new ArrayList<>();
+        for(ServiceRequest serviceRequest : serviceRequestService.getAllServiceRequests()){
+            dtoList.add(DataTransformer.convert(serviceRequest));
         }
         return dtoList;
     }
@@ -79,11 +77,21 @@ public class BusinessLogic {
         return contractorService.createContractor(contractorForm, creator);
     }
 
-    public Invoice getInvoice(String identifier){
-        return invoiceService.getInvoice(identifier);
+    public ServiceRequest getServiceRequest(String identifier){
+        return serviceRequestService.getServiceRequest(identifier);
     }
 
-    public void removeInvoice(String identifier) {
-        invoiceService.deleteInvoice(identifier);
+    public void removeServiceRequest(String identifier) {
+        serviceRequestService.deleteInvoice(identifier);
+    }
+
+    public Set<String> getLocations(){
+        Set<String> locations = new HashSet<>();
+        Random rand = new Random();
+        for(int i=0;i<20;i++){
+            int n = 400 + rand.nextInt(200);
+            locations.add("E00-"+Integer.toString(n));
+        }
+        return locations;
     }
 }
