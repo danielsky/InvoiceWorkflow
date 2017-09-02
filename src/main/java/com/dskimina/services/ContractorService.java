@@ -2,7 +2,7 @@ package com.dskimina.services;
 
 import com.dskimina.data.Contractor;
 import com.dskimina.data.User;
-import com.dskimina.model.ContractorDTO;
+import com.dskimina.forms.ContractorForm;
 import com.dskimina.repositories.ContractorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,15 +26,16 @@ public class ContractorService {
         return contractorsList;
     }
 
-    public void createContractor(ContractorDTO contractorDTO, User creator){
+    public String createContractor(ContractorForm contractorForm, User creator){
         Contractor contractor = new Contractor();
-        contractor.setName(contractorDTO.getName());
+        contractor.setName(contractorForm.getName());
         contractor.setIdentifier(UUID.randomUUID().toString());
         contractor.setCreator(creator);
         contractor.setCreationTime(new Date());
-        contractor.setAddress(contractor.getAddress());
-        contractor.setEmail(contractor.getEmail());
-        contractor.setTelephone(contractor.getTelephone());
+        contractor.setAddress(contractorForm.getAddress());
+        contractor.setEmail(contractorForm.getEmail());
+        contractor.setTelephone(contractorForm.getTelephone());
         contractorRepository.save(contractor);
+        return contractor.getIdentifier();
     }
 }

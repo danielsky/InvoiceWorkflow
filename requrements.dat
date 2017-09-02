@@ -32,6 +32,7 @@ Aplikacja mobilna do zatwierdzania (przeglądanie historii)
 TODO:
 1. Przesunąć wszystkie stringi do resourców
 2. Wprowadzić możliwość dodawania kontrahenta (widok listy kontrahentów z przyciskiem dodawania)
+
 3. Wprowadzić bardziej rozbudowany formularz zapotrzebowania(lokacja (E00-XXX)cena, waluta, opis*, kontrahent, usługa kontrahenta)
     3.1 Bootstrap select z ajax
 4. Wprowadzić możliwość edycji zapotrzebowania (tylko w statusie created)

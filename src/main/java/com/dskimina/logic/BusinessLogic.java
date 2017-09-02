@@ -5,6 +5,7 @@ import com.dskimina.data.Invoice;
 import com.dskimina.data.User;
 import com.dskimina.enums.Role;
 import com.dskimina.enums.WorkflowStep;
+import com.dskimina.forms.ContractorForm;
 import com.dskimina.forms.InvoiceForm;
 import com.dskimina.model.ContractorDTO;
 import com.dskimina.model.InvoiceDTO;
@@ -70,12 +71,12 @@ public class BusinessLogic {
         return dtoList;
     }
 
-    public void createContractor(ContractorDTO contractorDTO, String creatorEmail){
+    public String createContractor(ContractorForm contractorForm, String creatorEmail){
         User creator = userService.getByEmail(creatorEmail);
         if(creator == null){
             throw new IllegalStateException("Cannot find currently logged user in database: "+creatorEmail);
         }
-        contractorService.createContractor(contractorDTO, creator);
+        return contractorService.createContractor(contractorForm, creator);
     }
 
     public Invoice getInvoice(String identifier){
