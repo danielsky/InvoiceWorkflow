@@ -77,6 +77,14 @@ public class BusinessLogic {
         return contractorService.createContractor(contractorForm, creator);
     }
 
+    public ContractorDTO getContractorByIdentifier(String identifier){
+        return null;
+    }
+
+    public boolean updateContractor(String id, ContractorDTO contractorDTO){
+        return true;
+    }
+
     public ServiceRequest getServiceRequest(String identifier){
         return serviceRequestService.getServiceRequest(identifier);
     }

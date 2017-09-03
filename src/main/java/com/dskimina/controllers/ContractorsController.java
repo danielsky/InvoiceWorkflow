@@ -3,6 +3,7 @@ package com.dskimina.controllers;
 import com.dskimina.enums.Result;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.logic.BusinessLogic;
+import com.dskimina.model.ContractorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,7 +35,8 @@ public class ContractorsController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/contractor/create")
-    public String createContractor(ContractorForm contractorForm){
+    public String createContractor(ModelMap model){
+        model.addAttribute("contractorForm", new ContractorForm());
         return "add-new-contractor";
     }
 
@@ -46,12 +48,25 @@ public class ContractorsController {
 
         String identifier = logic.createContractor(contractorForm, principal.getName());
         attributes.addFlashAttribute("result", Result.CONTRACTOR_CREATED);
-        return "redirect:/contractors";
+        return "redirect:/contractor/"+identifier;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/contractor/{id}")
     public String editContractor(@PathVariable String id, ModelMap model){
+        ContractorDTO contractorDTO = logic.getContractorByIdentifier(id);
+        model.addAttribute("contractor", contractorDTO);
         return "contractor";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/contractor/{id}/update")
+    public String editContractorProcess(@PathVariable String id, @Valid ContractorDTO contractorDTO, BindingResult bindingResult, RedirectAttributes attributes){
+        if (bindingResult.hasErrors()) {
+            return "contractor";
+        }
+
+        boolean updateResult = logic.updateContractor(id, contractorDTO);
+        attributes.addFlashAttribute("result", updateResult ? Result.CONTRACTOR_UPDATE_SUCCESS : Result.CONTRACTOR_UPDATE_FAILURE);
+        return "redirect:/contractor/"+id;
     }
 
 }
