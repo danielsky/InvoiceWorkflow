@@ -8,10 +8,24 @@
 <div class="container" style="margin-top: 100px">
 
 
-    <form class="form-horizontal" name="form" method="post" th:object="${contractor}" th:action="@{/contractor/update}">
+    <form class="form-horizontal" name="form" method="post" th:object="${contractor}" th:action="@{/contractor/{id}/update(id=*{identifier})}">
         <fieldset>
 
             <legend th:text="#{contractorPage.formName}"></legend>
+
+            <th:block th:if="${result != null}" th:switch="${result.name()}">
+                <div th:case="'CONTRACTOR_CREATED'" class="alert alert-success" role="alert">
+                    <span th:text="#{contractorPage.contratorCreated}"></span>
+                </div>
+
+                <div th:case="'CONTRACTOR_UPDATE_SUCCESS'" class="alert alert-danger" role="alert">
+                    <span th:text="#{contractorPage.contratorUpdated}"></span>
+                </div>
+
+                <div th:case="'CONTRACTOR_UPDATE_FAILURE'" class="alert alert-warning" role="alert">
+                    <span th:text="#{contractorPage.contratorNotUpdated}"></span>
+                </div>
+            </th:block>
 
             <div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
                 <label class="col-md-4 control-label" for="name" th:text="#{newContractor.labels.name}"></label>

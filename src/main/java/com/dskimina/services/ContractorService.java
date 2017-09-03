@@ -2,7 +2,9 @@ package com.dskimina.services;
 
 import com.dskimina.data.Contractor;
 import com.dskimina.data.User;
+import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ContractorForm;
+import com.dskimina.model.ContractorDTO;
 import com.dskimina.repositories.ContractorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +39,25 @@ public class ContractorService {
         contractor.setTelephone(contractorForm.getTelephone());
         contractorRepository.save(contractor);
         return contractor.getIdentifier();
+    }
+
+    public void updateContractor(String id, ContractorDTO contractorDTO) throws ObjectNotFoundException {
+        Contractor contractor = contractorRepository.getByIdentifier(id);
+        if(contractor == null){
+            throw new ObjectNotFoundException("Cannot find contractor with id: "+id);
+        }
+        contractor.setName(contractorDTO.getName());
+        contractor.setEmail(contractorDTO.getEmail());
+        contractor.setTelephone(contractorDTO.getTelephone());
+        contractor.setAddress(contractorDTO.getAddress());
+        contractorRepository.save(contractor);
+    }
+
+    public Contractor getContractorByIdentifier(String identifier) throws ObjectNotFoundException{
+        Contractor contractor = contractorRepository.getByIdentifier(identifier);
+        if(contractor == null){
+            throw new ObjectNotFoundException("Cannot find contractor with id: "+identifier);
+        }
+        return contractor;
     }
 }

@@ -5,6 +5,7 @@ import com.dskimina.data.ServiceRequest;
 import com.dskimina.data.User;
 import com.dskimina.enums.Role;
 import com.dskimina.enums.WorkflowStep;
+import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.model.ContractorDTO;
@@ -14,6 +15,8 @@ import com.dskimina.services.MailService;
 import com.dskimina.services.ServiceRequestService;
 import com.dskimina.services.UserService;
 import com.dskimina.transformer.DataTransformer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,8 @@ import java.util.*;
 @Service
 @Transactional
 public class BusinessLogic {
+
+    private static final Log LOG = LogFactory.getLog(BusinessLogic.class);
 
     @Autowired
     private UserService userService;
@@ -41,11 +46,8 @@ public class BusinessLogic {
         userService.createUser(name, surname, email, password, role);
     }
 
-    public void createServiceRequest(ServiceRequestForm serviceRequestForm, String creatorEmail){
+    public void createServiceRequest(ServiceRequestForm serviceRequestForm, String creatorEmail) throws ObjectNotFoundException{
         User creator = userService.getByEmail(creatorEmail);
-        if(creator == null){
-            throw new IllegalStateException("Cannot find currently logged user in database: "+creatorEmail);
-        }
         serviceRequestService.createInvoice(serviceRequestForm.getName(), creator, WorkflowStep.WAITING_FOR_FIRST_APPROVE);
 
         String content = mailService.prepareMessage("test user");
@@ -69,20 +71,23 @@ public class BusinessLogic {
         return dtoList;
     }
 
-    public String createContractor(ContractorForm contractorForm, String creatorEmail){
+    public String createContractor(ContractorForm contractorForm, String creatorEmail) throws ObjectNotFoundException{
         User creator = userService.getByEmail(creatorEmail);
-        if(creator == null){
-            throw new IllegalStateException("Cannot find currently logged user in database: "+creatorEmail);
-        }
         return contractorService.createContractor(contractorForm, creator);
     }
 
-    public ContractorDTO getContractorByIdentifier(String identifier){
-        return null;
+    public ContractorDTO getContractorByIdentifier(String identifier) throws ObjectNotFoundException{
+        Contractor contractor = contractorService.getContractorByIdentifier(identifier);
+        return DataTransformer.convert(contractor);
     }
 
     public boolean updateContractor(String id, ContractorDTO contractorDTO){
-        return true;
+        try {
+            contractorService.updateContractor(id, contractorDTO);
+            return true;
+        }catch(ObjectNotFoundException ex){
+            return false;
+        }
     }
 
     public ServiceRequest getServiceRequest(String identifier){

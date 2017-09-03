@@ -1,6 +1,7 @@
 package com.dskimina.controllers;
 
 import com.dskimina.enums.Result;
+import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.logic.BusinessLogic;
 import com.dskimina.model.ContractorDTO;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+import org.thymeleaf.spring4.view.ThymeleafView;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -41,7 +45,7 @@ public class ContractorsController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/contractor/create")
-    public String createContractorProcess(@Valid ContractorForm contractorForm, BindingResult bindingResult, Principal principal, RedirectAttributes attributes){
+    public String createContractorProcess(@Valid ContractorForm contractorForm, BindingResult bindingResult, Principal principal, RedirectAttributes attributes) throws ObjectNotFoundException{
         if (bindingResult.hasErrors()) {
             return "add-new-contractor";
         }
@@ -52,13 +56,15 @@ public class ContractorsController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/contractor/{id}")
-    public String editContractor(@PathVariable String id, ModelMap model){
+    public String showContractor(@PathVariable String id, ModelMap model) throws ObjectNotFoundException{
         ContractorDTO contractorDTO = logic.getContractorByIdentifier(id);
         model.addAttribute("contractor", contractorDTO);
         return "contractor";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/contractor/{id}/update")
+    //TODO: Wybrać który z poniższych jest lepszy
+
+    @RequestMapping(method = RequestMethod.POST, value = "/contractor/{id}/update2")
     public String editContractorProcess(@PathVariable String id, @Valid ContractorDTO contractorDTO, BindingResult bindingResult, RedirectAttributes attributes){
         if (bindingResult.hasErrors()) {
             return "contractor";
@@ -67,6 +73,17 @@ public class ContractorsController {
         boolean updateResult = logic.updateContractor(id, contractorDTO);
         attributes.addFlashAttribute("result", updateResult ? Result.CONTRACTOR_UPDATE_SUCCESS : Result.CONTRACTOR_UPDATE_FAILURE);
         return "redirect:/contractor/"+id;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/contractor/{id}/update")
+    public View editContractorProcess2(@PathVariable String id, @Valid ContractorDTO contractorDTO, BindingResult bindingResult, RedirectAttributes attributes){
+        if (bindingResult.hasErrors()) {
+            return new ThymeleafView("contractor");
+        }
+
+        boolean updateResult = logic.updateContractor(id, contractorDTO);
+        attributes.addFlashAttribute("result", updateResult ? Result.CONTRACTOR_UPDATE_SUCCESS : Result.CONTRACTOR_UPDATE_FAILURE);
+        return new RedirectView("/contractor/"+id, true);
     }
 
 }

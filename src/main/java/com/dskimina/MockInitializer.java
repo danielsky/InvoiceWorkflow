@@ -1,6 +1,7 @@
 package com.dskimina;
 
 import com.dskimina.enums.Role;
+import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.logic.BusinessLogic;
@@ -18,7 +19,7 @@ public class MockInitializer {
     private BusinessLogic businessLogic;
 
     @PostConstruct
-    public void init(){
+    public void init() throws ObjectNotFoundException{
         businessLogic.createUser("Daniel", "Skimina", "daniel@skimina.pl", "1234", Role.EMPLOYEE);
         businessLogic.createUser("Dominic", "Smith", "dominic@smith.pl", "1234", Role.APPROVER);
 

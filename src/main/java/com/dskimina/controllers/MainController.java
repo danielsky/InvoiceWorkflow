@@ -1,6 +1,7 @@
 package com.dskimina.controllers;
 
 import com.dskimina.enums.Result;
+import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.logic.BusinessLogic;
 import org.apache.commons.logging.Log;
@@ -46,7 +47,7 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/request/create")
-    public RedirectView addServiceRequestProcess(@Valid ServiceRequestForm serviceRequestForm, BindingResult bindingResult, Principal principal, RedirectAttributes attributes){
+    public RedirectView addServiceRequestProcess(@Valid ServiceRequestForm serviceRequestForm, BindingResult bindingResult, Principal principal, RedirectAttributes attributes) throws ObjectNotFoundException{
         LOG.info("Post processing");
         if (bindingResult.hasErrors()) {
             attributes.addFlashAttribute("result", Result.SERVICE_REQUEST_CREATION_ERROR);

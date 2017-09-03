@@ -1,7 +1,8 @@
 package com.dskimina.services;
 
-import com.dskimina.data.User;
 import com.dskimina.CustomUserDetails;
+import com.dskimina.data.User;
+import com.dskimina.exceptions.ObjectNotFoundException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,13 @@ public class AuthenticationService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         LOG.info(email);
 
-        User user = userService.getByEmail(email);
-        if(user == null){
-            throw new UsernameNotFoundException("User with email "+ email+" not found");
+        User user;
+        try {
+            user = userService.getByEmail(email);
+        } catch (ObjectNotFoundException e) {
+            throw new UsernameNotFoundException("Cannot find username", e);
         }
+
         return new CustomUserDetails(user);
     }
 }

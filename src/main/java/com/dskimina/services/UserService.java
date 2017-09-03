@@ -2,7 +2,7 @@ package com.dskimina.services;
 
 import com.dskimina.data.User;
 import com.dskimina.enums.Role;
-import com.dskimina.exceptions.UserNotFoundException;
+import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.repositories.UserRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,8 +24,12 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User getByEmail(String email){
-        return userRepository.getByEmail(email);
+    public User getByEmail(String email) throws ObjectNotFoundException{
+        User user = userRepository.getByEmail(email);
+        if(user == null){
+            throw new ObjectNotFoundException("Cannot find user by mail: "+ email);
+        }
+        return user;
     }
 
     public void createUser(String name, String surname, String email, String password, Role role){
@@ -39,10 +43,10 @@ public class UserService {
         LOG.info("User created");
     }
 
-    public User getApprover(){
+    public User getApprover() throws ObjectNotFoundException{
         List<User> approverList = userRepository.findByRole(Role.APPROVER);
         if(approverList.isEmpty()){
-            throw new UserNotFoundException("There is no approvers");
+            throw new ObjectNotFoundException("There is no approvers");
         }
 
         return approverList.get(0);
