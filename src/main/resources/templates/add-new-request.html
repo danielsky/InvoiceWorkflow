@@ -15,11 +15,11 @@
             <legend th:text="#{newServiceRequest.formName}"></legend>
 
             <!-- Name input-->
-            <div class="form-group">
+            <div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
                 <label class="col-md-4 control-label" for="name" th:text="#{newServiceRequest.label.name}"></label>
                 <div class="col-md-4">
                     <input id="name" name="name" type="text" th:field="*{name}" th:placeholder="#{newServiceRequest.placeholder.name}" class="form-control input-md">
-
+                    <span class="help-block" th:if="${#fields.hasErrors('name')}" th:each="err : ${#fields.errors('name')}" th:text="#{${err}}"></span>
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
             </div>
 
             <!-- Price -->
-            <div class="form-group">
+            <div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
                 <label class="col-md-4 control-label" for="price" th:text="#{newServiceRequest.label.price}"></label>
                 <div class="col-md-4">
                     <div class="input-group">
@@ -55,6 +55,7 @@
                             <option value="PLN">PLN</option>
                         </select>
                     </div>
+                    <span class="help-block" th:if="${#fields.hasErrors('price')}" th:each="err : ${#fields.errors('price')}" th:text="#{${err}}"></span>
                 </div>
             </div>
 

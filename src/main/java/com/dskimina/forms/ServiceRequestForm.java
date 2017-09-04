@@ -2,13 +2,17 @@ package com.dskimina.forms;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Min;
+
 public class ServiceRequestForm {
 
-    @NotEmpty
+    @NotEmpty(message = "newServiceRequest.validation.emptyName")
     private String name;
 
     private String contractor;
     private String location;
+
+    @Min(value = 0, message = "newServiceRequest.validation.negativePrice")
     private double price;
     private String currency;
 

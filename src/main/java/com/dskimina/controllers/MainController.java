@@ -40,22 +40,27 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/request/create")
-    public String addServiceRequest(ModelMap model, ServiceRequestForm serviceRequestForm){
+    public String addServiceRequest(ModelMap model){
         model.addAttribute("locations", businessLogic.getLocations());
         model.addAttribute("contractors", businessLogic.getAllContractors());
+        model.addAttribute("serviceRequestForm", new ServiceRequestForm());
         return "add-new-request";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/request/create")
-    public RedirectView addServiceRequestProcess(@Valid ServiceRequestForm serviceRequestForm, BindingResult bindingResult, Principal principal, RedirectAttributes attributes) throws ObjectNotFoundException{
+    public String addServiceRequestProcess(@Valid ServiceRequestForm serviceRequestForm, BindingResult bindingResult, ModelMap model, Principal principal, RedirectAttributes attributes) throws ObjectNotFoundException{
         LOG.info("Post processing");
         if (bindingResult.hasErrors()) {
-            attributes.addFlashAttribute("result", Result.SERVICE_REQUEST_CREATION_ERROR);
+            //attributes.addFlashAttribute("result", Result.SERVICE_REQUEST_CREATION_ERROR);
+            model.addAttribute("locations", businessLogic.getLocations());
+            model.addAttribute("contractors", businessLogic.getAllContractors());
+            return "add-new-request";
         }else {
             businessLogic.createServiceRequest(serviceRequestForm, principal.getName());
             attributes.addFlashAttribute("result", Result.SERVICE_REQUEST_CREATED);
         }
-        return new RedirectView("/index", true);
+        //return new RedirectView("/index", true);
+        return "redirect:/index";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/request/{id}")

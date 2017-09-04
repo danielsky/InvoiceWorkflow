@@ -15,13 +15,17 @@ import com.dskimina.services.MailService;
 import com.dskimina.services.ServiceRequestService;
 import com.dskimina.services.UserService;
 import com.dskimina.transformer.DataTransformer;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Transactional
@@ -98,13 +102,13 @@ public class BusinessLogic {
         serviceRequestService.deleteInvoice(identifier);
     }
 
-    public Set<String> getLocations(){
-        Set<String> locations = new HashSet<>();
-        Random rand = new Random();
-        for(int i=0;i<20;i++){
-            int n = 400 + rand.nextInt(200);
-            locations.add("E00-"+Integer.toString(n));
+    public List<String> getLocations(){
+        try {
+            return IOUtils.readLines(BusinessLogic.class.getResourceAsStream("/locations/locations.dat"), "UTF8");
+        } catch (IOException e) {
+            LOG.info("Problem with reading locations", e);
+            return Collections.emptyList();
         }
-        return locations;
+
     }
 }
