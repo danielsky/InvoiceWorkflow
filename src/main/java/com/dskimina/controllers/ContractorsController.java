@@ -59,6 +59,7 @@ public class ContractorsController {
     public String showContractor(@PathVariable String id, ModelMap model) throws ObjectNotFoundException{
         ContractorDTO contractorDTO = logic.getContractorByIdentifier(id);
         model.addAttribute("contractor", contractorDTO);
+        model.addAttribute("services", logic.getContractorServices(id));
         return "contractor";
     }
 

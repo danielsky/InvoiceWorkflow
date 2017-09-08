@@ -9,6 +9,7 @@ import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.model.ContractorDTO;
+import com.dskimina.model.ContractorServiceDTO;
 import com.dskimina.model.ServiceRequestDTO;
 import com.dskimina.services.ContractorService;
 import com.dskimina.services.MailService;
@@ -23,9 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -109,6 +108,22 @@ public class BusinessLogic {
             LOG.info("Problem with reading locations", e);
             return Collections.emptyList();
         }
+    }
 
+    public List<ContractorServiceDTO> getContractorServices(String customerId){
+        try {
+            List<ContractorServiceDTO> services = new LinkedList<>();
+            List<String> names =  IOUtils.readLines(BusinessLogic.class.getResourceAsStream("/locations/services.dat"), "UTF8");
+            for(String name : names){
+                ContractorServiceDTO dto = new ContractorServiceDTO();
+                dto.setId(UUID.randomUUID().toString());
+                dto.setName(name);
+                services.add(dto);
+            }
+            return services;
+        } catch (IOException e) {
+            LOG.info("Problem with reading locations", e);
+            return Collections.emptyList();
+        }
     }
 }

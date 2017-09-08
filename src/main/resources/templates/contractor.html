@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base-template :: headSection (customJS=null)"/>
+<head th:replace="fragments/base-template :: headSection (customJS='contractor.js')"/>
 <body>
 
 <nav th:replace="fragments/base-template :: navbar-section"/>
 
-<div class="container" style="margin-top: 100px">
+<div class="container" style="margin: 100px auto">
 
 
     <form class="form-horizontal" name="form" method="post" th:object="${contractor}" th:action="@{/contractor/{id}/update(id=*{identifier})}">
@@ -67,6 +67,51 @@
 
         </fieldset>
     </form>
+
+    <form>
+        <fieldset>
+            <legend>Usługi</legend>
+        </fieldset>
+
+    </form>
+
+    <div class="row" th:each="service : ${services}">
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="input-group">
+                <input type="text" class="form-control" readonly="readonly" th:attr="data-identifier=${service.id},data-org=${service.name}" th:value="${service.name}"/>
+                <span class="input-group-btn">
+                    <div>
+                    <button class="btn btn-success approve-service" type="button">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn btn-warning cancel-service" type="button">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                    </div>
+                    <div>
+                    <button class="btn btn-primary edit-service" type="button">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn btn-danger" type="button">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="New service"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-success" type="button">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
 
 
 </div>
