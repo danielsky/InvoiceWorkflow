@@ -1,6 +1,7 @@
 package com.dskimina.logic;
 
 import com.dskimina.data.Contractor;
+import com.dskimina.data.ContractorServiceData;
 import com.dskimina.data.ServiceRequest;
 import com.dskimina.data.User;
 import com.dskimina.enums.Role;
@@ -24,7 +25,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Transactional
@@ -110,8 +113,8 @@ public class BusinessLogic {
         }
     }
 
-    public List<ContractorServiceDTO> getContractorServices(String customerId){
-        try {
+    public List<ContractorServiceDTO> getContractorServices(String contractorId) throws ObjectNotFoundException{
+        /*try {
             List<ContractorServiceDTO> services = new LinkedList<>();
             List<String> names =  IOUtils.readLines(BusinessLogic.class.getResourceAsStream("/locations/services.dat"), "UTF8");
             for(String name : names){
@@ -124,6 +127,27 @@ public class BusinessLogic {
         } catch (IOException e) {
             LOG.info("Problem with reading locations", e);
             return Collections.emptyList();
+        }*/
+        List<ContractorServiceDTO> dtoList = new ArrayList<>();
+        for(ContractorServiceData contractorServiceData : contractorService.getContractorServicesByContractorIdentifier(contractorId)){
+            dtoList.add(DataTransformer.convert(contractorServiceData));
         }
+        return dtoList;
+    }
+
+    public String createContractorService(String serviceName, String contractorId, String creatorEmail) throws ObjectNotFoundException{
+        User creator = userService.getByEmail(creatorEmail);
+        Contractor contractor = contractorService.getContractorByIdentifier(contractorId);
+        return contractorService.createContractorService(serviceName, contractor, creator);
+    }
+
+    public void updateContractorService(String newName, String contractorServiceId) throws ObjectNotFoundException{
+        ContractorServiceDTO contractorServiceDTO = new ContractorServiceDTO();
+        contractorServiceDTO.setName(newName);
+        contractorService.updateContractorService(contractorServiceId, contractorServiceDTO);
+    }
+
+    public void removeContractorService(String contractorServiceId) throws ObjectNotFoundException{
+        contractorService.removeContractorService(contractorServiceId);
     }
 }

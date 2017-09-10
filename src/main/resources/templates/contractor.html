@@ -72,31 +72,61 @@
         <fieldset>
             <legend>Usługi</legend>
         </fieldset>
-
+        <input id="contractorId" type="hidden" th:value="${contractorId}">
+        <input id="csrf" type="hidden" th:value="${_csrf.token}"/>
     </form>
 
-    <div class="row" th:each="service : ${services}">
-        <div class="col-lg-6 col-lg-offset-3">
-            <div class="input-group">
-                <input type="text" class="form-control" readonly="readonly" th:attr="data-identifier=${service.id},data-org=${service.name}" th:value="${service.name}"/>
-                <span class="input-group-btn">
-                    <div>
-                    <button class="btn btn-success approve-service" type="button">
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    </button>
-                    <button class="btn btn-warning cancel-service" type="button">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </button>
-                    </div>
-                    <div>
-                    <button class="btn btn-primary edit-service" type="button">
-                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                    </button>
-                    <button class="btn btn-danger" type="button">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </button>
-                    </div>
-                </span>
+    <div id="services">
+        <div class="row" th:each="service : ${services}">
+            <div class="col-lg-6 col-lg-offset-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly="readonly" th:attr="data-identifier=${service.id},data-org=${service.name}" th:value="${service.name}"/>
+                    <span class="input-group-btn">
+                        <div>
+                            <button class="btn btn-success approve-service" type="button">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </button>
+                            <button class="btn btn-warning cancel-service" type="button">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary edit-service" type="button">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            </button>
+                            <button class="btn btn-danger" type="button">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="template" style="display: none;">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly="readonly"/>
+                    <span class="input-group-btn">
+                        <div>
+                            <button class="btn btn-success approve-service" type="button">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </button>
+                            <button class="btn btn-warning cancel-service" type="button">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary edit-service" type="button">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            </button>
+                            <button class="btn btn-danger" type="button">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -105,7 +135,7 @@
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="New service"/>
                 <span class="input-group-btn">
-                    <button class="btn btn-success" type="button">
+                    <button class="btn btn-success add-service" type="button">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </button>
                 </span>

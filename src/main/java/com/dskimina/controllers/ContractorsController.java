@@ -5,14 +5,14 @@ import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.logic.BusinessLogic;
 import com.dskimina.model.ContractorDTO;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -23,6 +23,8 @@ import java.security.Principal;
 
 @Controller
 public class ContractorsController {
+
+    private static final Log LOG = LogFactory.getLog(ContractorsController.class);
 
     @Autowired
     private BusinessLogic logic;
@@ -59,6 +61,7 @@ public class ContractorsController {
     public String showContractor(@PathVariable String id, ModelMap model) throws ObjectNotFoundException{
         ContractorDTO contractorDTO = logic.getContractorByIdentifier(id);
         model.addAttribute("contractor", contractorDTO);
+        model.addAttribute("contractorId", id);
         model.addAttribute("services", logic.getContractorServices(id));
         return "contractor";
     }
@@ -85,6 +88,18 @@ public class ContractorsController {
         boolean updateResult = logic.updateContractor(id, contractorDTO);
         attributes.addFlashAttribute("result", updateResult ? Result.CONTRACTOR_UPDATE_SUCCESS : Result.CONTRACTOR_UPDATE_FAILURE);
         return new RedirectView("/contractor/"+id, true);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/contractor/{id}/service/{serviceId}/update")
+    public ResponseEntity editContractorService(@PathVariable String id, @PathVariable String serviceId, @RequestParam String newName) throws ObjectNotFoundException{
+        logic.updateContractorService(newName, serviceId);
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/contractor/{id}/service/add")
+    public ResponseEntity addContractorService(@PathVariable String id, @RequestParam String newName, Principal principal) throws ObjectNotFoundException{
+        String identifier = logic.createContractorService(newName, id, principal.getName());
+        return ResponseEntity.ok(identifier);
     }
 
 }

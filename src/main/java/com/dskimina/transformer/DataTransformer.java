@@ -1,8 +1,10 @@
 package com.dskimina.transformer;
 
 import com.dskimina.data.Contractor;
+import com.dskimina.data.ContractorServiceData;
 import com.dskimina.data.ServiceRequest;
 import com.dskimina.model.ContractorDTO;
+import com.dskimina.model.ContractorServiceDTO;
 import com.dskimina.model.ServiceRequestDTO;
 
 public class DataTransformer {
@@ -24,6 +26,13 @@ public class DataTransformer {
         dto.setEmail(contractor.getEmail());
         dto.setTelephone(contractor.getTelephone());
         dto.setAddress(contractor.getAddress());
+        return dto;
+    }
+
+    public static ContractorServiceDTO convert(ContractorServiceData contractorServiceData){
+        ContractorServiceDTO dto = new ContractorServiceDTO();
+        dto.setName(contractorServiceData.getName());
+        dto.setId(contractorServiceData.getIdentifier());
         return dto;
     }
 
