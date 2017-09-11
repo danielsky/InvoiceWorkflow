@@ -1,5 +1,6 @@
 package com.dskimina.services;
 
+import com.dskimina.data.Contractor;
 import com.dskimina.data.ServiceRequest;
 import com.dskimina.data.User;
 import com.dskimina.enums.WorkflowStep;
@@ -30,15 +31,16 @@ public class ServiceRequestService {
         return serviceRequestRepository.getByIdentifier(identifier);
     }
 
-    public void deleteInvoice(String identifier){
+    public void deleteServiceRequest(String identifier){
         ServiceRequest serviceRequest = serviceRequestRepository.getByIdentifier(identifier);
         serviceRequestRepository.delete(serviceRequest);
     }
 
-    public void createInvoice(String name, User creator, WorkflowStep workflowStep){
+    public void createServiceRequest(String name, Contractor contractor, User creator, WorkflowStep workflowStep){
 
         ServiceRequest serviceRequest = new ServiceRequest();
         serviceRequest.setName(name);
+        serviceRequest.setContractor(contractor);
         serviceRequest.setIdentifier(UUID.randomUUID().toString());
         serviceRequest.setWorkflowStep(workflowStep);
         serviceRequest.setCreator(creator);

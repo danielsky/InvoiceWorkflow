@@ -51,6 +51,7 @@
                 <tr>
                     <th th:text="#{requestsList.tableHeader.name}"></th>
                     <th th:text="#{requestsList.tableHeader.status}"></th>
+                    <th th:text="#{requestsList.tableHeader.contractor}"></th>
                     <th th:text="#{requestsList.tableHeader.creationDate}"></th>
                     <th></th>
                 </tr>
@@ -67,6 +68,7 @@
                         </th:block>
 
                     </td>
+                    <td th:text="${serviceRequest.contractorName}"></td>
                     <td th:text="${#dates.format(serviceRequest.creationTime, 'dd-MM-yyyy')}"></td>
                     <td>
                         <a th:href="@{request/{id}(id=${serviceRequest.identifier})}">

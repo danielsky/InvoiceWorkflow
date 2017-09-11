@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base-template :: headSection (customJS=null)"/>
+<head th:replace="fragments/base-template :: headSection (customJS='add-service-request.js')"/>
 <body>
 
 <nav th:replace="fragments/base-template :: navbar-section"/>
@@ -39,6 +39,16 @@
                 <div class="col-md-4">
                     <select id="contractor" name="contractor" th:field="*{contractor}" class="form-control selectpicker" data-live-search="true">
                         <option th:each="contractor : ${contractors}" th:value="${contractor.identifier}" th:text="${contractor.name}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Contractor Service -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="contractorService" th:text="#{newServiceRequest.label.contractorService}"></label>
+                <div class="col-md-4">
+                    <select id="contractorService" name="contractor-service" th:field="*{contractorService}" class="form-control selectpicker" data-live-search="true">
+
                     </select>
                 </div>
             </div>

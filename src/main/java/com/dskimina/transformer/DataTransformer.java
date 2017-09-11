@@ -14,6 +14,7 @@ public class DataTransformer {
         dto.setName(serviceRequest.getName());
         dto.setCreationTime(serviceRequest.getCreationTime());
         dto.setIdentifier(serviceRequest.getIdentifier());
+        dto.setContractorName(serviceRequest.getContractor().getName());
         dto.setWorkflowStep(serviceRequest.getWorkflowStep());
         return dto;
     }

@@ -10,6 +10,7 @@ public class ServiceRequestForm {
     private String name;
 
     private String contractor;
+    private String contractorService;
     private String location;
 
     @Min(value = 0, message = "newServiceRequest.validation.negativePrice")
@@ -30,6 +31,14 @@ public class ServiceRequestForm {
 
     public void setContractor(String contractor) {
         this.contractor = contractor;
+    }
+
+    public String getContractorService() {
+        return contractorService;
+    }
+
+    public void setContractorService(String contractorService) {
+        this.contractorService = contractorService;
     }
 
     public String getLocation() {

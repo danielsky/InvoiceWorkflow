@@ -14,6 +14,8 @@ public class ServiceRequestDTO {
 
     private WorkflowStep workflowStep;
 
+    private String contractorName;
+
     private Date creationTime;
 
     public String getName() {
@@ -48,5 +50,11 @@ public class ServiceRequestDTO {
         this.creationTime = creationTime;
     }
 
+    public String getContractorName() {
+        return contractorName;
+    }
 
+    public void setContractorName(String contractorName) {
+        this.contractorName = contractorName;
+    }
 }

@@ -24,6 +24,9 @@ public class ServiceRequest {
     @ManyToOne
     private User creator;
 
+    @ManyToOne
+    private Contractor contractor;
+
     public Long getId() {
         return id;
     }
@@ -70,5 +73,13 @@ public class ServiceRequest {
 
     public void setCreator(User creator) {
         this.creator = creator;
+    }
+
+    public Contractor getContractor() {
+        return contractor;
+    }
+
+    public void setContractor(Contractor contractor) {
+        this.contractor = contractor;
     }
 }
