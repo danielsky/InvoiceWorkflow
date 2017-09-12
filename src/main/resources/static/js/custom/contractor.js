@@ -17,14 +17,10 @@ $( document ).ready(function() {
         var value = $(input).val();
         var serviceId = $(input).data('identifier');
         var contractorId = $('#contractorId').val();
-        var csrf = $('#csrf').val();
 
         $.ajax({
             method: "POST",
             url: contractorId+"/service/"+serviceId+"/update",
-            headers: {
-                'X-CSRF-TOKEN': csrf
-            },
             data: {
                 newName: value
             }
@@ -52,14 +48,10 @@ $( document ).ready(function() {
         var input = $(this).parent().prev();
         var value = $(input).val();
         var contractorId = $('#contractorId').val();
-        var csrf = $('#csrf').val();
 
         $.ajax({
             method: "POST",
             url: contractorId+"/service/add",
-            headers: {
-                'X-CSRF-TOKEN': csrf
-            },
             data: {
                 newName: value
             }
