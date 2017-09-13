@@ -1,5 +1,6 @@
 package com.dskimina.model;
 
+import com.dskimina.enums.Currency;
 import com.dskimina.enums.WorkflowStep;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -16,7 +17,15 @@ public class ServiceRequestDTO {
 
     private String contractorName;
 
+    private String contractorService;
+
+    private String location;
+
     private Date creationTime;
+
+    private double price;
+
+    private Currency currency;
 
     public String getName() {
         return name;
@@ -56,5 +65,37 @@ public class ServiceRequestDTO {
 
     public void setContractorName(String contractorName) {
         this.contractorName = contractorName;
+    }
+
+    public String getContractorService() {
+        return contractorService;
+    }
+
+    public void setContractorService(String contractorService) {
+        this.contractorService = contractorService;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

@@ -1,5 +1,6 @@
 package com.dskimina.forms;
 
+import com.dskimina.enums.Currency;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Min;
@@ -15,7 +16,7 @@ public class ServiceRequestForm {
 
     @Min(value = 0, message = "newServiceRequest.validation.negativePrice")
     private double price;
-    private String currency;
+    private Currency currency;
 
     public String getName() {
         return name;
@@ -57,11 +58,11 @@ public class ServiceRequestForm {
         this.price = price;
     }
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 }

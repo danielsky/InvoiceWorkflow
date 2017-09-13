@@ -72,6 +72,10 @@ public class ContractorService {
         return contractorServiceDataRepository.findByContractor(contractor);
     }
 
+    public ContractorServiceData getContractorServiceByIdentifier(String identifier) throws ObjectNotFoundException{
+        return contractorServiceDataRepository.getByIdentifier(identifier);
+    }
+
     public String createContractorService(String serviceName, Contractor contractor, User creator){
         ContractorServiceData contractorServiceData = new ContractorServiceData();
         contractorServiceData.setName(serviceName);

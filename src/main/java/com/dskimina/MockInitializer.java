@@ -1,5 +1,6 @@
 package com.dskimina;
 
+import com.dskimina.enums.Currency;
 import com.dskimina.enums.Role;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ContractorForm;
@@ -55,27 +56,29 @@ public class MockInitializer {
         contractor5.setAddress("Redmont");
         businessLogic.createContractor(contractor5, CREATOR_EMAIL);
 
-        businessLogic.createContractorService("Consulting", contractorId1, CREATOR_EMAIL);
+        String service1 = businessLogic.createContractorService("Consulting", contractorId1, CREATOR_EMAIL);
         businessLogic.createContractorService("Trading", contractorId1, CREATOR_EMAIL);
         businessLogic.createContractorService("Signing", contractorId1, CREATOR_EMAIL);
 
         businessLogic.createContractorService("Consulting", contractorId2, CREATOR_EMAIL);
-        businessLogic.createContractorService("Trading", contractorId2, CREATOR_EMAIL);
+        String service2 = businessLogic.createContractorService("Trading", contractorId2, CREATOR_EMAIL);
         businessLogic.createContractorService("Signing", contractorId2, CREATOR_EMAIL);
 
         ServiceRequestForm form1 = new ServiceRequestForm();
         form1.setName("test1");
         form1.setContractor(contractorId1);
+        form1.setContractorService(service1);
         form1.setPrice(125);
-        form1.setCurrency("PLN");
+        form1.setCurrency(Currency.PLN);
         form1.setLocation("E00-543");
         businessLogic.createServiceRequest(form1, CREATOR_EMAIL);
 
         ServiceRequestForm form2 = new ServiceRequestForm();
         form2.setName("test2");
         form2.setContractor(contractorId2);
+        form2.setContractorService(service2);
         form2.setPrice(250);
-        form2.setCurrency("EUR");
+        form2.setCurrency(Currency.EUR);
         form2.setLocation("E00-544");
         businessLogic.createServiceRequest(form2, CREATOR_EMAIL);
 

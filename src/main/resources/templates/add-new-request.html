@@ -60,9 +60,7 @@
                     <div class="input-group">
                         <input id="price" name="price" th:field="*{price}" class="form-control" th:placeholder="#{newServiceRequest.placeholder.price}" type="text">
                         <select name="currency" th:field="*{currency}" class="selectpicker">
-                            <option value="EUR">EUR</option>
-                            <option value="USD">USD</option>
-                            <option value="PLN">PLN</option>
+                            <option th:each="curr : ${currencies}" th:value="${curr}" th:text="${curr}"></option>
                         </select>
                     </div>
                     <span class="help-block" th:if="${#fields.hasErrors('price')}" th:each="err : ${#fields.errors('price')}" th:text="#{${err}}"></span>

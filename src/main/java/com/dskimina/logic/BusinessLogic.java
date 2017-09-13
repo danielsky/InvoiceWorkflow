@@ -55,7 +55,8 @@ public class BusinessLogic {
     public void createServiceRequest(ServiceRequestForm serviceRequestForm, String creatorEmail) throws ObjectNotFoundException{
         User creator = userService.getByEmail(creatorEmail);
         Contractor contractor = contractorService.getContractorByIdentifier(serviceRequestForm.getContractor());
-        serviceRequestService.createServiceRequest(serviceRequestForm.getName(), contractor, creator, WorkflowStep.WAITING_FOR_FIRST_APPROVE);
+        ContractorServiceData contractorServiceData = contractorService.getContractorServiceByIdentifier(serviceRequestForm.getContractorService());
+        serviceRequestService.createServiceRequest(serviceRequestForm, contractor, contractorServiceData, creator, WorkflowStep.WAITING_FOR_FIRST_APPROVE);
 
         String content = mailService.prepareMessage("test user");
         mailService.sendEmail("daniels@asdf.pl", content, "New ServiceRequest created");
@@ -97,8 +98,8 @@ public class BusinessLogic {
         }
     }
 
-    public ServiceRequest getServiceRequest(String identifier){
-        return serviceRequestService.getServiceRequest(identifier);
+    public ServiceRequestDTO getServiceRequest(String identifier){
+        return DataTransformer.convert(serviceRequestService.getServiceRequest(identifier));
     }
 
     public void removeServiceRequest(String identifier) {

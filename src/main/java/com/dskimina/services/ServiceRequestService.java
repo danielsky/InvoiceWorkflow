@@ -1,9 +1,11 @@
 package com.dskimina.services;
 
 import com.dskimina.data.Contractor;
+import com.dskimina.data.ContractorServiceData;
 import com.dskimina.data.ServiceRequest;
 import com.dskimina.data.User;
 import com.dskimina.enums.WorkflowStep;
+import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.repositories.ServiceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,15 +38,19 @@ public class ServiceRequestService {
         serviceRequestRepository.delete(serviceRequest);
     }
 
-    public void createServiceRequest(String name, Contractor contractor, User creator, WorkflowStep workflowStep){
+    public void createServiceRequest(ServiceRequestForm form, Contractor contractor, ContractorServiceData contractorServiceData, User creator, WorkflowStep workflowStep){
 
         ServiceRequest serviceRequest = new ServiceRequest();
-        serviceRequest.setName(name);
+        serviceRequest.setName(form.getName());
         serviceRequest.setContractor(contractor);
+        serviceRequest.setServiceData(contractorServiceData);
         serviceRequest.setIdentifier(UUID.randomUUID().toString());
         serviceRequest.setWorkflowStep(workflowStep);
         serviceRequest.setCreator(creator);
         serviceRequest.setCreationTime(new Date());
+        serviceRequest.setPrice(form.getPrice());
+        serviceRequest.setCurrency(form.getCurrency());
+        serviceRequest.setLocation(form.getLocation());
         serviceRequestRepository.save(serviceRequest);
     }
 }

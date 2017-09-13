@@ -1,5 +1,6 @@
 package com.dskimina.data;
 
+import com.dskimina.enums.Currency;
 import com.dskimina.enums.WorkflowStep;
 
 import javax.persistence.*;
@@ -26,6 +27,16 @@ public class ServiceRequest {
 
     @ManyToOne
     private Contractor contractor;
+
+    @ManyToOne
+    private ContractorServiceData serviceData;
+
+    private double price;
+
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
+
+    private String location;
 
     public Long getId() {
         return id;
@@ -81,5 +92,37 @@ public class ServiceRequest {
 
     public void setContractor(Contractor contractor) {
         this.contractor = contractor;
+    }
+
+    public ContractorServiceData getServiceData() {
+        return serviceData;
+    }
+
+    public void setServiceData(ContractorServiceData serviceData) {
+        this.serviceData = serviceData;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

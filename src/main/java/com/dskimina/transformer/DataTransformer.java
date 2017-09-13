@@ -16,6 +16,10 @@ public class DataTransformer {
         dto.setIdentifier(serviceRequest.getIdentifier());
         dto.setContractorName(serviceRequest.getContractor().getName());
         dto.setWorkflowStep(serviceRequest.getWorkflowStep());
+        dto.setContractorService(serviceRequest.getServiceData().getName());
+        dto.setPrice(serviceRequest.getPrice());
+        dto.setCurrency(serviceRequest.getCurrency());
+        dto.setLocation(serviceRequest.getLocation());
         return dto;
     }
 

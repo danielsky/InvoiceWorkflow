@@ -1,5 +1,6 @@
 package com.dskimina.controllers;
 
+import com.dskimina.enums.Currency;
 import com.dskimina.enums.Result;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ServiceRequestForm;
@@ -48,6 +49,7 @@ public class MainController {
         model.addAttribute("locations", businessLogic.getLocations());
         model.addAttribute("contractors", businessLogic.getAllContractors());
         model.addAttribute("serviceRequestForm", new ServiceRequestForm());
+        model.addAttribute("currencies", Currency.values());
         return "add-new-request";
     }
 
