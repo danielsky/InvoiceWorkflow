@@ -7,56 +7,113 @@
 
 <div class="container" style="margin-top: 100px">
 
-    <form class="form-horizontal" th:object="${serviceRequest}">
-        <fieldset>
+        <form class="form-horizontal" th:object="${serviceRequest}">
+            <fieldset>
 
-            <!-- Form Name -->
-            <legend th:text="#{newServiceRequest.formName}"></legend>
+                <div class="col-md-3">
+                    <h4 class="service-request-header">Postęp</h4>
 
-            <!-- Name input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="name" th:text="#{newServiceRequest.label.name}"></label>
-                <div class="col-md-4">
-                    <input id="name" name="name" type="text" th:field="*{name}"class="form-control input-md" readonly="readonly"/>
-                </div>
-            </div>
-
-            <!-- Location -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="location" th:text="#{newServiceRequest.label.location}"></label>
-                <div class="col-md-4">
-                    <input id="location" name="location" th:field="*{location}" class="form-control input-md" readonly="readonly"/>
-                </div>
-            </div>
-
-            <!-- Contractor -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="contractor" th:text="#{newServiceRequest.label.contractor}"></label>
-                <div class="col-md-4">
-                    <input id="contractor" name="contractor" th:field="*{contractorName}" class="form-control input-md" readonly="readonly"/>
-                </div>
-            </div>
-
-            <!-- Contractor Service -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="contractorService" th:text="#{newServiceRequest.label.contractorService}"></label>
-                <div class="col-md-4">
-                    <input id="contractorService" name="contractor-service" th:field="*{contractorService}" class="form-control input-md" readonly="readonly"/>
-                </div>
-            </div>
-
-            <!-- Price -->
-            <div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
-                <label class="col-md-4 control-label" for="price" th:text="#{newServiceRequest.label.price}"></label>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <input id="price" name="price" th:field="*{price}" class="form-control input-md" readonly="readonly" />
-                        <span id="currency" th:text="*{currency}" class="input-group-addon"></span>
+                    <div class="alert alert-success" role="alert">Utworzenie przez anna.nowak@test.pl o 13 Września 13:59:16</div>
+                    <div style="text-align: center">
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
+
+                    <div class="alert alert-warning" role="alert">Oczekuje na akceptację kierownika</div>
+
+                    <div style="text-align: center">
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="alert alert-danger" role="alert">Przesłanie do kontrahenta</div>
+
+                    <div style="text-align: center">
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="alert alert-danger" role="alert">Wgranie faktury od kontrahenta</div>
+
+                    <div style="text-align: center">
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="alert alert-danger" role="alert">Akceptacja usługi przez pracownika</div>
+
+                    <div style="text-align: center">
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="alert alert-danger" role="alert">Akceptacja usługi przez kierownika</div>
+
+                    <div style="text-align: center">
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="alert alert-danger" role="alert">Księgowanie</div>
+
+                    <div style="text-align: center">
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="alert alert-danger" role="alert">Akceptacja kierownika księgowych</div>
                 </div>
-            </div>
-        </fieldset>
-    </form>
+
+                <div class="col-md-7 col-md-offset-1">
+
+                    <h4 class="service-request-header">Opis usługi</h4>
+                    <!-- Name input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="name" th:text="#{newServiceRequest.label.name}"></label>
+                        <div class="col-md-4">
+                            <input id="name" name="name" type="text" th:field="*{name}"class="form-control input-md" readonly="readonly"/>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="location" th:text="#{newServiceRequest.label.location}"></label>
+                        <div class="col-md-4">
+                            <input id="location" name="location" th:field="*{location}" class="form-control input-md" readonly="readonly"/>
+                        </div>
+                    </div>
+
+                    <!-- Contractor -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="contractor" th:text="#{newServiceRequest.label.contractor}"></label>
+                        <div class="col-md-4">
+                            <input id="contractor" name="contractor" th:field="*{contractorName}" class="form-control input-md" readonly="readonly"/>
+                        </div>
+                    </div>
+
+                    <!-- Contractor Service -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="contractorService" th:text="#{newServiceRequest.label.contractorService}"></label>
+                        <div class="col-md-4">
+                            <input id="contractorService" name="contractor-service" th:field="*{contractorService}" class="form-control input-md" readonly="readonly"/>
+                        </div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
+                        <label class="col-md-4 control-label" for="price" th:text="#{newServiceRequest.label.price}"></label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input id="price" name="price" th:field="*{price}" class="form-control input-md" readonly="readonly" />
+                                <span id="currency" th:text="*{currency}" class="input-group-addon"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="service-request-header">Dokument</h4>
+
+                    <div></div>
+
+                    <h4 class="service-request-header">Komentarze</h4>
+
+                    <div></div>
+
+                </div>
+            </fieldset>
+        </form>
 
 </div>
 </body>

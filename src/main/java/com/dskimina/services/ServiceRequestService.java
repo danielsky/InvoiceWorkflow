@@ -5,6 +5,7 @@ import com.dskimina.data.ContractorServiceData;
 import com.dskimina.data.ServiceRequest;
 import com.dskimina.data.User;
 import com.dskimina.enums.WorkflowStep;
+import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.repositories.ServiceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,16 @@ public class ServiceRequestService {
         return serviceRequestList;
     }
 
-    public ServiceRequest getServiceRequest(String identifier){
-        return serviceRequestRepository.getByIdentifier(identifier);
+    public ServiceRequest getServiceRequest(String identifier) throws ObjectNotFoundException{
+        ServiceRequest serviceRequest = serviceRequestRepository.getByIdentifier(identifier);
+        if(serviceRequest == null){
+            throw new ObjectNotFoundException("Service request not found by id: "+identifier);
+        }
+        return serviceRequest;
     }
 
-    public void deleteServiceRequest(String identifier){
-        ServiceRequest serviceRequest = serviceRequestRepository.getByIdentifier(identifier);
+    public void deleteServiceRequest(String identifier) throws ObjectNotFoundException{
+        ServiceRequest serviceRequest = getServiceRequest(identifier);
         serviceRequestRepository.delete(serviceRequest);
     }
 

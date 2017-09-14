@@ -70,13 +70,13 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/request/{id}")
-    public String showServiceRequest(@PathVariable("id") String identifier, ModelMap model){
+    public String showServiceRequest(@PathVariable("id") String identifier, ModelMap model) throws ObjectNotFoundException{
         model.addAttribute("serviceRequest", businessLogic.getServiceRequest(identifier));
         return "service-request";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/request/{id}/delete")
-    public RedirectView deleteServiceRequest(@PathVariable("id") String identifier, RedirectAttributes attr){
+    public RedirectView deleteServiceRequest(@PathVariable("id") String identifier, RedirectAttributes attr) throws ObjectNotFoundException{
         businessLogic.removeServiceRequest(identifier);
         attr.addFlashAttribute("result", Result.SERVICE_REQUEST_DELETED);
         return new RedirectView("/index", true);

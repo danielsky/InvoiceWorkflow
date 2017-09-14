@@ -98,11 +98,11 @@ public class BusinessLogic {
         }
     }
 
-    public ServiceRequestDTO getServiceRequest(String identifier){
+    public ServiceRequestDTO getServiceRequest(String identifier) throws ObjectNotFoundException{
         return DataTransformer.convert(serviceRequestService.getServiceRequest(identifier));
     }
 
-    public void removeServiceRequest(String identifier) {
+    public void removeServiceRequest(String identifier) throws ObjectNotFoundException{
         serviceRequestService.deleteServiceRequest(identifier);
     }
 
