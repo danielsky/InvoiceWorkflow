@@ -17,7 +17,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
 
     @Bean
-    public Executor asyncExecutor() {
+    public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2);
         executor.setMaxPoolSize(2);

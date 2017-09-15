@@ -105,16 +105,27 @@
 
                     <h3 class="service-request-header">Dokument</h3>
 
-                    <div class="alert alert-info" role="alert">Brak załączonych plików</div>
+                    <div class="no-attachments-message">
+                        <span class="label label-default">Brak załączonych plików</span>
+                    </div>
 
                     <h3 class="service-request-header">Komentarze</h3>
 
-                    <div class="panel panel-default" th:each="comment : ${comments}">
-                        <div class="panel-heading">
-                            <strong th:text="${comment.author}"></strong>
-                            <span> - </span>
-                            <span th:text="${#dates.format(comment.date, 'dd-MM-yyyy')}"></span>
+                    <div class="panel panel-info" th:each="comment : ${comments}">
+                        <div class="panel-heading smaller-heading-padding">
+                            <div class="pull-left">
+                                <small>
+                                    <strong th:text="${comment.author}"></strong>
+                                </small>
+                            </div>
+                            <div class="pull-right">
+                                <small>
+                                    <span th:text="${#dates.format(comment.date, 'dd-MM-yyyy hh:mm')}"></span>
+                                </small>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
+
                         <div class="panel-body" th:text="${comment.content}"></div>
                     </div>
 

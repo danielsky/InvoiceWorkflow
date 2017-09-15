@@ -1,11 +1,7 @@
 package com.dskimina.transformer;
 
-import com.dskimina.data.Contractor;
-import com.dskimina.data.ContractorServiceData;
-import com.dskimina.data.ServiceRequest;
-import com.dskimina.model.ContractorDTO;
-import com.dskimina.model.ContractorServiceDTO;
-import com.dskimina.model.ServiceRequestDTO;
+import com.dskimina.data.*;
+import com.dskimina.model.*;
 
 public class DataTransformer {
 
@@ -38,6 +34,23 @@ public class DataTransformer {
         ContractorServiceDTO dto = new ContractorServiceDTO();
         dto.setName(contractorServiceData.getName());
         dto.setId(contractorServiceData.getIdentifier());
+        return dto;
+    }
+
+    public static CommentDTO convert(Comment comment){
+        CommentDTO dto = new CommentDTO();
+        dto.setAuthor(comment.getAuthor().getEmail());
+        dto.setContent(comment.getContent());
+        dto.setDate(comment.getCreationDate());
+        dto.setIdentifier(comment.getIdentifier());
+        return dto;
+    }
+
+    public static WorkflowStageDTO convert(WorkflowStage workflowStage){
+        WorkflowStageDTO dto = new WorkflowStageDTO();
+        dto.setDate(workflowStage.getDate());
+        dto.setOwner(workflowStage.getOwner().getEmail());
+        dto.setWorkflowStep(workflowStage.getWorkflowStep());
         return dto;
     }
 

@@ -1,22 +1,17 @@
 package com.dskimina.logic;
 
-import com.dskimina.data.Contractor;
-import com.dskimina.data.ContractorServiceData;
-import com.dskimina.data.ServiceRequest;
-import com.dskimina.data.User;
+import com.dskimina.data.*;
 import com.dskimina.enums.Role;
 import com.dskimina.enums.WorkflowStep;
 import com.dskimina.exceptions.ObjectNotFoundException;
+import com.dskimina.forms.CommentForm;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.model.CommentDTO;
 import com.dskimina.model.ContractorDTO;
 import com.dskimina.model.ContractorServiceDTO;
 import com.dskimina.model.ServiceRequestDTO;
-import com.dskimina.services.ContractorService;
-import com.dskimina.services.MailService;
-import com.dskimina.services.ServiceRequestService;
-import com.dskimina.services.UserService;
+import com.dskimina.services.*;
 import com.dskimina.transformer.DataTransformer;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -26,7 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Transactional
@@ -46,20 +43,25 @@ public class BusinessLogic {
     @Autowired
     private ContractorService contractorService;
 
+    @Autowired
+    private CommentService commentService;
+
 
     public void createUser(String name, String surname, String email, String password, Role role){
         userService.createUser(name, surname, email, password, role);
     }
 
-    public void createServiceRequest(ServiceRequestForm serviceRequestForm, String creatorEmail) throws ObjectNotFoundException{
+    public String createServiceRequest(ServiceRequestForm serviceRequestForm, String creatorEmail) throws ObjectNotFoundException{
         User creator = userService.getByEmail(creatorEmail);
         Contractor contractor = contractorService.getContractorByIdentifier(serviceRequestForm.getContractor());
         ContractorServiceData contractorServiceData = contractorService.getContractorServiceByIdentifier(serviceRequestForm.getContractorService());
-        serviceRequestService.createServiceRequest(serviceRequestForm, contractor, contractorServiceData, creator, WorkflowStep.WAITING_FOR_FIRST_APPROVE);
+
+        String serviceRequestId =  serviceRequestService.createServiceRequest(serviceRequestForm, contractor, contractorServiceData, creator, WorkflowStep.WAITING_FOR_FIRST_APPROVE);
 
         String content = mailService.prepareMessage("test user");
         mailService.sendEmail("daniels@asdf.pl", content, "New ServiceRequest created");
 
+        return serviceRequestId;
     }
 
     public List<ServiceRequestDTO> getAllInvoices(){
@@ -152,14 +154,19 @@ public class BusinessLogic {
         contractorService.removeContractorService(contractorServiceId);
     }
 
-    public List<CommentDTO> getCommentsForServiceRequestId(String id){
-        List<CommentDTO> comments = new ArrayList<>();
+    public String createComment(CommentForm commentForm, String authorEmail, String serviceRequestId) throws ObjectNotFoundException{
+        User author = userService.getByEmail(authorEmail);
+        ServiceRequest serviceRequest = serviceRequestService.getServiceRequest(serviceRequestId);
+        return commentService.createComment(commentForm, author, serviceRequest);
+    }
 
-        comments.add(new CommentDTO(UUID.randomUUID().toString(), "text1", "daniel@skimina.pl", new Date()));
-        comments.add(new CommentDTO(UUID.randomUUID().toString(), "text4", "anna@skimina.pl", new Date()));
-        comments.add(new CommentDTO(UUID.randomUUID().toString(), "text5", "regina@skimina.pl", new Date()));
-        comments.add(new CommentDTO(UUID.randomUUID().toString(), "text8", "iwona@skimina.pl", new Date()));
+    public List<CommentDTO> getCommentsForServiceRequestId(String id) throws ObjectNotFoundException{
 
-        return comments;
+        ServiceRequest serviceRequest = serviceRequestService.getServiceRequest(id);
+        List<CommentDTO>  dtoList = new ArrayList<>();
+        for(Comment comment : commentService.getCommentsForServiceRequest(serviceRequest)){
+            dtoList.add(DataTransformer.convert(comment));
+        }
+        return dtoList;
     }
 }

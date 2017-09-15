@@ -23,14 +23,15 @@ public class LoggingAspect {
     //based on https://www.mkyong.com/spring3/spring-aop-aspectj-annotation-example/
 
     @Around("execution(* com.dskimina.logic.BusinessLogic.createServiceRequest(..))")
-    public void logAroundInvoiceCreation(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object logAroundInvoiceCreation(ProceedingJoinPoint joinPoint) throws Throwable {
 
         long t1 = System.currentTimeMillis();
-        joinPoint.proceed(); //continue on the intercepted method
+        Object o = joinPoint.proceed(); //continue on the intercepted method
         long t2 = System.currentTimeMillis();
 
         String user = getCurrentUsername();
         logService.createLog("INVOICE_CREATION", user, t2-t1);
+        return o;
     }
 
     @Around("execution(* com.dskimina.logic.BusinessLogic.createUser(..))")

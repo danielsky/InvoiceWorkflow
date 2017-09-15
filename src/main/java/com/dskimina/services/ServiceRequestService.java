@@ -8,6 +8,8 @@ import com.dskimina.enums.WorkflowStep;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.repositories.ServiceRequestRepository;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import java.util.UUID;
 
 @Service
 public class ServiceRequestService {
+
+    private static final Log LOG = LogFactory.getLog(ServiceRequestService.class);
 
     @Autowired
     private ServiceRequestRepository serviceRequestRepository;
@@ -43,7 +47,7 @@ public class ServiceRequestService {
         serviceRequestRepository.delete(serviceRequest);
     }
 
-    public void createServiceRequest(ServiceRequestForm form, Contractor contractor, ContractorServiceData contractorServiceData, User creator, WorkflowStep workflowStep){
+    public String createServiceRequest(ServiceRequestForm form, Contractor contractor, ContractorServiceData contractorServiceData, User creator, WorkflowStep workflowStep){
 
         ServiceRequest serviceRequest = new ServiceRequest();
         serviceRequest.setName(form.getName());
@@ -56,6 +60,7 @@ public class ServiceRequestService {
         serviceRequest.setPrice(form.getPrice());
         serviceRequest.setCurrency(form.getCurrency());
         serviceRequest.setLocation(form.getLocation());
-        serviceRequestRepository.save(serviceRequest);
+        serviceRequest = serviceRequestRepository.save(serviceRequest);
+        return serviceRequest.getIdentifier();
     }
 }

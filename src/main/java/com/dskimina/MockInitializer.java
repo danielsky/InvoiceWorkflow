@@ -3,9 +3,12 @@ package com.dskimina;
 import com.dskimina.enums.Currency;
 import com.dskimina.enums.Role;
 import com.dskimina.exceptions.ObjectNotFoundException;
+import com.dskimina.forms.CommentForm;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.logic.BusinessLogic;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -17,14 +20,19 @@ import javax.annotation.PostConstruct;
 public class MockInitializer {
 
 
+    private static final Log LOG = LogFactory.getLog(MockInitializer.class);
+
     public static final String CREATOR_EMAIL = "daniel@skimina.pl";
+
     @Autowired
     private BusinessLogic businessLogic;
 
     @PostConstruct
     public void init() throws ObjectNotFoundException{
         businessLogic.createUser("Daniel", "Skimina", "daniel@skimina.pl", "1234", Role.EMPLOYEE);
-        businessLogic.createUser("Dominic", "Smith", "dominic@smith.pl", "1234", Role.APPROVER);
+        businessLogic.createUser("Dominic", "Smith", "dominic@asdf.pl", "1234", Role.APPROVER);
+        businessLogic.createUser("Dorian", "Nowak", "dorian@asdf.pl", "1234", Role.EMPLOYEE);
+        businessLogic.createUser("David", "Kowalski", "david@asdf.pl", "1234", Role.EMPLOYEE);
 
         ContractorForm contractor1 = new ContractorForm();
         contractor1.setName("Comarch");
@@ -71,7 +79,7 @@ public class MockInitializer {
         form1.setPrice(125);
         form1.setCurrency(Currency.PLN);
         form1.setLocation("E00-543");
-        businessLogic.createServiceRequest(form1, CREATOR_EMAIL);
+        String serviceRequestId = businessLogic.createServiceRequest(form1, CREATOR_EMAIL);
 
         ServiceRequestForm form2 = new ServiceRequestForm();
         form2.setName("test2");
@@ -82,6 +90,16 @@ public class MockInitializer {
         form2.setLocation("E00-544");
         businessLogic.createServiceRequest(form2, CREATOR_EMAIL);
 
+        CommentForm commentForm1 = new CommentForm();
+        commentForm1.setContent("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque mollis augue urna. Vivamus a orci in nulla eleifend scelerisque. Cras euismod lobortis blandit.");
+        businessLogic.createComment(commentForm1, "dorian@asdf.pl", serviceRequestId);
 
+        CommentForm commentForm2 = new CommentForm();
+        commentForm2.setContent("Nunc et erat a leo elementum tristique. Fusce hendrerit fermentum ligula, vel auctor orci egestas non. In at tortor auctor, lobortis neque ac, mattis nunc.");
+        businessLogic.createComment(commentForm2, "david@asdf.pl", serviceRequestId);
+
+        CommentForm commentForm3 = new CommentForm();
+        commentForm3.setContent("Maecenas mi sem, dignissim at nisi sit amet, dignissim congue turpis. In accumsan iaculis porttitor.");
+        businessLogic.createComment(commentForm3, "dominic@asdf.pl", serviceRequestId);
     }
 }
