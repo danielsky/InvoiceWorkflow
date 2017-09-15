@@ -11,55 +11,55 @@
             <fieldset>
 
                 <div class="col-md-3">
-                    <h4 class="service-request-header">Postęp</h4>
+                    <h3 class="service-request-header">Postęp</h3>
 
-                    <div class="alert alert-success" role="alert">Utworzenie przez anna.nowak@test.pl o 13 Września 13:59:16</div>
-                    <div style="text-align: center">
+                    <div class="alert alert-success workflow-arrow-box" role="alert">Utworzenie przez anna.nowak@test.pl o 13 Września 13:59:16</div>
+                    <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-warning" role="alert">Oczekuje na akceptację kierownika</div>
+                    <div class="alert alert-warning workflow-arrow-box" role="alert">Oczekuje na akceptację kierownika</div>
 
-                    <div style="text-align: center">
+                    <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger" role="alert">Przesłanie do kontrahenta</div>
+                    <div class="alert alert-danger workflow-arrow-box" role="alert">Przesłanie do kontrahenta</div>
 
-                    <div style="text-align: center">
+                    <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger" role="alert">Wgranie faktury od kontrahenta</div>
+                    <div class="alert alert-danger workflow-arrow-box" role="alert">Wgranie faktury od kontrahenta</div>
 
-                    <div style="text-align: center">
+                    <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger" role="alert">Akceptacja usługi przez pracownika</div>
+                    <div class="alert alert-danger workflow-arrow-box" role="alert">Akceptacja usługi przez pracownika</div>
 
-                    <div style="text-align: center">
+                    <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger" role="alert">Akceptacja usługi przez kierownika</div>
+                    <div class="alert alert-danger workflow-arrow-box" role="alert">Akceptacja usługi przez kierownika</div>
 
-                    <div style="text-align: center">
+                    <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger" role="alert">Księgowanie</div>
+                    <div class="alert alert-danger workflow-arrow-box" role="alert">Księgowanie</div>
 
-                    <div style="text-align: center">
+                    <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger" role="alert">Akceptacja kierownika księgowych</div>
+                    <div class="alert alert-danger workflow-arrow-box" role="alert">Akceptacja kierownika księgowych</div>
                 </div>
 
                 <div class="col-md-7 col-md-offset-1">
 
-                    <h4 class="service-request-header">Opis usługi</h4>
+                    <h3 class="service-request-header">Opis usługi</h3>
                     <!-- Name input-->
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="name" th:text="#{newServiceRequest.label.name}"></label>
@@ -103,13 +103,20 @@
                         </div>
                     </div>
 
-                    <h4 class="service-request-header">Dokument</h4>
+                    <h3 class="service-request-header">Dokument</h3>
 
-                    <div></div>
+                    <div class="alert alert-info" role="alert">Brak załączonych plików</div>
 
-                    <h4 class="service-request-header">Komentarze</h4>
+                    <h3 class="service-request-header">Komentarze</h3>
 
-                    <div></div>
+                    <div class="panel panel-default" th:each="comment : ${comments}">
+                        <div class="panel-heading">
+                            <strong th:text="${comment.author}"></strong>
+                            <span> - </span>
+                            <span th:text="${#dates.format(comment.date, 'dd-MM-yyyy')}"></span>
+                        </div>
+                        <div class="panel-body" th:text="${comment.content}"></div>
+                    </div>
 
                 </div>
             </fieldset>

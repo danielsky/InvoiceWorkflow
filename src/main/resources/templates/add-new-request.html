@@ -48,7 +48,7 @@
                 <label class="col-md-4 control-label" for="contractorService" th:text="#{newServiceRequest.label.contractorService}"></label>
                 <div class="col-md-4">
                     <select id="contractorService" name="contractor-service" th:field="*{contractorService}" class="form-control selectpicker" data-live-search="true">
-
+                        <option th:each="contractorService : ${contractorServices}" th:value="${contractorService.id}" th:text="${contractorService.name}"></option>
                     </select>
                 </div>
             </div>

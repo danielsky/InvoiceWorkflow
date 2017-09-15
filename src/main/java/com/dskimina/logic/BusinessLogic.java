@@ -9,6 +9,7 @@ import com.dskimina.enums.WorkflowStep;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.forms.ServiceRequestForm;
+import com.dskimina.model.CommentDTO;
 import com.dskimina.model.ContractorDTO;
 import com.dskimina.model.ContractorServiceDTO;
 import com.dskimina.model.ServiceRequestDTO;
@@ -25,9 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -151,5 +150,16 @@ public class BusinessLogic {
 
     public void removeContractorService(String contractorServiceId) throws ObjectNotFoundException{
         contractorService.removeContractorService(contractorServiceId);
+    }
+
+    public List<CommentDTO> getCommentsForServiceRequestId(String id){
+        List<CommentDTO> comments = new ArrayList<>();
+
+        comments.add(new CommentDTO(UUID.randomUUID().toString(), "text1", "daniel@skimina.pl", new Date()));
+        comments.add(new CommentDTO(UUID.randomUUID().toString(), "text4", "anna@skimina.pl", new Date()));
+        comments.add(new CommentDTO(UUID.randomUUID().toString(), "text5", "regina@skimina.pl", new Date()));
+        comments.add(new CommentDTO(UUID.randomUUID().toString(), "text8", "iwona@skimina.pl", new Date()));
+
+        return comments;
     }
 }

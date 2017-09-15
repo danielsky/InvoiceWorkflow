@@ -16,3 +16,8 @@ body{
 .service-request-header{
     border-bottom: 1px solid #e5e5e5;
 }
+
+.workflow-arrow-box{
+    text-align: center;
+    margin-bottom: 10px;
+}

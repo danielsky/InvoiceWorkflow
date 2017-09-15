@@ -5,6 +5,7 @@ import com.dskimina.enums.Result;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.logic.BusinessLogic;
+import com.dskimina.model.ContractorDTO;
 import com.dskimina.model.ContractorServiceDTO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,11 +46,9 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/request/create")
-    public String addServiceRequest(ModelMap model){
-        model.addAttribute("locations", businessLogic.getLocations());
-        model.addAttribute("contractors", businessLogic.getAllContractors());
+    public String addServiceRequest(ModelMap model) throws ObjectNotFoundException{
+        fillAddServiceRequestModel(model);
         model.addAttribute("serviceRequestForm", new ServiceRequestForm());
-        model.addAttribute("currencies", Currency.values());
         return "add-new-request";
     }
 
@@ -57,9 +56,7 @@ public class MainController {
     public String addServiceRequestProcess(@Valid ServiceRequestForm serviceRequestForm, BindingResult bindingResult, ModelMap model, Principal principal, RedirectAttributes attributes) throws ObjectNotFoundException{
         LOG.info("Post processing");
         if (bindingResult.hasErrors()) {
-            //attributes.addFlashAttribute("result", Result.SERVICE_REQUEST_CREATION_ERROR);
-            model.addAttribute("locations", businessLogic.getLocations());
-            model.addAttribute("contractors", businessLogic.getAllContractors());
+            fillAddServiceRequestModel(model);
             return "add-new-request";
         }else {
             businessLogic.createServiceRequest(serviceRequestForm, principal.getName());
@@ -69,9 +66,22 @@ public class MainController {
         return "redirect:/index";
     }
 
+    private void fillAddServiceRequestModel(ModelMap  model) throws ObjectNotFoundException{
+        model.addAttribute("locations", businessLogic.getLocations());
+        List<ContractorDTO> contractors = businessLogic.getAllContractors();
+        model.addAttribute("contractors", contractors);
+        if(!contractors.isEmpty()) {
+            model.addAttribute("contractorServices", businessLogic.getContractorServices(contractors.get(0).getIdentifier()));
+        }else{
+            model.addAttribute("contractorServices", Collections.emptyList());
+        }
+        model.addAttribute("currencies", Currency.values());
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/request/{id}")
     public String showServiceRequest(@PathVariable("id") String identifier, ModelMap model) throws ObjectNotFoundException{
         model.addAttribute("serviceRequest", businessLogic.getServiceRequest(identifier));
+        model.addAttribute("comments", businessLogic.getCommentsForServiceRequestId(identifier));
         return "service-request";
     }
 
