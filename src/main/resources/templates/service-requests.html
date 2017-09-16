@@ -61,11 +61,11 @@
                     <td th:text="${serviceRequest.name}"></td>
                     <td>
 
-
-                        <th:block th:switch="${serviceRequest.workflowStep.name()}">
+                        <span th:text="#{${serviceRequest.workflowStep.translationKey}}" class="label label-primary"></span>
+                        <!--<th:block th:switch="${serviceRequest.workflowStep.name()}">
                             <span th:case="'CREATED'" th:text="#{${serviceRequest.workflowStep.translationKey}}" class="label label-primary"></span>
                             <span th:case="'WAITING_FOR_FIRST_APPROVE'" th:text="#{${serviceRequest.workflowStep.translationKey}}" class="label label-warning"></span>
-                        </th:block>
+                        </th:block>-->
 
                     </td>
                     <td th:text="${serviceRequest.contractorName}"></td>
@@ -76,6 +76,13 @@
                             <span class="glyphicon glyphicon-info-sign"></span>
                             <span th:text="#{requestsList.tableRow.buttonEdit}"></span>
                         </button>
+                        </a>
+
+                        <a th:href="@{request/{id}/increase(id=${serviceRequest.identifier})}">
+                            <button type="button" class="btn btn-info btn-xs">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                                <span th:text="#{requestsList.tableRow.buttonEdit}"></span>
+                            </button>
                         </a>
 
 

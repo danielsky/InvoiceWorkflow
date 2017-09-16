@@ -92,6 +92,12 @@ public class MainController {
         return new RedirectView("/index", true);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/request/{id}/increase")
+    public RedirectView increaseStageForServiceRequest(@PathVariable("id") String identifier, Principal principal, RedirectAttributes attr) throws ObjectNotFoundException{
+        businessLogic.moveServiceRequestToNextWorkflowStage(identifier, principal.getName());
+        return new RedirectView("/index", true);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/request/{id}/services")
     public ResponseEntity getContractorServices(@PathVariable("id") String identifier){
         List<ContractorServiceDTO> contractorServices;

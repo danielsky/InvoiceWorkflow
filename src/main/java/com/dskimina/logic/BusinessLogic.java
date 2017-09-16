@@ -2,7 +2,6 @@ package com.dskimina.logic;
 
 import com.dskimina.data.*;
 import com.dskimina.enums.Role;
-import com.dskimina.enums.WorkflowStep;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.CommentForm;
 import com.dskimina.forms.ContractorForm;
@@ -46,6 +45,9 @@ public class BusinessLogic {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private WorkflowStageService workflowStageService;
+
 
     public void createUser(String name, String surname, String email, String password, Role role){
         userService.createUser(name, surname, email, password, role);
@@ -56,12 +58,19 @@ public class BusinessLogic {
         Contractor contractor = contractorService.getContractorByIdentifier(serviceRequestForm.getContractor());
         ContractorServiceData contractorServiceData = contractorService.getContractorServiceByIdentifier(serviceRequestForm.getContractorService());
 
-        String serviceRequestId =  serviceRequestService.createServiceRequest(serviceRequestForm, contractor, contractorServiceData, creator, WorkflowStep.WAITING_FOR_FIRST_APPROVE);
+        ServiceRequest serviceRequest =  serviceRequestService.createServiceRequest(serviceRequestForm, contractor, contractorServiceData, creator);
+        workflowStageService.createInitialWorkflowStage(creator, serviceRequest);
 
         String content = mailService.prepareMessage("test user");
         mailService.sendEmail("daniels@asdf.pl", content, "New ServiceRequest created");
 
-        return serviceRequestId;
+        return serviceRequest.getIdentifier();
+    }
+
+    public void moveServiceRequestToNextWorkflowStage(String serviceRequestId, String userEmail) throws ObjectNotFoundException{
+        User user = userService.getByEmail(userEmail);
+        ServiceRequest serviceRequest = serviceRequestService.getServiceRequest(serviceRequestId);
+        workflowStageService.moveServiceRequestToNextWorkflowStage(serviceRequest, user);
     }
 
     public List<ServiceRequestDTO> getAllInvoices(){

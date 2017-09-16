@@ -47,20 +47,19 @@ public class ServiceRequestService {
         serviceRequestRepository.delete(serviceRequest);
     }
 
-    public String createServiceRequest(ServiceRequestForm form, Contractor contractor, ContractorServiceData contractorServiceData, User creator, WorkflowStep workflowStep){
+    public ServiceRequest createServiceRequest(ServiceRequestForm form, Contractor contractor, ContractorServiceData contractorServiceData, User creator){
 
         ServiceRequest serviceRequest = new ServiceRequest();
         serviceRequest.setName(form.getName());
         serviceRequest.setContractor(contractor);
         serviceRequest.setServiceData(contractorServiceData);
         serviceRequest.setIdentifier(UUID.randomUUID().toString());
-        serviceRequest.setWorkflowStep(workflowStep);
+        serviceRequest.setWorkflowStep(WorkflowStep.WAITING_FOR_FIRST_APPROVE);
         serviceRequest.setCreator(creator);
         serviceRequest.setCreationTime(new Date());
         serviceRequest.setPrice(form.getPrice());
         serviceRequest.setCurrency(form.getCurrency());
         serviceRequest.setLocation(form.getLocation());
-        serviceRequest = serviceRequestRepository.save(serviceRequest);
-        return serviceRequest.getIdentifier();
+        return serviceRequestRepository.save(serviceRequest);
     }
 }

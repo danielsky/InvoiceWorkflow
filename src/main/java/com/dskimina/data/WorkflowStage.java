@@ -23,6 +23,8 @@ public class WorkflowStage {
     @ManyToOne
     private ServiceRequest serviceRequest;
 
+    private boolean done;
+
     public long getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class WorkflowStage {
 
     public void setServiceRequest(ServiceRequest serviceRequest) {
         this.serviceRequest = serviceRequest;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }
