@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
@@ -40,7 +41,14 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = {"/", "/index"})
-    public String showServiceRequestList(ModelMap model){
+    public String showServiceRequestList(ModelMap model, HttpServletRequest request){
+        int type = 0;
+        String tempType = request.getParameter("type");
+        if(tempType != null){
+            type = Integer.parseInt(tempType);
+        }
+
+        model.addAttribute("type", type);
         model.addAttribute("serviceRequests", businessLogic.getAllInvoices());
         return "service-requests";
     }

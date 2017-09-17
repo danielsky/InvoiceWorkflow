@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>[REPLACE THIS WITH YOUR TITLE]</title>
@@ -602,39 +603,42 @@
     </style>
 </head>
 <body>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-    <tr>
-        <td class="navbar navbar-inverse" align="center">
-            <!-- This setup makes the nav background stretch the whole width of the screen. -->
-            <table width="650px" cellspacing="0" cellpadding="3" class="container">
-                <tr class="navbar navbar-inverse">
-                    <td colspan="4"><a class="brand" href="[YOUR WEB URL]">Bootstrap For Email</a></td>
-                    <td><ul class="nav pull-right"><li><a href="[YOUR LOGIN URL]">Log On</a></li></ul></td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td bgcolor="#FFFFFF" align="center">
-            <table width="650px" cellspacing="0" cellpadding="3" class="container">
-                <tr>
-                    <td>Hello: @NAME@</td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td bgcolor="#FFFFFF" align="center">
-            <table width="650px" cellspacing="0" cellpadding="3" class="container">
-                <tr>
-                    <td>
-                        <hr>
-                        <p>[PUT YOUR COPYRIGHT OR OTHER FOOTERY GOODNESS HERE]</p>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+<div class="container" style="width: 400px">
+    <div class="alert alert-success">
+        <strong>Witaj <span th:text="${name}">Daniel</span>!</strong>
+        <p>
+            Utworzono nowe zapotrzebowanie. Czy je akceptujesz?
+        </p>
+    </div>
+
+    <div class="well">
+        <strong>Zapotrzebowanie nr <span>#5483778</span></strong>
+        <table class="table" style="margin: 5px">
+            <tr>
+                <td>Kontrahent</td>
+                <td th:text="${serviceRequest.contractor.name}">Google</td>
+            </tr>
+            <tr>
+                <td>Usługa</td>
+                <td th:text="${serviceRequest.serviceData.name}">Consulting</td>
+            </tr>
+            <tr>
+                <td class="success">Cena</td>
+                <td>
+                    <span th:text="${serviceRequest.price}"></span>
+                    &nbsp;
+                    <span th:text="${serviceRequest.currency}"></span>
+                </td>
+            </tr>
+        </table>
+        <div>
+            
+            <a href="http://localhost:8080/workflow/request"><button type="button" class="btn btn-info">Więcej informacji</button></a>
+            <button type="button" class="btn btn-success">Akceptuję</button>
+        </div>
+    </div>
+
+
+</div>
 </body>
 </html>

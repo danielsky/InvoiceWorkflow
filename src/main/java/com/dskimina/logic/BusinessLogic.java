@@ -61,7 +61,7 @@ public class BusinessLogic {
         ServiceRequest serviceRequest =  serviceRequestService.createServiceRequest(serviceRequestForm, contractor, contractorServiceData, creator);
         workflowStageService.createInitialWorkflowStage(creator, serviceRequest);
 
-        String content = mailService.prepareMessage("test user");
+        String content = mailService.prepareServiceRequestCreatedMessage(serviceRequest, "Daniel");
         mailService.sendEmail("daniels@asdf.pl", content, "New ServiceRequest created");
 
         return serviceRequest.getIdentifier();

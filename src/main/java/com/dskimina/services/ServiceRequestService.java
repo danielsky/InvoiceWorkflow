@@ -1,13 +1,12 @@
 package com.dskimina.services;
 
-import com.dskimina.data.Contractor;
-import com.dskimina.data.ContractorServiceData;
-import com.dskimina.data.ServiceRequest;
-import com.dskimina.data.User;
+import com.dskimina.data.*;
 import com.dskimina.enums.WorkflowStep;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ServiceRequestForm;
+import com.dskimina.repositories.CommentRepository;
 import com.dskimina.repositories.ServiceRequestRepository;
+import com.dskimina.repositories.WorkflowStageRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,12 @@ public class ServiceRequestService {
 
     @Autowired
     private ServiceRequestRepository serviceRequestRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private WorkflowStageRepository workflowStageRepository;
 
     public List<ServiceRequest> getAllServiceRequests(){
         List<ServiceRequest> serviceRequestList = new ArrayList<>();
@@ -44,6 +49,12 @@ public class ServiceRequestService {
 
     public void deleteServiceRequest(String identifier) throws ObjectNotFoundException{
         ServiceRequest serviceRequest = getServiceRequest(identifier);
+        for(Comment comment : commentRepository.findByServiceRequest(serviceRequest)){
+            commentRepository.delete(comment);
+        }
+        for(WorkflowStage workflowStage : workflowStageRepository.findByServiceRequest(serviceRequest)){
+            workflowStageRepository.delete(workflowStage);
+        }
         serviceRequestRepository.delete(serviceRequest);
     }
 

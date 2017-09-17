@@ -20,31 +20,29 @@
         </div>
     </th:block>
 
+    <div class="well well-lg">
+        <a th:href="@{/request/create}">
+            <button type="button" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <span th:text="#{requestsList.addButton}"></span>
+            </button>
+        </a>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li role="presentation" th:classappend="${type == 0}? 'active'"><a href="?type=0">Wszystkie</a></li>
+        <li role="presentation" th:classappend="${type == 1}? 'active'"><a href="?type=1">Zaakceptowane</a></li>
+        <li role="presentation" th:classappend="${type == 2}? 'active'"><a href="?type=2">Skończone</a></li>
+    </ul>
+
     <div th:if="${serviceRequests.empty}">
 
         <div class="well well-lg empty-list-box">
             <span th:text="#{requestsList.emptyListMessage}"></span>
-            <br/><br/>
-            <a th:href="@{/request/create}">
-                <button type="button" class="btn btn-success">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    <span th:text="#{requestsList.addButton}"></span>
-                </button>
-            </a>
         </div>
-
 
     </div>
     <div th:unless="${serviceRequests.empty}">
-
-        <div class="well well-lg">
-            <a th:href="@{/request/create}">
-                <button type="button" class="btn btn-success">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    <span th:text="#{requestsList.addButton}"></span>
-                </button>
-            </a>
-        </div>
 
         <table class="table table-hover">
             <thead>
