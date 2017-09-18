@@ -31,6 +31,8 @@ public class MailService extends Authenticator{
     @SuppressWarnings("SpringJavaAutowiringInspection")
     private TemplateEngine templateEngine;
 
+    private boolean senderEnabled = true;
+
 
     public String prepareMessage(String templateName, Map<String, Object> content){
         Context context = new Context();
@@ -63,5 +65,9 @@ public class MailService extends Authenticator{
         } catch (MessagingException e) {
             LOG.warn("Cannot send email", e);
         }
+    }
+
+    public void setSenderEnabled(boolean senderEnabled) {
+        this.senderEnabled = senderEnabled;
     }
 }

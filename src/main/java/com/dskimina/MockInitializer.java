@@ -7,6 +7,7 @@ import com.dskimina.forms.CommentForm;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.logic.BusinessLogic;
+import com.dskimina.services.MailService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,14 @@ public class MockInitializer {
     @Autowired
     private BusinessLogic businessLogic;
 
+    @Autowired
+    private MailService mailService;
+
     @PostConstruct
     public void init() throws ObjectNotFoundException{
+
+        mailService.setSenderEnabled(false);
+
         businessLogic.createUser("Daniel", "Skimina", "daniel@skimina.pl", "1234", Role.EMPLOYEE);
         businessLogic.createUser("Dominic", "Smith", "dominic@asdf.pl", "1234", Role.APPROVER);
         businessLogic.createUser("Dorian", "Nowak", "dorian@asdf.pl", "1234", Role.EMPLOYEE);
@@ -101,5 +108,7 @@ public class MockInitializer {
         CommentForm commentForm3 = new CommentForm();
         commentForm3.setContent("Maecenas mi sem, dignissim at nisi sit amet, dignissim congue turpis. In accumsan iaculis porttitor.");
         businessLogic.createComment(commentForm3, "dominic@asdf.pl", serviceRequestId);
+
+        mailService.setSenderEnabled(true);
     }
 }
