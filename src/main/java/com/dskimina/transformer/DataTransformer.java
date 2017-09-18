@@ -16,6 +16,7 @@ public class DataTransformer {
         dto.setPrice(serviceRequest.getPrice());
         dto.setCurrency(serviceRequest.getCurrency());
         dto.setLocation(serviceRequest.getLocation());
+        dto.setNumber(serviceRequest.getNumber());
         return dto;
     }
 

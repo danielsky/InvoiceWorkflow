@@ -605,25 +605,23 @@
 <body>
 <div class="container" style="width: 400px">
     <div class="alert alert-success">
-        <strong>Witaj <span th:text="${name}">Daniel</span>!</strong>
-        <p>
-            Utworzono nowe zapotrzebowanie. Czy je akceptujesz?
-        </p>
+        <strong th:text="#{mail.serviceRequestCreated.helloMessage(${name})}"></strong>
+        <p th:text="#{mail.serviceRequestCreated.message}"></p>
     </div>
 
     <div class="well">
-        <strong>Zapotrzebowanie nr <span>#5483778</span></strong>
+        <strong th:text="#{mail.serviceRequestCreated.serviceRequestNumber(${serviceRequest.number})}"></strong>
         <table class="table" style="margin: 5px">
             <tr>
-                <td>Kontrahent</td>
+                <td th:text="#{mail.serviceRequestCreated.contractorLabel}"></td>
                 <td th:text="${serviceRequest.contractor.name}">Google</td>
             </tr>
             <tr>
-                <td>Usługa</td>
+                <td th:text="#{mail.serviceRequestCreated.contractorServiceLabel}"></td>
                 <td th:text="${serviceRequest.serviceData.name}">Consulting</td>
             </tr>
             <tr>
-                <td class="success">Cena</td>
+                <td class="success" th:text="#{mail.serviceRequestCreated.priceLabel}"></td>
                 <td>
                     <span th:text="${serviceRequest.price}"></span>
                     &nbsp;
@@ -633,8 +631,10 @@
         </table>
         <div>
             
-            <a href="http://localhost:8080/workflow/request"><button type="button" class="btn btn-info">Więcej informacji</button></a>
-            <button type="button" class="btn btn-success">Akceptuję</button>
+            <a href="http://localhost:8080/workflow/request">
+                <button type="button" class="btn btn-info" th:text="#{mail.serviceRequestCreated.moreInfoButton}"></button>
+            </a>
+            <button type="button" class="btn btn-success" th:text="#{mail.serviceRequestCreated.acceptButton}"></button>
         </div>
     </div>
 

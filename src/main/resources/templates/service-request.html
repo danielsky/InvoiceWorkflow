@@ -59,18 +59,26 @@
 
                 <div class="col-md-7 col-md-offset-1">
 
-                    <h3 class="service-request-header">Opis usługi</h3>
+                    <h3 class="service-request-header" th:text="#{serviceRequest.header.serviceDescription}"></h3>
+                    <!-- NUMBER input-->
+                    <div class="form-group">
+                        <div class="col-md-8 service-request-number">
+                            <span>#</span>
+                            <span id="number" th:text="*{number}"></span>
+                        </div>
+                    </div>
+
                     <!-- Name input-->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="name" th:text="#{newServiceRequest.label.name}"></label>
+                        <label class="col-md-4 control-label" for="name" th:text="#{serviceRequest.label.name}"></label>
                         <div class="col-md-4">
-                            <input id="name" name="name" type="text" th:field="*{name}"class="form-control input-md" readonly="readonly"/>
+                            <input id="name" name="name" type="text" th:field="*{name}" class="form-control input-md" readonly="readonly"/>
                         </div>
                     </div>
 
                     <!-- Location -->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="location" th:text="#{newServiceRequest.label.location}"></label>
+                        <label class="col-md-4 control-label" for="location" th:text="#{serviceRequest.label.location}"></label>
                         <div class="col-md-4">
                             <input id="location" name="location" th:field="*{location}" class="form-control input-md" readonly="readonly"/>
                         </div>
@@ -78,7 +86,7 @@
 
                     <!-- Contractor -->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="contractor" th:text="#{newServiceRequest.label.contractor}"></label>
+                        <label class="col-md-4 control-label" for="contractor" th:text="#{serviceRequest.label.contractor}"></label>
                         <div class="col-md-4">
                             <input id="contractor" name="contractor" th:field="*{contractorName}" class="form-control input-md" readonly="readonly"/>
                         </div>
@@ -86,7 +94,7 @@
 
                     <!-- Contractor Service -->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="contractorService" th:text="#{newServiceRequest.label.contractorService}"></label>
+                        <label class="col-md-4 control-label" for="contractorService" th:text="#{serviceRequest.label.contractorService}"></label>
                         <div class="col-md-4">
                             <input id="contractorService" name="contractor-service" th:field="*{contractorService}" class="form-control input-md" readonly="readonly"/>
                         </div>
@@ -94,7 +102,7 @@
 
                     <!-- Price -->
                     <div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
-                        <label class="col-md-4 control-label" for="price" th:text="#{newServiceRequest.label.price}"></label>
+                        <label class="col-md-4 control-label" for="price" th:text="#{serviceRequest.label.price}"></label>
                         <div class="col-md-4">
                             <div class="input-group">
                                 <input id="price" name="price" th:field="*{price}" class="form-control input-md" readonly="readonly" />

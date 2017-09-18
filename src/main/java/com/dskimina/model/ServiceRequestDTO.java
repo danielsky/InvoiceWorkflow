@@ -13,6 +13,8 @@ public class ServiceRequestDTO {
 
     private String identifier;
 
+    private Integer number;
+
     private WorkflowStep workflowStep;
 
     private String contractorName;
@@ -97,5 +99,13 @@ public class ServiceRequestDTO {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 }

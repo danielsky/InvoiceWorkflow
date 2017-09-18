@@ -59,7 +59,6 @@ public class ServiceRequestService {
     }
 
     public ServiceRequest createServiceRequest(ServiceRequestForm form, Contractor contractor, ContractorServiceData contractorServiceData, User creator){
-
         ServiceRequest serviceRequest = new ServiceRequest();
         serviceRequest.setName(form.getName());
         serviceRequest.setContractor(contractor);
@@ -71,6 +70,9 @@ public class ServiceRequestService {
         serviceRequest.setPrice(form.getPrice());
         serviceRequest.setCurrency(form.getCurrency());
         serviceRequest.setLocation(form.getLocation());
+
+        Integer number = serviceRequestRepository.findMaxNumber();
+        serviceRequest.setNumber(number+1);
         return serviceRequestRepository.save(serviceRequest);
     }
 }

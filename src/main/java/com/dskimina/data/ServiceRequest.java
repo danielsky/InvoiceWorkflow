@@ -6,14 +6,18 @@ import com.dskimina.enums.WorkflowStep;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
+@Entity(name = ServiceRequest.TABLE_NAME)
 public class ServiceRequest {
+
+    public static final String TABLE_NAME = "service_request";
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
     private String identifier;
+
+    private Integer number;
 
     private String name;
 
@@ -124,5 +128,13 @@ public class ServiceRequest {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 }
