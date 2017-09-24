@@ -24,12 +24,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
-                csrf().
-                    csrfTokenRepository(csrfTokenRepository())
+                csrf()
+                    .ignoringAntMatchers("/external/*")
+                    .csrfTokenRepository(csrfTokenRepository())
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/css/*", "/js/*", "/fonts/*", "/images/*")
-                    .permitAll()
+                    .antMatchers("/css/*", "/js/*", "/fonts/*", "/images/*").permitAll()
+                    .antMatchers("/external/*").permitAll()
                     .anyRequest()
                     .authenticated()
                 .and()
