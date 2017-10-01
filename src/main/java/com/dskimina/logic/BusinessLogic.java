@@ -48,6 +48,9 @@ public class BusinessLogic {
     @Autowired
     private WorkflowStageService workflowStageService;
 
+    @Autowired
+    private SecurityCodeService securityCodeService;
+
 
     public void createUser(String name, String surname, String email, String password, Role role){
         userService.createUser(name, surname, email, password, role);
@@ -61,8 +64,10 @@ public class BusinessLogic {
         ServiceRequest serviceRequest =  serviceRequestService.createServiceRequest(serviceRequestForm, contractor, contractorServiceData, creator);
         workflowStageService.createInitialWorkflowStage(creator, serviceRequest);
 
-        String content = mailService.prepareServiceRequestCreatedMessage(serviceRequest, "Daniel");
-        mailService.sendEmail("daniels@asdf.pl", content, "New ServiceRequest created");
+        User approver = userService.getApprover();
+
+        String content = mailService.prepareServiceRequestCreatedMessage(serviceRequest, approver);
+        mailService.sendEmail(approver, content, "New ServiceRequest created");
 
         return serviceRequest.getIdentifier();
     }
@@ -126,20 +131,6 @@ public class BusinessLogic {
     }
 
     public List<ContractorServiceDTO> getContractorServices(String contractorId) throws ObjectNotFoundException{
-        /*try {
-            List<ContractorServiceDTO> services = new LinkedList<>();
-            List<String> names =  IOUtils.readLines(BusinessLogic.class.getResourceAsStream("/locations/services.dat"), "UTF8");
-            for(String name : names){
-                ContractorServiceDTO dto = new ContractorServiceDTO();
-                dto.setId(UUID.randomUUID().toString());
-                dto.setName(name);
-                services.add(dto);
-            }
-            return services;
-        } catch (IOException e) {
-            LOG.info("Problem with reading locations", e);
-            return Collections.emptyList();
-        }*/
         List<ContractorServiceDTO> dtoList = new ArrayList<>();
         for(ContractorServiceData contractorServiceData : contractorService.getContractorServicesByContractorIdentifier(contractorId)){
             dtoList.add(DataTransformer.convert(contractorServiceData));

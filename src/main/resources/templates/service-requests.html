@@ -60,10 +60,6 @@
                     <td>
 
                         <span th:text="#{${serviceRequest.workflowStep.translationKey}}" class="label label-primary"></span>
-                        <!--<th:block th:switch="${serviceRequest.workflowStep.name()}">
-                            <span th:case="'CREATED'" th:text="#{${serviceRequest.workflowStep.translationKey}}" class="label label-primary"></span>
-                            <span th:case="'WAITING_FOR_FIRST_APPROVE'" th:text="#{${serviceRequest.workflowStep.translationKey}}" class="label label-warning"></span>
-                        </th:block>-->
 
                     </td>
                     <td th:text="${serviceRequest.contractorName}"></td>

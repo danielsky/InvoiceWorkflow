@@ -1,6 +1,7 @@
 package com.dskimina.services;
 
 import com.dskimina.data.ServiceRequest;
+import com.dskimina.data.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import javax.mail.MessagingException;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Map;
 
 @Service
 public class MailService extends Authenticator{
@@ -33,37 +33,29 @@ public class MailService extends Authenticator{
 
     private boolean senderEnabled = true;
 
-
-    public String prepareMessage(String templateName, Map<String, Object> content){
+    public String prepareServiceRequestCreatedMessage(ServiceRequest serviceRequest, User approver){
         Context context = new Context();
-        for(Map.Entry<String, Object> entry : content.entrySet()){
-            context.setVariable(entry.getKey(), entry.getValue());
-        }
-
-        return templateEngine.process("mail/"+templateName, context);
-    }
-
-    public String prepareServiceRequestCreatedMessage(ServiceRequest serviceRequest, String receiverName){
-        Context context = new Context();
-        context.setVariable("name", receiverName);
+        context.setVariable("user", approver);
         context.setVariable("serviceRequest", serviceRequest);
         return templateEngine.process("mail/invoice-created", context);
     }
 
     @Async
-    public void sendEmail(String email, String content, String topic){
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            message.setFrom(new InternetAddress("dskimina.dev@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject(topic);
-            message.setContent(content, "text/html; charset=UTF-8");
+    public void sendEmail(User approver, String content, String topic){
+        if(senderEnabled) {
+            try {
+                MimeMessage message = mailSender.createMimeMessage();
+                message.setFrom(new InternetAddress("dskimina.dev@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(approver.getEmail()));
+                message.setSubject(topic);
+                message.setContent(content, "text/html; charset=UTF-8");
 
-            mailSender.send(message);
-            Transport.send(message);
-            LOG.info("Send email to: "+email+" complete");
-        } catch (MessagingException e) {
-            LOG.warn("Cannot send email", e);
+                mailSender.send(message);
+                Transport.send(message);
+                LOG.info("Send email to: " + approver.getEmail() + " complete");
+            } catch (MessagingException e) {
+                LOG.warn("Cannot send email", e);
+            }
         }
     }
 

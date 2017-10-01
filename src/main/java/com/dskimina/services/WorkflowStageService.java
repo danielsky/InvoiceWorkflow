@@ -43,7 +43,6 @@ public class WorkflowStageService {
 
     public void moveServiceRequestToNextWorkflowStage(ServiceRequest serviceRequest, User owner){
         WorkflowStage workflowStage = workflowStageRepository.getByServiceRequestAndDone(serviceRequest, false);
-        //WorkflowStage workflowStage = getByServiceRequestAndDone(serviceRequest);
         if (workflowStage != null) {
             workflowStage.setDate(new Date());
             workflowStage.setOwner(owner);

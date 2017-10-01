@@ -88,6 +88,8 @@ public class MockInitializer {
         form1.setLocation("E00-543");
         String serviceRequestId = businessLogic.createServiceRequest(form1, CREATOR_EMAIL);
 
+        mailService.setSenderEnabled(true);
+
         ServiceRequestForm form2 = new ServiceRequestForm();
         form2.setName("test2");
         form2.setContractor(contractorId2);
@@ -108,7 +110,5 @@ public class MockInitializer {
         CommentForm commentForm3 = new CommentForm();
         commentForm3.setContent("Maecenas mi sem, dignissim at nisi sit amet, dignissim congue turpis. In accumsan iaculis porttitor.");
         businessLogic.createComment(commentForm3, "dominic@asdf.pl", serviceRequestId);
-
-        mailService.setSenderEnabled(true);
     }
 }
