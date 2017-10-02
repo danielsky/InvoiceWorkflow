@@ -1,6 +1,7 @@
 package com.dskimina.logic;
 
 import com.dskimina.data.*;
+import com.dskimina.domain.MailHolder;
 import com.dskimina.enums.Role;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.CommentForm;
@@ -65,9 +66,9 @@ public class BusinessLogic {
         workflowStageService.createInitialWorkflowStage(creator, serviceRequest);
 
         User approver = userService.getApprover();
-
-        String content = mailService.prepareServiceRequestCreatedMessage(serviceRequest, approver);
-        mailService.sendEmail(approver, content, "New ServiceRequest created");
+        SecurityCode securityCode = securityCodeService.createSecurityCode(approver, serviceRequest);
+        MailHolder mailHolder = mailService.prepareServiceRequestCreatedMessage(serviceRequest, approver, securityCode);
+        mailService.sendEmail(approver, mailHolder);
 
         return serviceRequest.getIdentifier();
     }

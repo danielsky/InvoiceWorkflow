@@ -631,10 +631,13 @@
         </table>
         <div>
             
-            <a href="http://localhost:8080/workflow/request">
+            <a th:href="${host + '/request/'+serviceRequest.getIdentifier()}">
                 <button type="button" class="btn btn-info" th:text="#{mail.serviceRequestCreated.moreInfoButton}"></button>
             </a>
-            <button type="button" class="btn btn-success" th:text="#{mail.serviceRequestCreated.acceptButton}"></button>
+
+            <a th:href="${host + '/external/accept-first?serviceRequest='+serviceRequest.getIdentifier()+'&securityCode='+securityCode.getCode()}">
+                <button type="button" class="btn btn-success" th:text="#{mail.serviceRequestCreated.acceptButton}"></button>
+            </a>
         </div>
     </div>
 

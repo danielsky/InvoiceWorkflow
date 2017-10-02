@@ -1,4 +1,4 @@
-package com.dskimina;
+package com.dskimina.domain;
 
 /**
  * Created by Daniel on 15.08.2017.

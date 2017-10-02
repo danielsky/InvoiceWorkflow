@@ -33,6 +33,10 @@ public class SecurityCodeService {
         return securityCodeRepository.getByCode(code);
     }
 
+    public void removeSecurityCode(SecurityCode securityCode){
+        securityCodeRepository.delete(securityCode);
+    }
+
     private String generateSecurityCode(){
         byte[] bytes = new byte[16];
         secureRandom.nextBytes(bytes);

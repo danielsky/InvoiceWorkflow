@@ -4,6 +4,7 @@ import com.dskimina.enums.Role;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Locale;
 
 @Entity
 public class User implements Serializable{
@@ -14,6 +15,8 @@ public class User implements Serializable{
 
     private String name;
     private String surname;
+
+    private Locale locale = Locale.US;
 
     private String email;
     private String passwordHash;
@@ -68,5 +71,13 @@ public class User implements Serializable{
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 }
