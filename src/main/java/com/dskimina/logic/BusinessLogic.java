@@ -3,14 +3,12 @@ package com.dskimina.logic;
 import com.dskimina.data.*;
 import com.dskimina.domain.MailHolder;
 import com.dskimina.enums.Role;
+import com.dskimina.enums.WorkflowStep;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.CommentForm;
 import com.dskimina.forms.ContractorForm;
 import com.dskimina.forms.ServiceRequestForm;
-import com.dskimina.model.CommentDTO;
-import com.dskimina.model.ContractorDTO;
-import com.dskimina.model.ContractorServiceDTO;
-import com.dskimina.model.ServiceRequestDTO;
+import com.dskimina.model.*;
 import com.dskimina.services.*;
 import com.dskimina.transformer.DataTransformer;
 import org.apache.commons.io.IOUtils;
@@ -21,9 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -169,5 +165,15 @@ public class BusinessLogic {
             dtoList.add(DataTransformer.convert(comment));
         }
         return dtoList;
+    }
+
+    public Map<WorkflowStep, WorkflowStageDTO> getWorkflowForServiceRequestId(String id) throws ObjectNotFoundException{
+
+        ServiceRequest serviceRequest = serviceRequestService.getServiceRequest(id);
+        Map<WorkflowStep, WorkflowStageDTO> dtoMap = new HashMap<>();
+        for(WorkflowStage workflowStage : workflowStageService.getWorkflowStagesForServiceRequest(serviceRequest)){
+            dtoMap.put(workflowStage.getWorkflowStep(), DataTransformer.convert(workflowStage));
+        }
+        return dtoMap;
     }
 }

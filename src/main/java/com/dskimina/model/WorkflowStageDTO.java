@@ -10,6 +10,7 @@ public class WorkflowStageDTO {
     private WorkflowStep workflowStep;
     private Date date;
     private String owner;
+    private boolean done;
 
     public WorkflowStep getWorkflowStep() {
         return workflowStep;
@@ -33,5 +34,13 @@ public class WorkflowStageDTO {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }

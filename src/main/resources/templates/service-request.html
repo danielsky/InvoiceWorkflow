@@ -11,20 +11,61 @@
             <fieldset>
 
                 <div class="col-md-3">
-                    <h3 class="service-request-header">Postęp</h3>
+                    <h3 class="service-request-header">
+                        <span th:text="#{serviceRequest.workflowSteps.progressLabel}"></span>
+                    </h3>
 
-                    <div class="alert alert-success workflow-arrow-box" role="alert">Utworzenie przez anna.nowak@test.pl o 13 Września 13:59:16</div>
+                    <th:block th:with="step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).CREATED)}">
+                        <div th:if="${step != null}" class="alert alert-success workflow-arrow-box" role="alert">
+                                <span th:utext="#{serviceRequest.workflowStep.created.done(${step.owner})}"></span>
+                                <br/>
+                                <span style="font-size: 11px" th:text="${#dates.format(step.date,'dd-MM-yyyy HH:mm')}"></span>
+                        </div>
+                        <div th:unless="${step != null}">
+                            <span>Error occurred. Please inform administrator.</span>
+                        </div>
+                    </th:block>
+
+
                     <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-warning workflow-arrow-box" role="alert">Oczekuje na akceptację kierownika</div>
+                    <th:block th:with="step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_FIRST_APPROVE)}">
+                        <th:block th:if="${step != null}">
+                            <div th:if="${step.done}" class="alert alert-success workflow-arrow-box" role="alert">
+                                <span th:utext="#{serviceRequest.workflowStep.waitingForFirstApprove.done(${step.owner})}"></span>
+                                <br/>
+                                <span class="date-time" th:text="${#dates.format(step.date,'dd-MM-yyyy HH:mm')}"></span>
+                            </div>
+                            <div th:unless="${step.done}" class="alert alert-warning workflow-arrow-box" role="alert">
+                                <span th:text="#{serviceRequest.workflowStep.waitingForFirstApprove.notDone}"></span>
+                            </div>
+                        </th:block>
+                        <div th:unless="${step != null}" class="alert alert-danger workflow-arrow-box" role="alert">
+                            <span th:text="#{serviceRequest.workflowStep.waitingForFirstApprove.notDone}"></span>
+                        </div>
+                    </th:block>
 
                     <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger workflow-arrow-box" role="alert">Przesłanie do kontrahenta</div>
+                    <th:block th:with="step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_ORDER_SERVICE_FROM_CONTRACTOR)}">
+                        <th:block th:if="${step != null}">
+                            <div th:if="${step.done}" class="alert alert-success workflow-arrow-box" role="alert">
+                                <span th:utext="#{serviceRequest.workflowStep.waitingForFirstApprove.done(${step.owner})}"></span>
+                                <br/>
+                                <span class="date-time" th:text="${#dates.format(step.date,'dd-MM-yyyy HH:mm')}"></span>
+                            </div>
+                            <div th:unless="${step.done}" class="alert alert-warning workflow-arrow-box" role="alert">
+                                <span th:text="#{serviceRequest.workflowStep.waitingForOrderServiceFromContractor.notDone}"></span>
+                            </div>
+                        </th:block>
+                        <div th:unless="${step != null}" class="alert alert-danger workflow-arrow-box" role="alert">
+                            <span th:text="#{serviceRequest.workflowStep.waitingForOrderServiceFromContractor.notDone}"></span>
+                        </div>
+                    </th:block>
 
                     <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>

@@ -24,6 +24,10 @@ body{
     margin-bottom: 10px;
 }
 
+.workflow-arrow-box .date-time{
+    font-size: 11px;
+}
+
 .no-attachments-message{
     text-align: center;
     margin: 30px 0px;

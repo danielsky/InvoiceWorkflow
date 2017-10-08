@@ -90,6 +90,7 @@ public class MainController {
     public String showServiceRequest(@PathVariable("id") String identifier, ModelMap model) throws ObjectNotFoundException{
         model.addAttribute("serviceRequest", businessLogic.getServiceRequest(identifier));
         model.addAttribute("comments", businessLogic.getCommentsForServiceRequestId(identifier));
+        model.addAttribute("workflow", businessLogic.getWorkflowForServiceRequestId(identifier));
         return "service-request";
     }
 

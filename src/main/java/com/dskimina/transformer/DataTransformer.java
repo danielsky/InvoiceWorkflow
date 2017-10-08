@@ -50,8 +50,10 @@ public class DataTransformer {
     public static WorkflowStageDTO convert(WorkflowStage workflowStage){
         WorkflowStageDTO dto = new WorkflowStageDTO();
         dto.setDate(workflowStage.getDate());
-        dto.setOwner(workflowStage.getOwner().getEmail());
+        User owner = workflowStage.getOwner();
+        dto.setOwner(owner != null ? owner.getEmail() : null);
         dto.setWorkflowStep(workflowStage.getWorkflowStep());
+        dto.setDone(workflowStage.isDone());
         return dto;
     }
 
