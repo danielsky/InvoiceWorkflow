@@ -19,7 +19,7 @@
                         <div th:if="${step != null}" class="alert alert-success workflow-arrow-box" role="alert">
                                 <span th:utext="#{serviceRequest.workflowStep.created.done(${step.owner})}"></span>
                                 <br/>
-                                <span style="font-size: 11px" th:text="${#dates.format(step.date,'dd-MM-yyyy HH:mm')}"></span>
+                                <span class="date-time" th:text="${#dates.format(step.date,'dd-MM-yyyy HH:mm:ss')}"></span>
                         </div>
                         <div th:unless="${step != null}">
                             <span>Error occurred. Please inform administrator.</span>
@@ -31,71 +31,78 @@
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <th:block th:with="step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_FIRST_APPROVE)}">
-                        <th:block th:if="${step != null}">
-                            <div th:if="${step.done}" class="alert alert-success workflow-arrow-box" role="alert">
-                                <span th:utext="#{serviceRequest.workflowStep.waitingForFirstApprove.done(${step.owner})}"></span>
-                                <br/>
-                                <span class="date-time" th:text="${#dates.format(step.date,'dd-MM-yyyy HH:mm')}"></span>
-                            </div>
-                            <div th:unless="${step.done}" class="alert alert-warning workflow-arrow-box" role="alert">
-                                <span th:text="#{serviceRequest.workflowStep.waitingForFirstApprove.notDone}"></span>
-                            </div>
-                        </th:block>
-                        <div th:unless="${step != null}" class="alert alert-danger workflow-arrow-box" role="alert">
-                            <span th:text="#{serviceRequest.workflowStep.waitingForFirstApprove.notDone}"></span>
-                        </div>
+                    <th:block th:with="
+                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_FIRST_APPROVE)},
+                                done = 'serviceRequest.workflowStep.waitingForFirstApprove.done',
+                                notDone = 'serviceRequest.workflowStep.waitingForFirstApprove.notDone'">
+                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
                     </th:block>
 
                     <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <th:block th:with="step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_ORDER_SERVICE_FROM_CONTRACTOR)}">
-                        <th:block th:if="${step != null}">
-                            <div th:if="${step.done}" class="alert alert-success workflow-arrow-box" role="alert">
-                                <span th:utext="#{serviceRequest.workflowStep.waitingForFirstApprove.done(${step.owner})}"></span>
-                                <br/>
-                                <span class="date-time" th:text="${#dates.format(step.date,'dd-MM-yyyy HH:mm')}"></span>
-                            </div>
-                            <div th:unless="${step.done}" class="alert alert-warning workflow-arrow-box" role="alert">
-                                <span th:text="#{serviceRequest.workflowStep.waitingForOrderServiceFromContractor.notDone}"></span>
-                            </div>
-                        </th:block>
-                        <div th:unless="${step != null}" class="alert alert-danger workflow-arrow-box" role="alert">
-                            <span th:text="#{serviceRequest.workflowStep.waitingForOrderServiceFromContractor.notDone}"></span>
-                        </div>
+                    <th:block th:with="
+                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_ORDER_SERVICE_FROM_CONTRACTOR)},
+                                done = 'serviceRequest.workflowStep.waitingForOrderServiceFromContractor.done',
+                                notDone = 'serviceRequest.workflowStep.waitingForOrderServiceFromContractor.notDone'">
+                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
                     </th:block>
 
                     <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger workflow-arrow-box" role="alert">Wgranie faktury od kontrahenta</div>
+                    <th:block th:with="
+                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_UPLOAD_INVOICE_BY_CONTRACTOR)},
+                                done = 'serviceRequest.workflowStep.waitingForUploadInvoiceByContractor.done',
+                                notDone = 'serviceRequest.workflowStep.waitingForUploadInvoiceByContractor.notDone'">
+                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+                    </th:block>
 
                     <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger workflow-arrow-box" role="alert">Akceptacja usługi przez pracownika</div>
+                    <th:block th:with="
+                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCEPTANCE_BY_EMPLOYEE)},
+                                done = 'serviceRequest.workflowStep.waitingForServiceAcceptanceByEmployee.done',
+                                notDone = 'serviceRequest.workflowStep.waitingForServiceAcceptanceByEmployee.notDone'">
+                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+                    </th:block>
 
                     <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger workflow-arrow-box" role="alert">Akceptacja usługi przez kierownika</div>
+                    <th:block th:with="
+                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCEPTANCE_BY_SUPERVISOR)},
+                                done = 'serviceRequest.workflowStep.waitingForServiceAcceptanceBySupervisor.done',
+                                notDone = 'serviceRequest.workflowStep.waitingForServiceAcceptanceBySupervisor.notDone'">
+                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+                    </th:block>
 
                     <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger workflow-arrow-box" role="alert">Księgowanie</div>
+                    <th:block th:with="
+                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCOUNTING)},
+                                done = 'serviceRequest.workflowStep.waitingForServiceAccounting.done',
+                                notDone = 'serviceRequest.workflowStep.waitingForServiceAccounting.notDone'">
+                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+                    </th:block>
 
                     <div class="workflow-arrow-box">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                     </div>
 
-                    <div class="alert alert-danger workflow-arrow-box" role="alert">Akceptacja kierownika księgowych</div>
+                    <th:block th:with="
+                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCOUNTING_ACCEPTANCE)},
+                                done = 'serviceRequest.workflowStep.waitingForServiceAccountingAcceptance.done',
+                                notDone = 'serviceRequest.workflowStep.waitingForServiceAccountingAcceptance.notDone'">
+                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+                    </th:block>
                 </div>
 
                 <div class="col-md-7 col-md-offset-1">
