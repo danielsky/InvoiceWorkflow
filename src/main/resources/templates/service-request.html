@@ -107,6 +107,16 @@
 
                 <div class="col-md-7 col-md-offset-1">
 
+                    <h3 class="service-request-header" th:text="#{serviceRequest.header.actions}"></h3>
+
+                    <div class="well">
+                        <a th:href="@{request/{id}/increase(id=${serviceRequest.identifier})}">
+                            <button type="button" class="btn btn-info btn-xs">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </a>
+                    </div>
+
                     <h3 class="service-request-header" th:text="#{serviceRequest.header.serviceDescription}"></h3>
                     <!-- NUMBER input-->
                     <div class="form-group">
