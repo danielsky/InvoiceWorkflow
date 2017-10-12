@@ -14,10 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -104,7 +102,13 @@ public class MainController {
     @RequestMapping(method = RequestMethod.GET, value = "/request/{id}/increase")
     public RedirectView increaseStageForServiceRequest(@PathVariable("id") String identifier, Principal principal, RedirectAttributes attr) throws ObjectNotFoundException{
         businessLogic.moveServiceRequestToNextWorkflowStage(identifier, principal.getName());
-        return new RedirectView("/index", true);
+        return new RedirectView("/request/"+identifier, true);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/request/{id}/document")
+    public RedirectView uploadDocument(@PathVariable("id") String identifier, @RequestParam("media") MultipartFile file, RedirectAttributes attr) throws ObjectNotFoundException{
+        LOG.info("File name: "+file.getName());
+        return new RedirectView("/request/"+identifier, true);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/request/{id}/services")

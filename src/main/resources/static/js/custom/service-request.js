@@ -1,8 +1,20 @@
 $( document ).ready(function() {
 
-    $(document).on("click", ".remove-service-request", function () {
-        var invoiceId = $(this).data('id');
-        $("#deleteInvoiceForm").attr('action', 'request/'+invoiceId+'/delete' );
+    $('#docUpload').on('submit', function (event) {
+        event.preventDefault();
+        var formData = new FormData($('#docUpload'));
+        var urlData = $('#docUpload').attr('action');
+        $.ajax({
+            type: 'POST',
+            url: urlData,
+            data: formData,
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentData: false,
+            success: function(){
+                alert('File uploaded');
+            }
+        })
     });
 
 });

@@ -1,204 +1,208 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/base-template :: headSection (customJS=null)"/>
+<head th:replace="fragments/base-template :: headSection (customJS='service-request.js')"/>
 <body>
 
 <nav th:replace="fragments/base-template :: navbar-section"/>
 
 <div class="container" style="margin-top: 100px">
+    <div class="col-md-3">
+        <h3 class="service-request-header">
+            <span th:text="#{serviceRequest.workflowSteps.progressLabel}"></span>
+        </h3>
+
+        <th:block th:with="step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).CREATED)}">
+            <div th:if="${step != null}" class="alert alert-success workflow-arrow-box" role="alert">
+                    <span th:utext="#{serviceRequest.workflowStep.created.done(${step.owner})}"></span>
+                    <br/>
+                    <span class="date-time" th:text="${#dates.format(step.date,'dd-MM-yyyy HH:mm:ss')}"></span>
+            </div>
+            <div th:unless="${step != null}">
+                <span>Error occurred. Please inform administrator.</span>
+            </div>
+        </th:block>
+
+
+        <div class="workflow-arrow-box">
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </div>
+
+        <th:block th:with="
+                    step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_FIRST_APPROVE)},
+                    done = 'serviceRequest.workflowStep.waitingForFirstApprove.done',
+                    notDone = 'serviceRequest.workflowStep.waitingForFirstApprove.notDone'">
+            <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+        </th:block>
+
+        <div class="workflow-arrow-box">
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </div>
+
+        <th:block th:with="
+                    step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_ORDER_SERVICE_FROM_CONTRACTOR)},
+                    done = 'serviceRequest.workflowStep.waitingForOrderServiceFromContractor.done',
+                    notDone = 'serviceRequest.workflowStep.waitingForOrderServiceFromContractor.notDone'">
+            <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+        </th:block>
+
+        <div class="workflow-arrow-box">
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </div>
+
+        <th:block th:with="
+                    step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_UPLOAD_INVOICE_BY_CONTRACTOR)},
+                    done = 'serviceRequest.workflowStep.waitingForUploadInvoiceByContractor.done',
+                    notDone = 'serviceRequest.workflowStep.waitingForUploadInvoiceByContractor.notDone'">
+            <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+        </th:block>
+
+        <div class="workflow-arrow-box">
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </div>
+
+        <th:block th:with="
+                    step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCEPTANCE_BY_EMPLOYEE)},
+                    done = 'serviceRequest.workflowStep.waitingForServiceAcceptanceByEmployee.done',
+                    notDone = 'serviceRequest.workflowStep.waitingForServiceAcceptanceByEmployee.notDone'">
+            <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+        </th:block>
+
+        <div class="workflow-arrow-box">
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </div>
+
+        <th:block th:with="
+                    step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCEPTANCE_BY_SUPERVISOR)},
+                    done = 'serviceRequest.workflowStep.waitingForServiceAcceptanceBySupervisor.done',
+                    notDone = 'serviceRequest.workflowStep.waitingForServiceAcceptanceBySupervisor.notDone'">
+            <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+        </th:block>
+
+        <div class="workflow-arrow-box">
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </div>
+
+        <th:block th:with="
+                    step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCOUNTING)},
+                    done = 'serviceRequest.workflowStep.waitingForServiceAccounting.done',
+                    notDone = 'serviceRequest.workflowStep.waitingForServiceAccounting.notDone'">
+            <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+        </th:block>
+
+        <div class="workflow-arrow-box">
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </div>
+
+        <th:block th:with="
+                    step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCOUNTING_ACCEPTANCE)},
+                    done = 'serviceRequest.workflowStep.waitingForServiceAccountingAcceptance.done',
+                    notDone = 'serviceRequest.workflowStep.waitingForServiceAccountingAcceptance.notDone'">
+            <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
+        </th:block>
+    </div>
+
+    <div class="col-md-7 col-md-offset-1">
+
+        <h3 class="service-request-header" th:text="#{serviceRequest.header.actions}"></h3>
+
+        <div class="well">
+            <a th:href="@{/request/{id}/increase(id=${serviceRequest.identifier})}">
+                <button type="button" class="btn btn-info btn-xs">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </a>
+        </div>
+
+        <h3 class="service-request-header" th:text="#{serviceRequest.header.serviceDescription}"></h3>
 
         <form class="form-horizontal" th:object="${serviceRequest}">
             <fieldset>
-
-                <div class="col-md-3">
-                    <h3 class="service-request-header">
-                        <span th:text="#{serviceRequest.workflowSteps.progressLabel}"></span>
-                    </h3>
-
-                    <th:block th:with="step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).CREATED)}">
-                        <div th:if="${step != null}" class="alert alert-success workflow-arrow-box" role="alert">
-                                <span th:utext="#{serviceRequest.workflowStep.created.done(${step.owner})}"></span>
-                                <br/>
-                                <span class="date-time" th:text="${#dates.format(step.date,'dd-MM-yyyy HH:mm:ss')}"></span>
-                        </div>
-                        <div th:unless="${step != null}">
-                            <span>Error occurred. Please inform administrator.</span>
-                        </div>
-                    </th:block>
-
-
-                    <div class="workflow-arrow-box">
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                <!-- NUMBER input-->
+                <div class="form-group">
+                    <div class="col-md-8 service-request-number">
+                        <span>#</span>
+                        <span id="number" th:text="*{number}"></span>
                     </div>
-
-                    <th:block th:with="
-                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_FIRST_APPROVE)},
-                                done = 'serviceRequest.workflowStep.waitingForFirstApprove.done',
-                                notDone = 'serviceRequest.workflowStep.waitingForFirstApprove.notDone'">
-                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
-                    </th:block>
-
-                    <div class="workflow-arrow-box">
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                    </div>
-
-                    <th:block th:with="
-                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_ORDER_SERVICE_FROM_CONTRACTOR)},
-                                done = 'serviceRequest.workflowStep.waitingForOrderServiceFromContractor.done',
-                                notDone = 'serviceRequest.workflowStep.waitingForOrderServiceFromContractor.notDone'">
-                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
-                    </th:block>
-
-                    <div class="workflow-arrow-box">
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                    </div>
-
-                    <th:block th:with="
-                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_UPLOAD_INVOICE_BY_CONTRACTOR)},
-                                done = 'serviceRequest.workflowStep.waitingForUploadInvoiceByContractor.done',
-                                notDone = 'serviceRequest.workflowStep.waitingForUploadInvoiceByContractor.notDone'">
-                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
-                    </th:block>
-
-                    <div class="workflow-arrow-box">
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                    </div>
-
-                    <th:block th:with="
-                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCEPTANCE_BY_EMPLOYEE)},
-                                done = 'serviceRequest.workflowStep.waitingForServiceAcceptanceByEmployee.done',
-                                notDone = 'serviceRequest.workflowStep.waitingForServiceAcceptanceByEmployee.notDone'">
-                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
-                    </th:block>
-
-                    <div class="workflow-arrow-box">
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                    </div>
-
-                    <th:block th:with="
-                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCEPTANCE_BY_SUPERVISOR)},
-                                done = 'serviceRequest.workflowStep.waitingForServiceAcceptanceBySupervisor.done',
-                                notDone = 'serviceRequest.workflowStep.waitingForServiceAcceptanceBySupervisor.notDone'">
-                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
-                    </th:block>
-
-                    <div class="workflow-arrow-box">
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                    </div>
-
-                    <th:block th:with="
-                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCOUNTING)},
-                                done = 'serviceRequest.workflowStep.waitingForServiceAccounting.done',
-                                notDone = 'serviceRequest.workflowStep.waitingForServiceAccounting.notDone'">
-                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
-                    </th:block>
-
-                    <div class="workflow-arrow-box">
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                    </div>
-
-                    <th:block th:with="
-                                step = ${workflow.get(T(com.dskimina.enums.WorkflowStep).WAITING_FOR_SERVICE_ACCOUNTING_ACCEPTANCE)},
-                                done = 'serviceRequest.workflowStep.waitingForServiceAccountingAcceptance.done',
-                                notDone = 'serviceRequest.workflowStep.waitingForServiceAccountingAcceptance.notDone'">
-                        <div th:replace="fragments/base-template :: workflowStepSection(workflowStep=${step},translationDone=${done},translationNotDone=${notDone})"></div>
-                    </th:block>
                 </div>
 
-                <div class="col-md-7 col-md-offset-1">
-
-                    <h3 class="service-request-header" th:text="#{serviceRequest.header.actions}"></h3>
-
-                    <div class="well">
-                        <a th:href="@{request/{id}/increase(id=${serviceRequest.identifier})}">
-                            <button type="button" class="btn btn-info btn-xs">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </a>
+                <!-- Name input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="name" th:text="#{serviceRequest.label.name}"></label>
+                    <div class="col-md-4">
+                        <input id="name" name="name" type="text" th:field="*{name}" class="form-control input-md" readonly="readonly"/>
                     </div>
+                </div>
 
-                    <h3 class="service-request-header" th:text="#{serviceRequest.header.serviceDescription}"></h3>
-                    <!-- NUMBER input-->
-                    <div class="form-group">
-                        <div class="col-md-8 service-request-number">
-                            <span>#</span>
-                            <span id="number" th:text="*{number}"></span>
+                <!-- Location -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="location" th:text="#{serviceRequest.label.location}"></label>
+                    <div class="col-md-4">
+                        <input id="location" name="location" th:field="*{location}" class="form-control input-md" readonly="readonly"/>
+                    </div>
+                </div>
+
+                <!-- Contractor -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="contractor" th:text="#{serviceRequest.label.contractor}"></label>
+                    <div class="col-md-4">
+                        <input id="contractor" name="contractor" th:field="*{contractorName}" class="form-control input-md" readonly="readonly"/>
+                    </div>
+                </div>
+
+                <!-- Contractor Service -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="contractorService" th:text="#{serviceRequest.label.contractorService}"></label>
+                    <div class="col-md-4">
+                        <input id="contractorService" name="contractor-service" th:field="*{contractorService}" class="form-control input-md" readonly="readonly"/>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
+                    <label class="col-md-4 control-label" for="price" th:text="#{serviceRequest.label.price}"></label>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input id="price" name="price" th:field="*{price}" class="form-control input-md" readonly="readonly" />
+                            <span id="currency" th:text="*{currency}" class="input-group-addon"></span>
                         </div>
                     </div>
-
-                    <!-- Name input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="name" th:text="#{serviceRequest.label.name}"></label>
-                        <div class="col-md-4">
-                            <input id="name" name="name" type="text" th:field="*{name}" class="form-control input-md" readonly="readonly"/>
-                        </div>
-                    </div>
-
-                    <!-- Location -->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="location" th:text="#{serviceRequest.label.location}"></label>
-                        <div class="col-md-4">
-                            <input id="location" name="location" th:field="*{location}" class="form-control input-md" readonly="readonly"/>
-                        </div>
-                    </div>
-
-                    <!-- Contractor -->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="contractor" th:text="#{serviceRequest.label.contractor}"></label>
-                        <div class="col-md-4">
-                            <input id="contractor" name="contractor" th:field="*{contractorName}" class="form-control input-md" readonly="readonly"/>
-                        </div>
-                    </div>
-
-                    <!-- Contractor Service -->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="contractorService" th:text="#{serviceRequest.label.contractorService}"></label>
-                        <div class="col-md-4">
-                            <input id="contractorService" name="contractor-service" th:field="*{contractorService}" class="form-control input-md" readonly="readonly"/>
-                        </div>
-                    </div>
-
-                    <!-- Price -->
-                    <div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
-                        <label class="col-md-4 control-label" for="price" th:text="#{serviceRequest.label.price}"></label>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <input id="price" name="price" th:field="*{price}" class="form-control input-md" readonly="readonly" />
-                                <span id="currency" th:text="*{currency}" class="input-group-addon"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3 class="service-request-header">Dokument</h3>
-
-                    <div class="no-attachments-message">
-                        <span class="label label-default">Brak załączonych plików</span>
-                    </div>
-
-                    <h3 class="service-request-header">Komentarze</h3>
-
-                    <div class="panel panel-info" th:each="comment : ${comments}">
-                        <div class="panel-heading smaller-heading-padding">
-                            <div class="pull-left">
-                                <small>
-                                    <strong th:text="${comment.author}"></strong>
-                                </small>
-                            </div>
-                            <div class="pull-right">
-                                <small>
-                                    <span th:text="${#dates.format(comment.date, 'dd-MM-yyyy hh:mm')}"></span>
-                                </small>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-
-                        <div class="panel-body" th:text="${comment.content}"></div>
-                    </div>
-
                 </div>
             </fieldset>
         </form>
 
+        <h3 class="service-request-header">Dokument</h3>
+
+        <div class="no-attachments-message">
+            <span class="label label-default">Brak załączonych plików</span>
+        </div>
+        <div>
+            <form id="docUpload" method="post" enctype="multipart/form-data" th:action="@{/request/{id}/document(id=${serviceRequest.identifier})}">
+                <input type="file" id="media" name="media"/>
+                <input type="submit" value="Upload"/>
+            </form>
+        </div>
+
+        <h3 class="service-request-header">Komentarze</h3>
+
+        <div class="panel panel-info" th:each="comment : ${comments}">
+            <div class="panel-heading smaller-heading-padding">
+                <div class="pull-left">
+                    <small>
+                        <strong th:text="${comment.author}"></strong>
+                    </small>
+                </div>
+                <div class="pull-right">
+                    <small>
+                        <span th:text="${#dates.format(comment.date, 'dd-MM-yyyy hh:mm')}"></span>
+                    </small>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="panel-body" th:text="${comment.content}"></div>
+        </div>
+
+    </div>
 </div>
 </body>
 </html>
