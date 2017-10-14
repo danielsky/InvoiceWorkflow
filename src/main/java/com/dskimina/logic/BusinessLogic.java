@@ -2,7 +2,6 @@ package com.dskimina.logic;
 
 import com.dskimina.data.*;
 import com.dskimina.domain.MailHolder;
-import com.dskimina.enums.Role;
 import com.dskimina.enums.WorkflowStep;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.CommentForm;
@@ -49,7 +48,7 @@ public class BusinessLogic {
     private SecurityCodeService securityCodeService;
 
 
-    public void createUser(String name, String surname, String email, String password, Role role){
+    public void createUser(String name, String surname, String email, String password, String role){
         userService.createUser(name, surname, email, password, role);
     }
 

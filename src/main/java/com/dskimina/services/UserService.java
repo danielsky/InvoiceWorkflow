@@ -32,7 +32,7 @@ public class UserService {
         return user;
     }
 
-    public void createUser(String name, String surname, String email, String password, Role role){
+    public void createUser(String name, String surname, String email, String password, String role){
         User user = new User();
         user.setName(name);
         user.setSurname(surname);

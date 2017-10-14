@@ -1,5 +1,6 @@
 package com.dskimina.config;
 
+import com.dskimina.domain.SuccessAuthHandler;
 import com.dskimina.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                     .loginPage("/login")
                     .usernameParameter("userEmail")
+                    .successHandler(new SuccessAuthHandler())
                     .permitAll()
                 .and()
                     .logout()

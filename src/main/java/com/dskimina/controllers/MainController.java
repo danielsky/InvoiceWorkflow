@@ -2,6 +2,7 @@ package com.dskimina.controllers;
 
 import com.dskimina.enums.Currency;
 import com.dskimina.enums.Result;
+import com.dskimina.enums.Role;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.logic.BusinessLogic;
@@ -11,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -105,10 +107,16 @@ public class MainController {
         return new RedirectView("/request/"+identifier, true);
     }
 
+    @Secured(Role.EMPLOYEE)
+    @RequestMapping(method = RequestMethod.GET, value = "/role")
+    public ResponseEntity getRoleEmployee(){
+        return ResponseEntity.ok(Role.EMPLOYEE);
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/request/{id}/document")
-    public RedirectView uploadDocument(@PathVariable("id") String identifier, @RequestParam("media") MultipartFile file, RedirectAttributes attr) throws ObjectNotFoundException{
+    public ResponseEntity uploadDocument(@PathVariable("id") String identifier, @RequestParam("media") MultipartFile file, RedirectAttributes attr) throws ObjectNotFoundException{
         LOG.info("File name: "+file.getName());
-        return new RedirectView("/request/"+identifier, true);
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/request/{id}/services")

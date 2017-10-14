@@ -1,8 +1,9 @@
 package com.dskimina.data;
 
-import com.dskimina.enums.Role;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Locale;
 
@@ -21,8 +22,7 @@ public class User implements Serializable{
     private String email;
     private String passwordHash;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String role;
 
 
     public Long getId() {
@@ -65,11 +65,11 @@ public class User implements Serializable{
         this.passwordHash = passwordHash;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
