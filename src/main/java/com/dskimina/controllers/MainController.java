@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
+@Secured({Role.EMPLOYEE,Role.APPROVER,Role.ADMIN})
 public class MainController {
 
     private static final Log LOG = LogFactory.getLog(MainController.class);
@@ -107,7 +108,6 @@ public class MainController {
         return new RedirectView("/request/"+identifier, true);
     }
 
-    @Secured(Role.EMPLOYEE)
     @RequestMapping(method = RequestMethod.GET, value = "/role")
     public ResponseEntity getRoleEmployee(){
         return ResponseEntity.ok(Role.EMPLOYEE);

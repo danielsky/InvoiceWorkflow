@@ -1,5 +1,6 @@
 package com.dskimina.domain;
 
+import com.dskimina.enums.Role;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -18,14 +19,29 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        String targetUrl = isContractor(authentication) ? "/cmodule" : "/";
+        String targetUrl = "/";
+        if(isContractor(authentication)){
+            targetUrl = "/cmodule/";
+        }else if(isAdmin(authentication)){
+            targetUrl = "/logs";
+        }
         redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, targetUrl);
     }
 
     private boolean isContractor(Authentication authentication) {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("CONTRACTOR")) {
+            if (grantedAuthority.getAuthority().equals(Role.CONTRACTOR)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isAdmin(Authentication authentication) {
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        for (GrantedAuthority grantedAuthority : authorities) {
+            if (grantedAuthority.getAuthority().equals(Role.ADMIN)) {
                 return true;
             }
         }

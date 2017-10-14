@@ -41,6 +41,7 @@ public class MockInitializer {
         businessLogic.createUser("Dorian", "Nowak", "dorian@asdf.pl", "1234", Role.EMPLOYEE);
         businessLogic.createUser("David", "Kowalski", "david@asdf.pl", "1234", Role.EMPLOYEE);
         businessLogic.createUser("Thomas", "Muller", "thomas@asdf.pl", "1234", Role.CONTRACTOR);
+        businessLogic.createUser("Admin", "Root", "admin@asdf.pl", "1234", Role.ADMIN);
 
         ContractorForm contractor1 = new ContractorForm();
         contractor1.setName("Comarch");
