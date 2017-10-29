@@ -189,7 +189,7 @@
 
         <h3 class="service-request-header">Komentarze</h3>
 
-        <div class="panel panel-info" th:each="comment : ${comments}">
+        <div th:id="${comment.identifier}" class="panel panel-info" th:each="comment : ${comments}">
             <div class="panel-heading smaller-heading-padding">
                 <div class="pull-left">
                     <small>
@@ -206,7 +206,26 @@
 
             <div class="panel-body" th:text="${comment.content}"></div>
         </div>
-
+        <form method="POST" th:object="${commentForm}" th:action="@{/request/{id}/comment(id=${serviceRequest.identifier})}">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <label for="comment">
+                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                        <span>Skomentuj</span>
+                    </label>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <textarea th:field="*{content}" class="form-control" rows="5" id="comment"></textarea>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group" role="group">
+                        <button type="submit" class="btn btn-default pull-right">Dodaj komentarz</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 </body>

@@ -4,6 +4,7 @@ import com.dskimina.enums.Currency;
 import com.dskimina.enums.Result;
 import com.dskimina.enums.Role;
 import com.dskimina.exceptions.ObjectNotFoundException;
+import com.dskimina.forms.CommentForm;
 import com.dskimina.forms.ServiceRequestForm;
 import com.dskimina.logic.BusinessLogic;
 import com.dskimina.model.ContractorDTO;
@@ -92,6 +93,7 @@ public class MainController {
         model.addAttribute("serviceRequest", businessLogic.getServiceRequest(identifier));
         model.addAttribute("comments", businessLogic.getCommentsForServiceRequestId(identifier));
         model.addAttribute("workflow", businessLogic.getWorkflowForServiceRequestId(identifier));
+        model.addAttribute("commentForm", new CommentForm());
         return "service-request";
     }
 
@@ -129,5 +131,19 @@ public class MainController {
             return ResponseEntity.ok(Collections.emptyList());
         }
         return ResponseEntity.ok(contractorServices);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/request/{id}/comment")
+    public RedirectView addComment(@PathVariable("id") String identifier, @Valid CommentForm commentForm, Principal principal){
+        String commentId = null;
+        if(!commentForm.getContent().isEmpty()) {
+            try {
+                commentId = businessLogic.createComment(commentForm, principal.getName(), identifier);
+            } catch (ObjectNotFoundException e) {
+                LOG.info("Cannot contractor for id " + identifier);
+            }
+        }
+        commentId = commentId != null ? ("#"+commentId) : "";
+        return new RedirectView("/request/"+identifier + commentId, true);
     }
 }
