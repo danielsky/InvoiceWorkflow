@@ -1,0 +1,25 @@
+TODO:
+
+[] moduł użytkowy
+    - dodawanie komentarzy
+    - wgrywanie dokumentów
+    - przyciski kontekstowe na widoku zapotrzebowania
+
+[cmodule] moduł dla kontrahentów:
+    - edycja danych kontrahenta
+    - zmiana hasła
+    - dodawanie usług
+    - listowanie aktualnych zapotrzebowań
+    - oznaczanie zapotrzebowania jako wykonanego, połączone z uploadem dokumentu
+
+[admin] moduł dla administratora
+    - zatwierdzanie nowego uzytkownika
+    - podgląd logów
+    - nadawanie roli użytkownikowi
+
+[newuser] moduł dla nowego użytkownika
+    - stworzenie konta
+
+[reset] moduł resetowania hasła dla użytkownika
+    - formularz z podaniem adresu email
+    - formularz z resetem hasła
