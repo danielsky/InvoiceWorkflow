@@ -215,8 +215,9 @@
                     </label>
                 </div>
                 <div class="panel-body">
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${emptyComment} ? 'has-error'">
                         <textarea th:field="*{content}" class="form-control" rows="5" id="comment"></textarea>
+                        <span class="help-block" th:if="${emptyComment}" th:text="#{newComment.validation.emptyContent}"></span>
                     </div>
                 </div>
                 <div class="panel-footer">

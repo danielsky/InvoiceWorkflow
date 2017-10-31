@@ -134,16 +134,20 @@ public class MainController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/request/{id}/comment")
-    public RedirectView addComment(@PathVariable("id") String identifier, @Valid CommentForm commentForm, Principal principal){
+    public RedirectView addComment(@PathVariable("id") String identifier, @Valid CommentForm commentForm, BindingResult bindingResult, Principal principal, RedirectAttributes ra) throws ObjectNotFoundException{
         String commentId = null;
-        if(!commentForm.getContent().isEmpty()) {
+        if (bindingResult.hasErrors()) {
+            ra.addFlashAttribute("emptyComment", true);
+            commentId = "#comment";
+        }else {
             try {
                 commentId = businessLogic.createComment(commentForm, principal.getName(), identifier);
             } catch (ObjectNotFoundException e) {
                 LOG.info("Cannot contractor for id " + identifier);
+                ra.addFlashAttribute("errorComment", true);
             }
+            commentId = commentId != null ? ("#" + commentId) : "";
         }
-        commentId = commentId != null ? ("#"+commentId) : "";
         return new RedirectView("/request/"+identifier + commentId, true);
     }
 }
