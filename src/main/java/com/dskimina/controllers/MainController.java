@@ -33,6 +33,7 @@ import java.util.List;
 public class MainController {
 
     private static final Log LOG = LogFactory.getLog(MainController.class);
+    public static final String COMMENT_FORM = "commentForm";
 
     @Autowired
     private BusinessLogic businessLogic;
@@ -72,7 +73,6 @@ public class MainController {
             businessLogic.createServiceRequest(serviceRequestForm, principal.getName());
             attributes.addFlashAttribute("result", Result.SERVICE_REQUEST_CREATED);
         }
-        //return new RedirectView("/index", true);
         return "redirect:/index";
     }
 
@@ -93,7 +93,9 @@ public class MainController {
         model.addAttribute("serviceRequest", businessLogic.getServiceRequest(identifier));
         model.addAttribute("comments", businessLogic.getCommentsForServiceRequestId(identifier));
         model.addAttribute("workflow", businessLogic.getWorkflowForServiceRequestId(identifier));
-        model.addAttribute("commentForm", new CommentForm());
+        if (!model.containsAttribute(COMMENT_FORM)) {
+            model.addAttribute(COMMENT_FORM, new CommentForm());
+        }
         return "service-request";
     }
 
@@ -138,6 +140,7 @@ public class MainController {
         String commentId = null;
         if (bindingResult.hasErrors()) {
             ra.addFlashAttribute("emptyComment", true);
+            ra.addFlashAttribute(COMMENT_FORM, commentForm);
             commentId = "#comment";
         }else {
             try {
