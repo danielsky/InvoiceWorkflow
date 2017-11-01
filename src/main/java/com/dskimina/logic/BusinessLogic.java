@@ -47,6 +47,9 @@ public class BusinessLogic {
     @Autowired
     private SecurityCodeService securityCodeService;
 
+    @Autowired
+    private ResetCodeService resetCodeService;
+
 
     public void createUser(String name, String surname, String email, String password, String role){
         userService.createUser(name, surname, email, password, role);
@@ -174,5 +177,21 @@ public class BusinessLogic {
             dtoMap.put(workflowStage.getWorkflowStep(), DataTransformer.convert(workflowStage));
         }
         return dtoMap;
+    }
+
+    public boolean createResetPasswordLinkForEmail(String email) {
+        User user;
+        try {
+            user = userService.getByEmail(email);
+        } catch (ObjectNotFoundException e) {
+            LOG.debug("User not found by email for resetting password: "+email, e);
+            return false;
+        }
+
+        ResetCode resetCode = resetCodeService.createResetCode(user);
+        LOG.info("Sending reset email with id: "+resetCode.getCode());
+        //TODO: send email to reset
+        return true;
+
     }
 }

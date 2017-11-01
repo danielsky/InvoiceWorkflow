@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Resetowanie hasła</title>
+
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}"/>
+
+    <!-- Custom theme -->
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script th:src="@{/js/bootstrap.min.js}" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script th:src="@{/js/bootstrap-select.min.js}"></script>
+
+</head>
+<body>
+
+    <div class="reset-page-box">
+
+        <div th:if="${result}" class="alert alert-success" role="alert">
+            <span>Link do resetu hasła został wysłany na podany email!</span>
+        </div>
+
+        <div class="well">
+            <form class="form-reset" method="post" th:action="@{/reset-pass}">
+                <span>Podaj adres email na który zostanie wysłany link do resetu hasła</span>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="email" placeholder="User email"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Wyślij</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
