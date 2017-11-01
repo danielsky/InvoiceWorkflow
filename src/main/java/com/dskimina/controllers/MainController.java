@@ -139,8 +139,8 @@ public class MainController {
     public RedirectView addComment(@PathVariable("id") String identifier, @Valid CommentForm commentForm, BindingResult bindingResult, Principal principal, RedirectAttributes ra) throws ObjectNotFoundException{
         String commentId = null;
         if (bindingResult.hasErrors()) {
-            ra.addFlashAttribute("emptyComment", true);
             ra.addFlashAttribute(COMMENT_FORM, commentForm);
+            ra.addFlashAttribute("org.springframework.validation.BindingResult.commentForm", bindingResult);
             commentId = "#comment";
         }else {
             try {
