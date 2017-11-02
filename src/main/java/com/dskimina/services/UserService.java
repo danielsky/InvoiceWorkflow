@@ -60,4 +60,9 @@ public class UserService {
         return users;
     }
 
+    public void changePasswordForUser(String newPassword, User user){
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
 }

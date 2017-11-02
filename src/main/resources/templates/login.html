@@ -30,6 +30,9 @@
         <div th:if="${param.logout}" class="alert alert-info" role="alert">
             <span th:text="#{login.logout.message}"></span>
         </div>
+        <div th:if="${passwordReset}" class="alert alert-success" role="alert">
+            <span>Hasło zostało zmienione pomyślnie. Teraz możesz się zalogować</span>
+        </div>
 
         <div class="well">
             <form class="form-signin" method="post" th:action="@{/login}">

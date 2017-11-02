@@ -66,7 +66,7 @@ public class BusinessLogic {
         User approver = userService.getApprover();
         SecurityCode securityCode = securityCodeService.createSecurityCode(approver, serviceRequest);
         MailHolder mailHolder = mailService.prepareServiceRequestCreatedMessage(serviceRequest, approver, securityCode);
-        mailService.sendEmail(approver, mailHolder);
+        mailService.sendEmail(mailHolder);
 
         return serviceRequest.getIdentifier();
     }
@@ -190,8 +190,19 @@ public class BusinessLogic {
 
         ResetCode resetCode = resetCodeService.createResetCode(user);
         LOG.info("Sending reset email with id: "+resetCode.getCode());
-        //TODO: send email to reset
+        MailHolder mailHolder = mailService.prepareResetPasswordMessage(user, resetCode);
+        mailService.sendEmail(mailHolder);
         return true;
 
+    }
+
+    public boolean isResetCodeInvalid(String id) {
+        return resetCodeService.isResetCodeInvalid(id);
+    }
+
+    public void resetPasswordForId(String id, String newPass) {
+        ResetCode resetCode = resetCodeService.getResetCodeByCode(id);
+        userService.changePasswordForUser(newPass, resetCode.getUser());
+        resetCodeService.removeResetCode(resetCode);
     }
 }

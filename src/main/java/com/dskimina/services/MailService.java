@@ -1,5 +1,6 @@
 package com.dskimina.services;
 
+import com.dskimina.data.ResetCode;
 import com.dskimina.data.SecurityCode;
 import com.dskimina.data.ServiceRequest;
 import com.dskimina.data.User;
@@ -21,6 +22,7 @@ import javax.mail.MessagingException;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Locale;
 
 @Service
 public class MailService extends Authenticator{
@@ -54,22 +56,38 @@ public class MailService extends Authenticator{
 
         mailHolder.setContent(templateEngine.process("mail/invoice-created", context));
         mailHolder.setSubject(messageSource.getMessage("mail.subject.serviceRequest.created", null, approver.getLocale()));
+        mailHolder.setRecipient(approver.getEmail());
+        return mailHolder;
+    }
+
+    public MailHolder prepareResetPasswordMessage(User user, ResetCode resetCode){
+        MailHolder mailHolder = new MailHolder();
+        Locale locale = user.getLocale();
+
+        Context context = new Context(locale);
+        context.setVariable("user", user);
+        context.setVariable("resetCode", resetCode);
+        context.setVariable("host", env.getProperty("workflow.context"));
+
+        mailHolder.setContent(templateEngine.process("mail/reset-password", context));
+        mailHolder.setSubject(messageSource.getMessage("mail.subject.resetPassword", null, locale));
+        mailHolder.setRecipient(user.getEmail());
         return mailHolder;
     }
 
     @Async
-    public void sendEmail(User approver, MailHolder mailHolder){
+    public void sendEmail(MailHolder mailHolder){
         if(senderEnabled) {
             try {
                 MimeMessage message = mailSender.createMimeMessage();
                 message.setFrom(new InternetAddress("dskimina.dev@gmail.com"));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(approver.getEmail()));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailHolder.getRecipient()));
                 message.setSubject(mailHolder.getSubject());
                 message.setContent(mailHolder.getContent(), "text/html; charset=UTF-8");
 
                 mailSender.send(message);
                 Transport.send(message);
-                LOG.info("Send email to: " + approver.getEmail() + " complete");
+                LOG.info("Send email to: " + mailHolder.getRecipient() + " complete");
             } catch (MessagingException e) {
                 LOG.warn("Cannot send email", e);
             }
