@@ -1,6 +1,6 @@
 package com.dskimina.config;
 
-import com.dskimina.domain.SuccessAuthHandler;
+import com.dskimina.containers.SuccessAuthHandler;
 import com.dskimina.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -49,11 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll();
     }
 
-    /*@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user@onet.pl").password("password").roles("USER");
-    }*/
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -66,8 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider
-                = new DaoAuthenticationProvider();
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(authenticationService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;

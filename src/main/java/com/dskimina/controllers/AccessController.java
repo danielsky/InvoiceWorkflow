@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
-public class SecurityController {
+public class AccessController {
 
     @Autowired
     private BusinessLogic logic;

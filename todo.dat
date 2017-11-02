@@ -21,5 +21,5 @@ TODO:
     - stworzenie konta
 
 [reset] moduł resetowania hasła dla użytkownika
-    - formularz z podaniem adresu email
-    - formularz z resetem hasła
+    + formularz z podaniem adresu email
+    + formularz z resetem hasła
