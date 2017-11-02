@@ -57,4 +57,12 @@ public class DataTransformer {
         return dto;
     }
 
+    public static DocumentDTO convert(Document document){
+        DocumentDTO dto = new DocumentDTO();
+        dto.setName(document.getName());
+        dto.setIdentifier(document.getIdentifier());
+        dto.setSize(document.getFile().getSize());
+        return dto;
+    }
+
 }

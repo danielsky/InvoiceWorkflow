@@ -1,5 +1,6 @@
 package com.dskimina.controllers;
 
+import com.dskimina.containers.DocumentHolder;
 import com.dskimina.enums.Currency;
 import com.dskimina.enums.Result;
 import com.dskimina.enums.Role;
@@ -12,7 +13,7 @@ import com.dskimina.model.ContractorServiceDTO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -93,6 +94,7 @@ public class MainController {
         model.addAttribute("serviceRequest", businessLogic.getServiceRequest(identifier));
         model.addAttribute("comments", businessLogic.getCommentsForServiceRequestId(identifier));
         model.addAttribute("workflow", businessLogic.getWorkflowForServiceRequestId(identifier));
+        model.addAttribute("documents", businessLogic.getDocumentsForServiceRequest(identifier));
         if (!model.containsAttribute(COMMENT_FORM_ATTR)) {
             model.addAttribute(COMMENT_FORM_ATTR, new CommentForm());
         }
@@ -119,8 +121,24 @@ public class MainController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/request/{id}/document")
     public ResponseEntity uploadDocument(@PathVariable("id") String identifier, @RequestParam("media") MultipartFile file, RedirectAttributes attr) throws ObjectNotFoundException{
+        String fileId = businessLogic.addDocumentToServiceRequest(identifier, file);
         LOG.info("File name: "+file.getName());
-        return ResponseEntity.ok().build();
+        if(fileId != null) {
+            return ResponseEntity.ok(fileId);
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/request/{id}/document/{docId}")
+    public HttpEntity<byte[]> getDocument(@PathVariable("id") String identifier, @PathVariable("docId") String docId) throws ObjectNotFoundException{
+
+        DocumentHolder documentHolder = businessLogic.getDocument(identifier, docId);
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_PDF);
+        header.set(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=" + documentHolder.getName().replace(" ", "_"));
+        header.setContentLength(documentHolder.getContent().length);
+        return new HttpEntity<>(documentHolder.getContent(), header);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/request/{id}/services")

@@ -3,9 +3,11 @@ package com.dskimina.repositories;
 import com.dskimina.data.ServiceRequest;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface ServiceRequestRepository extends CrudRepository<ServiceRequest, Long> {
 
     List<ServiceRequest> findByName(String lastName);

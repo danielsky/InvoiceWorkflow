@@ -172,8 +172,19 @@
 
         <h3 class="service-request-header">Dokument</h3>
 
-        <div class="no-attachments-message">
+        <div th:if="${documents.empty}" class="no-attachments-message">
             <span class="label label-default">Brak załączonych plików</span>
+        </div>
+        <div th:unless="${documents.empty}">
+            <h3>Załączone pliki:</h3>
+            <ul id="documentsList">
+                <li th:each="document : ${documents}">
+                    <a th:href="@{/request/{id}/document/{docId}(id=${serviceRequest.identifier},docId=${document.identifier})}">
+                        <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                        <span th:text="${document.name}"></span>
+                    </a>
+                </li>
+            </ul>
         </div>
         <div>
             <form id="docUpload" method="post" enctype="multipart/form-data" th:action="@{/request/{id}/document(id=${serviceRequest.identifier})}">

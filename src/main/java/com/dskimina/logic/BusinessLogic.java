@@ -1,5 +1,6 @@
 package com.dskimina.logic;
 
+import com.dskimina.containers.DocumentHolder;
 import com.dskimina.containers.MailHolder;
 import com.dskimina.data.*;
 import com.dskimina.enums.WorkflowStep;
@@ -16,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
@@ -49,6 +51,9 @@ public class BusinessLogic {
 
     @Autowired
     private ResetCodeService resetCodeService;
+
+    @Autowired
+    private DocumentService documentService;
 
 
     public void createUser(String name, String surname, String email, String password, String role){
@@ -204,5 +209,35 @@ public class BusinessLogic {
         ResetCode resetCode = resetCodeService.getResetCodeByCode(id);
         userService.changePasswordForUser(newPass, resetCode.getUser());
         resetCodeService.removeResetCode(resetCode);
+    }
+
+    public String addDocumentToServiceRequest(String identifier, MultipartFile file) throws ObjectNotFoundException{
+        ServiceRequest serviceRequest = serviceRequestService.getServiceRequest(identifier);
+        Document document;
+        try {
+            document = documentService.createDocumentForServiceRequest(file.getName(), serviceRequest, file.getBytes());
+        } catch (IOException e) {
+            LOG.info("Cannot extract document.", e);
+            return null;
+        }
+        return document.getIdentifier();
+    }
+
+    public DocumentHolder getDocument(String identifier, String docId)  throws ObjectNotFoundException{
+        ServiceRequest serviceRequest = serviceRequestService.getServiceRequest(identifier);
+        Document document = documentService.getDocumentForServiceRequestAndDocumentId(serviceRequest, docId);
+        DocumentHolder documentHolder = new DocumentHolder();
+        documentHolder.setName(document.getName());
+        documentHolder.setContent(document.getFile().getContent());
+        return documentHolder;
+    }
+
+    public List<DocumentDTO> getDocumentsForServiceRequest(String identifier)  throws ObjectNotFoundException{
+        ServiceRequest serviceRequest = serviceRequestService.getServiceRequest(identifier);
+        List<DocumentDTO> documents = new ArrayList<>();
+        for(Document document : documentService.getDocumentsForServiceRequest(serviceRequest)){
+            documents.add(DataTransformer.convert(document));
+        }
+        return documents;
     }
 }

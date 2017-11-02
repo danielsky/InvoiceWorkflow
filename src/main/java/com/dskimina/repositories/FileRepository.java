@@ -1,11 +1,11 @@
 package com.dskimina.repositories;
 
-import com.dskimina.data.Contractor;
+import com.dskimina.data.File;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ContractorRepository extends CrudRepository<Contractor, Long> {
+public interface FileRepository extends CrudRepository<File, Long> {
 
-    Contractor getByIdentifier(String id);
+    File getByIdentifier(String identifier);
 }

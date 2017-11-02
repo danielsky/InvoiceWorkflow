@@ -2,9 +2,8 @@ package com.dskimina.repositories;
 
 import com.dskimina.data.Log;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-/**
- * Created by Daniel on 21.08.2017.
- */
+@Repository
 public interface LogRepository extends CrudRepository<Log, Long> {
 }

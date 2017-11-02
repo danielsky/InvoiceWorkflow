@@ -31,8 +31,9 @@ $( document ).ready(function() {
             data: formData,
             processData: false,
             contentType: false,
-            success: function(){
-                alert('File uploaded');
+            success: function(id){
+                console.log(id);
+                location.reload();
             }
         })
     });
