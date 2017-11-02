@@ -33,7 +33,7 @@ import java.util.List;
 public class MainController {
 
     private static final Log LOG = LogFactory.getLog(MainController.class);
-    public static final String COMMENT_FORM = "commentForm";
+    public static final String COMMENT_FORM_ATTR = "commentForm";
 
     @Autowired
     private BusinessLogic businessLogic;
@@ -93,8 +93,8 @@ public class MainController {
         model.addAttribute("serviceRequest", businessLogic.getServiceRequest(identifier));
         model.addAttribute("comments", businessLogic.getCommentsForServiceRequestId(identifier));
         model.addAttribute("workflow", businessLogic.getWorkflowForServiceRequestId(identifier));
-        if (!model.containsAttribute(COMMENT_FORM)) {
-            model.addAttribute(COMMENT_FORM, new CommentForm());
+        if (!model.containsAttribute(COMMENT_FORM_ATTR)) {
+            model.addAttribute(COMMENT_FORM_ATTR, new CommentForm());
         }
         return "service-request";
     }
@@ -139,8 +139,8 @@ public class MainController {
     public RedirectView addComment(@PathVariable("id") String identifier, @Valid CommentForm commentForm, BindingResult bindingResult, Principal principal, RedirectAttributes ra) throws ObjectNotFoundException{
         String commentId = null;
         if (bindingResult.hasErrors()) {
-            ra.addFlashAttribute(COMMENT_FORM, commentForm);
-            ra.addFlashAttribute("org.springframework.validation.BindingResult.commentForm", bindingResult);
+            ra.addFlashAttribute(COMMENT_FORM_ATTR, commentForm);
+            ra.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + COMMENT_FORM_ATTR, bindingResult);
             commentId = "#comment";
         }else {
             try {

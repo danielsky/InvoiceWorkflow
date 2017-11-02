@@ -20,6 +20,7 @@ import javax.validation.Valid;
 @Controller
 public class AccessController {
 
+    public static final String RESET_PASSWORD_FORM_ATTR = "resetPasswordForm";
     @Autowired
     private BusinessLogic logic;
 
@@ -57,8 +58,8 @@ public class AccessController {
             throw new PageNotFoundException();
         }
         model.addAttribute("id", id);
-        if(!model.containsAttribute("resetPasswordForm")) {
-            model.addAttribute("resetPasswordForm", new ResetPasswordForm());
+        if(!model.containsAttribute(RESET_PASSWORD_FORM_ATTR)) {
+            model.addAttribute(RESET_PASSWORD_FORM_ATTR, new ResetPasswordForm());
         }
         return "reset-pass-form";
     }
@@ -66,8 +67,8 @@ public class AccessController {
     @RequestMapping(method = RequestMethod.POST, value = "/reset-pass/{id}")
     public RedirectView showResetPasswordFormProcess(@PathVariable String id, @Valid ResetPasswordForm resetPasswordForm, BindingResult bindingResult, RedirectAttributes ra){
         if(bindingResult.hasErrors()){
-            ra.addFlashAttribute("org.springframework.validation.BindingResult.resetPasswordForm", bindingResult);
-            ra.addFlashAttribute("resetPasswordForm", resetPasswordForm);
+            ra.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + RESET_PASSWORD_FORM_ATTR, bindingResult);
+            ra.addFlashAttribute(RESET_PASSWORD_FORM_ATTR, resetPasswordForm);
             return new RedirectView("/reset-pass/"+id, true);
         }
         if(!resetPasswordForm.getNewPass().equals(resetPasswordForm.getRetypedPass())){
