@@ -1,7 +1,7 @@
 package com.dskimina.services;
 
+import com.dskimina.containers.CustomUserDetails;
 import com.dskimina.data.User;
-import com.dskimina.domain.CustomUserDetails;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

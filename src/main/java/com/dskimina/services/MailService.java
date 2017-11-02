@@ -1,10 +1,10 @@
 package com.dskimina.services;
 
+import com.dskimina.containers.MailHolder;
 import com.dskimina.data.ResetCode;
 import com.dskimina.data.SecurityCode;
 import com.dskimina.data.ServiceRequest;
 import com.dskimina.data.User;
-import com.dskimina.domain.MailHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

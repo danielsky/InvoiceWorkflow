@@ -1,4 +1,4 @@
-package com.dskimina.domain;
+package com.dskimina.containers;
 
 import com.dskimina.enums.Role;
 import org.springframework.security.core.Authentication;

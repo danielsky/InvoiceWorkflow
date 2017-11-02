@@ -1,7 +1,7 @@
 package com.dskimina.logic;
 
+import com.dskimina.containers.MailHolder;
 import com.dskimina.data.*;
-import com.dskimina.domain.MailHolder;
 import com.dskimina.enums.WorkflowStep;
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.forms.CommentForm;

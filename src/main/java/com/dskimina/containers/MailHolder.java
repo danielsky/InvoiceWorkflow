@@ -1,4 +1,4 @@
-package com.dskimina.domain;
+package com.dskimina.containers;
 
 public class MailHolder {
 
