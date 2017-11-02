@@ -18,7 +18,7 @@
                     <span th:text="#{contractorPage.contratorCreated}"></span>
                 </div>
 
-                <div th:case="'CONTRACTOR_UPDATE_SUCCESS'" class="alert alert-danger" role="alert">
+                <div th:case="'CONTRACTOR_UPDATE_SUCCESS'" class="alert alert-success" role="alert">
                     <span th:text="#{contractorPage.contratorUpdated}"></span>
                 </div>
 
@@ -72,7 +72,7 @@
         <fieldset>
             <legend>Usługi</legend>
         </fieldset>
-        <input id="contractorId" type="hidden" th:value="${contractorId}">
+        <input id="contractorId" type="hidden" th:value="${contractor.identifier}">
     </form>
 
     <div id="services">

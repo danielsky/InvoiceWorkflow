@@ -1,6 +1,7 @@
 package com.dskimina.model;
 
 import com.dskimina.data.User;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Date;
@@ -9,13 +10,14 @@ public class ContractorDTO {
 
     private String identifier;
 
-    @NotEmpty
+    @NotEmpty(message = "contractor.validation.name")
     private String name;
 
     private Date creationTime;
 
     private User creator;
 
+    @Email(message = "contractor.validation.email")
     private String email;
 
     private String telephone;
