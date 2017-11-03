@@ -1,4 +1,4 @@
-package com.dskimina.controllers;
+package com.dskimina.controllers.admin;
 
 import com.dskimina.enums.Role;
 import com.dskimina.services.LogService;

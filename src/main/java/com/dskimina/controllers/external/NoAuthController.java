@@ -1,4 +1,4 @@
-package com.dskimina.controllers;
+package com.dskimina.controllers.external;
 
 import com.dskimina.exceptions.ObjectNotFoundException;
 import com.dskimina.logic.AcceptanceLogic;

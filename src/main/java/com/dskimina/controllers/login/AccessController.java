@@ -1,4 +1,4 @@
-package com.dskimina.controllers;
+package com.dskimina.controllers.login;
 
 import com.dskimina.exceptions.PageNotFoundException;
 import com.dskimina.forms.ResetPasswordForm;
