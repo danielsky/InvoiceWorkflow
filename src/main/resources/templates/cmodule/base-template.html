@@ -108,21 +108,5 @@
     </div>
 </nav>
 
-<th:block th:fragment="workflowStepSection (workflowStep,translationDone,translationNotDone)">
-    <th:block th:if="${workflowStep != null}">
-        <div th:if="${workflowStep.done}" class="alert alert-success workflow-arrow-box" role="alert">
-            <span th:utext="#{${translationDone}(${workflowStep.owner})}"></span>
-            <br/>
-            <span class="date-time" th:text="${#dates.format(workflowStep.date,'dd-MM-yyyy HH:mm:ss')}"></span>
-        </div>
-        <div th:unless="${workflowStep.done}" class="alert alert-warning workflow-arrow-box" role="alert">
-            <span th:text="#{${translationNotDone}}"></span>
-        </div>
-    </th:block>
-    <div th:unless="${workflowStep != null}" class="alert alert-danger workflow-arrow-box" role="alert">
-        <span th:text="#{${translationNotDone}}"></span>
-    </div>
-</th:block>
-
 </body>
 </html>
